@@ -1,0 +1,224 @@
+<Project>
+  <Name>VRLife</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>VoiceStream</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>MicrophoneStream</Name>
+        <Access>Public</Access>
+        <Location left="91" top="72" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int DeviceId</Member>
+        <Member type="Field">public int Channels</Member>
+        <Member type="Field">public int SampleRate</Member>
+        <Member type="Field">public int bufferSize</Member>
+        <Member type="Constructor">public MicrophoneStream()</Member>
+        <Member type="Constructor">public MicrophoneStream(int deviceId)</Member>
+        <Member type="Constructor">public MicrophoneStream(int sampleRate, int channels)</Member>
+        <Member type="Constructor">public MicrophoneStream(int sampleRate, int channels, int bufferSize)</Member>
+        <Member type="Method">public Task&lt;byte[]&gt; GetBufferAsync()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>VoiceStream</Name>
+        <Access>Public</Access>
+        <Location left="936" top="505" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public IHighLevelVoiceEffect[] highLevelEffects</Member>
+        <Member type="Field">public ILowLevelVoiceEffect[] lowLevelEffects</Member>
+        <Member type="Field">public MicrophoneEffectWrapper microphoneWrapper</Member>
+        <Member type="Constructor">public VoiceStream()</Member>
+        <Member type="Constructor">public VoiceStream(List&lt;ILowLevelVoiceEffect&gt; lowLevelChain, List&lt;IHighLevelVoiceEffect&gt; highLevelChain)</Member>
+        <Member type="Constructor">public VoiceStream(ILowLevelVoiceEffect[] lowLevelChain, IHighLevelVoiceEffect[] highLevelChain)</Member>
+        <Member type="Method">public Task&lt;byte[]&gt; GetBufferAsync()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IHighLevelVoiceEffect</Name>
+        <Access>Public</Access>
+        <Location left="1118" top="72" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">Task&lt;VoiceStreamStruct&gt; ProccessAsync(Task&lt;VoiceStreamStruct&gt; data)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILowLevelVoiceEffect</Name>
+        <Access>Public</Access>
+        <Location left="513" top="505" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">Task&lt;byte[]&gt; ProccessAsync(Task&lt;byte[]&gt; data)</Member>
+      </Entity>
+      <Entity type="Structure">
+        <Name>VoiceStreamStruct</Name>
+        <Access>Public</Access>
+        <Location left="782" top="72" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">readonly byte[] Buffer</Member>
+        <Member type="Field">float ChannelBalance = 0</Member>
+        <Member type="Field">int Volume = 100</Member>
+        <Member type="Field">bool UnderNoiseLevel</Member>
+        <Member type="Method">public byte[] Proccess()</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>MicrophoneEffectWrapper</Name>
+        <Access>Public</Access>
+        <Location left="372" top="72" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public readonly MicrophoneStream Stream</Member>
+        <Member type="Constructor">public MicrophoneEffectWrapper(MicrophoneStream stream)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Dependency" first="5" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="5" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="2" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>VoIP</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>VoIP</Name>
+        <Access>Public</Access>
+        <Location left="109" top="47" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int intputDeviceId</Member>
+        <Member type="Field">int outputDeviceId</Member>
+        <Member type="Field">public INetworking Net</Member>
+        <Member type="Field">VoiceStream UserVoiceStream</Member>
+        <Member type="Field">ConcurrentQueue&lt;VoiceMsg&gt; NetworkQueue</Member>
+        <Member type="Constructor">public VoIP(INetworking net)</Member>
+        <Member type="Constructor">public VoIP(INetworking net, int inputDeviceId, int outputDeviceId)</Member>
+        <Member type="Constructor">public VoIP()</Member>
+        <Member type="Method">public void Run()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>VoIPAsyncWrapper</Name>
+        <Access>Public</Access>
+        <Location left="409" top="47" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public VoIPAsyncWrapper()</Member>
+        <Member type="Constructor">public VoIPAsyncWrapper(INetworking net)</Member>
+        <Member type="Constructor">public VoIPAsyncWrapper(INetworking net, int inputDeviceId, int outputDeviceId)</Member>
+        <Member type="Method">public void ProccessMessage(VoiceMsg msg)</Member>
+        <Member type="Method">public void Start()</Member>
+        <Member type="Method">public void Stop()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Dependency" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Networking</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>INetworking</Name>
+        <Access>Public</Access>
+        <Location left="206" top="104" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ProtocolType GetProtocol()</Member>
+        <Member type="Method">void IsTCP()</Member>
+        <Member type="Method">void Send(byte[] data)</Member>
+        <Member type="Method">void Send(byte[] data, IPEndPoint ip)</Member>
+        <Member type="Method">void Start()</Member>
+        <Member type="Method">void Stop()</Member>
+        <Member type="Method">void SetRouter(Action router)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>P2PNetworking</Name>
+        <Access>Public</Access>
+        <Location left="562" top="319" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ServerClientNetworking</Name>
+        <Access>Public</Access>
+        <Location left="562" top="50" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
