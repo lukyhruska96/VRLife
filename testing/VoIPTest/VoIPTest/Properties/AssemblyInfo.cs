@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows;
 
 // Obecné informace o sestavení se řídí přes následující 
 // sadu atributů. Změnou hodnot těchto atributů se upraví informace
@@ -21,25 +19,8 @@ using System.Windows;
 // modelu COM, nastavte atribut ComVisible daného typu na hodnotu True.
 [assembly: ComVisible(false)]
 
-//Pokud chcete začít vytvářet aplikace, které se dají lokalizovat, nastavte
-//<UICulture>JazykováVerzeVeKteréPíšeteKód</UICulture> v souboru .csproj
-//uvnitř <PropertyGroup>.  Pokud například používáte jazykovou verzi US english
-//ve zdrojových souborech, nastavte <UICulture> na en-US.  Pak zrušte komentář
-//pro atribut NeutralResourceLanguage.  Aktualizujte hodnotu "en-US" na
-//dalším řádku, aby se shodovala s nastavením UICulture v souboru projektu.
-
-//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
-
-
-[assembly: ThemeInfo(
-    ResourceDictionaryLocation.None, //kde se nacházejí zdrojové slovníky pro konkrétní motiv
-                                     //(používá se, pokud se prostředek nenajde na stránce
-                                     // nebo ve zdrojových slovnících aplikace)
-    ResourceDictionaryLocation.SourceAssembly //kde se nachází obecný zdrojový slovník
-                                              //(používá se, pokud se prostředek nenajde na stránce
-                                              // v aplikaci nebo libovolných zdrojových slovnících pro konkrétní motiv)
-)]
-
+// Následující GUID se používá pro ID knihovny typů, pokud je tento projekt vystavený pro COM.
+[assembly: Guid("0ac2cde6-9315-4c3d-baa5-19f3fb9192c1")]
 
 // Informace o verzi sestavení se skládá z těchto čtyř hodnot:
 //
