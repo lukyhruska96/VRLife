@@ -36,7 +36,7 @@ namespace VoIPTest
                 {
                     DesiredLatency = 200                    
                 };
-                IWaveProvider waveProvider = microphoneStream.GetBufferProvider();
+                IWaveProvider waveProvider = microphoneStream.GetWaveProvider();
                 player.Init(waveProvider);
                 
                 player.Play();

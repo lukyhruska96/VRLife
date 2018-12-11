@@ -18,7 +18,7 @@
         <Member type="Constructor">public MicrophoneStream(int deviceId)</Member>
         <Member type="Constructor">public MicrophoneStream(int deviceId, int sampleRate, int channels)</Member>
         <Member type="Constructor">public MicrophoneStream(int deviceId, int sampleRate, int bitsPerSample, int channels)</Member>
-        <Member type="Method">public byte[] GetBuffer()</Member>
+        <Member type="Method">public IWaveProvider GetWaveProvider()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -66,24 +66,30 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="2" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -137,12 +143,12 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="0" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -185,12 +191,16 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
