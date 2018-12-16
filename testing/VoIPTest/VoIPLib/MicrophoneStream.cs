@@ -71,7 +71,7 @@ namespace VoIPLib
             this.waveSource.StartRecording();
         }
 
-        public IWaveProvider GetBufferProvider()
+        public IWaveProvider GetWaveProvider()
         {
             waveProvider.ClearBuffer();
             return waveProvider;

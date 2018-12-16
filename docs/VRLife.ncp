@@ -66,30 +66,24 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="4">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="2" second="4">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -143,12 +137,12 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="0" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -161,8 +155,8 @@
       <Entity type="Interface">
         <Name>INetworking</Name>
         <Access>Public</Access>
-        <Location left="206" top="103" />
-        <Size width="162" height="216" />
+        <Location left="822" top="96" />
+        <Size width="246" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">ProtocolType GetProtocol()</Member>
         <Member type="Method">void IsTCP()</Member>
@@ -175,7 +169,7 @@
       <Entity type="Class">
         <Name>P2PNetworking</Name>
         <Access>Public</Access>
-        <Location left="562" top="319" />
+        <Location left="1178" top="312" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -183,7 +177,7 @@
       <Entity type="Class">
         <Name>ServerClientNetworking</Name>
         <Access>Public</Access>
-        <Location left="562" top="50" />
+        <Location left="1178" top="42" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -191,21 +185,78 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
     </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>ModuleAPIs</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>PlayerAPI</Name>
+        <Access>Public</Access>
+        <Location left="234" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RoomAPI</Name>
+        <Access>Public</Access>
+        <Location left="523" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public List&lt;PlayerAPI&gt; GetPlayers()</Member>
+        <Member type="Method">public void AddObject()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IModule</Name>
+        <Access>Public</Access>
+        <Location left="843" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">bool IsUIModule()</Member>
+        <Member type="Method">void IsRoomModule()</Member>
+        <Member type="Method">bool IsObjectModule()</Member>
+        <Member type="Method">static IModule ModuleFactory(RoomAPI roomApi)</Member>
+        <Member type="Property">RoomAPI RoomApi { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>UIModule</Name>
+        <Access>Public</Access>
+        <Location left="843" top="393" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RoomModule</Name>
+        <Access>Public</Access>
+        <Location left="1160" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ObjectModule</Name>
+        <Access>Public</Access>
+        <Location left="1160" top="393" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships />
   </ProjectItem>
 </Project>
