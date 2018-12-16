@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoIPTest", "VoIPTest\VoIPTest.csproj", "{0AC2CDE6-9315-4C3D-BAA5-19F3FB9192C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoIPLib", "VoIPLib\VoIPLib.csproj", "{110B9707-12E5-47F0-9B2E-827EAADC7445}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoIPLib", "..\..\src\VoIPLib\VoIPLib.csproj", "{110B9707-12E5-47F0-9B2E-827EAADC7445}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
