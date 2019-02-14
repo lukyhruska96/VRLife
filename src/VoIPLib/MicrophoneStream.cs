@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace VoIPLib
 {
+    /// <summary>
+    /// Class providing data from only default microphone (for now)
+    /// </summary>
     public class MicrophoneStream
     {
         private readonly int bufferMilliseconds = 10;
@@ -16,7 +19,7 @@ namespace VoIPLib
 
         public int Channels { get; } = 1;
 
-        public int SampleRate { get;} = 44100;
+        public int SampleRate { get; } = 44100;
 
         public int BitsPerSample { get; } = 16;
 
@@ -71,15 +74,16 @@ namespace VoIPLib
             this.waveSource.StartRecording();
         }
 
-        public IWaveProvider GetWaveProvider()
+        public ISampleProvider GetSampleProvider()
         {
             waveProvider.ClearBuffer();
-            return waveProvider;
+            return waveProvider.ToSampleProvider();
         }
 
         private void WaveSource_DataAvailable(object sender, WaveInEventArgs e)
         {
-            if(waveProvider.BufferedDuration > TimeSpan.FromSeconds(0.5))
+            // if there was some long delay
+            if (waveProvider.BufferedDuration > TimeSpan.FromSeconds(0.5))
             {
                 waveProvider.ClearBuffer();
             }

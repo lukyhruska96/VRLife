@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICETest", "ICETest\ICETest.csproj", "{847F4D01-C5F4-4149-895C-670ED33CEC41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3dSoundSynthesis", "..\..\src\3dSoundSynthesis\3dSoundSynthesis.csproj", "{1229A4A8-CEEB-4898-8AD2-7E914B8C1F40}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoIPLib", "..\..\src\VoIPLib\VoIPLib.csproj", "{110B9707-12E5-47F0-9B2E-827EAADC7445}"
 EndProject
 Global
@@ -17,6 +19,10 @@ Global
 		{847F4D01-C5F4-4149-895C-670ED33CEC41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{847F4D01-C5F4-4149-895C-670ED33CEC41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{847F4D01-C5F4-4149-895C-670ED33CEC41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1229A4A8-CEEB-4898-8AD2-7E914B8C1F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1229A4A8-CEEB-4898-8AD2-7E914B8C1F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1229A4A8-CEEB-4898-8AD2-7E914B8C1F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1229A4A8-CEEB-4898-8AD2-7E914B8C1F40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{110B9707-12E5-47F0-9B2E-827EAADC7445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{110B9707-12E5-47F0-9B2E-827EAADC7445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{110B9707-12E5-47F0-9B2E-827EAADC7445}.Release|Any CPU.ActiveCfg = Release|Any CPU
