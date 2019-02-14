@@ -47,29 +47,23 @@ namespace _3dSoundSynthesis
 
             private HRTF hrtf;
 
-            private HRTFOut lastOutput;
-
             private HRTFOut currOutput;
 
-            private Complex[] lastInput = null;
-
-            private Complex[] currInput = new Complex[HRTF.FILTER_LEN];
+            private Complex[] currInput = new Complex[HRTF.BUF_LEN];
 
             private float[] dataOutput = new float[HRTF.BUF_LEN];
-
-            private float[] lastDataOutput = new float[HRTF.BUF_LEN];
 
             private float[] buff = new float[4096];
 
             private Complex[] fwdBuff = new Complex[HRTF.BUF_LEN];
 
-            private float[] rampUp = new float[HRTF.FILTER_LEN];
-
-            private float[] rampDown = new float[HRTF.FILTER_LEN];
-
             private Complex[] inverseBufferL = new Complex[HRTF.BUF_LEN];
 
             private Complex[] inverseBufferR = new Complex[HRTF.BUF_LEN];
+
+            private Complex[] overlapL = new Complex[HRTF.BUF_LEN - HRTF.FILTER_LEN];
+
+            private Complex[] overlapR = new Complex[HRTF.BUF_LEN - HRTF.FILTER_LEN];
 
             public SampleProvider(string folderPath, ISampleProvider input, SourceLocation location)
             {
@@ -85,11 +79,10 @@ namespace _3dSoundSynthesis
 
                 WaveFormat = input.ToStereo().WaveFormat;
 
-                // initializing of rampUp and rampDown
-                for(int i = 0; i < HRTF.FILTER_LEN; i++)
+                for(int i = 0; i < HRTF.BUF_LEN - HRTF.FILTER_LEN; ++i)
                 {
-                    rampUp[i] = i / (float)HRTF.FILTER_LEN;
-                    rampDown[i] = 1.0f - rampUp[i];
+                    overlapL[i] = Complex.Zero;
+                    overlapR[i] = Complex.Zero;
                 }
             }
 
@@ -155,6 +148,20 @@ namespace _3dSoundSynthesis
                     inverseBufferR[i] = inverseBufferR[i] / (gain / HRTF.BUF_LEN);
                 }
 
+                // overlap-add
+                for (i = 0; i < HRTF.FILTER_LEN; ++i)
+                {
+                    inverseBufferL[i] += overlapL[i];
+                    inverseBufferR[i] += overlapR[i];
+                }
+
+                // saving overlap for next call
+                for (i = HRTF.FILTER_LEN; i < HRTF.BUF_LEN; ++i)
+                {
+                    overlapL[i - HRTF.FILTER_LEN] = inverseBufferL[i];
+                    overlapR[i - HRTF.FILTER_LEN] = inverseBufferR[i];
+                }
+
                 // Interleave left and right channels into output buffer 
                 for (i = 0; i < HRTF.BUF_LEN; i += 2)
                 {
@@ -166,38 +173,21 @@ namespace _3dSoundSynthesis
             private void Process()
             {
                 int i;
-                // if this is not first call (we have some data from last call)
-                if (lastInput != null)
-                {
-                    // copy last input data to first half of buffer
-                    for (i = 0; i < HRTF.FILTER_LEN; ++i)
-                        fwdBuff[i] = lastInput[i];
-                }
+
                 // copy current data in buffer from its half
                 for (i = 0; i < HRTF.FILTER_LEN; ++i)
-                    fwdBuff[HRTF.FILTER_LEN + i] = currInput[i];
+                    fwdBuff[i] = currInput[i];
+                for (i = HRTF.FILTER_LEN; i < HRTF.BUF_LEN; ++i)
+                {
+                    fwdBuff[i].Re = 0;
+                    fwdBuff[i].Im = 0;
+                }
 
                 // convert time domain to frequency domain using forward FFT
                 FourierTransform.FFT(fwdBuff, FourierTransform.Direction.Forward);
 
                 // do the fast convolution
                 InverseTransformation(currOutput.filtL, currOutput.filtR, currOutput.gain, dataOutput);
-
-                // merge old data with new using rampUp and rampDown
-                if (lastInput != null)
-                {
-                    InverseTransformation(lastOutput.filtL, lastOutput.filtR, lastOutput.gain, lastDataOutput);
-                    for (i = 0; i < HRTF.BUF_LEN; ++i)
-                        dataOutput[i] = dataOutput[i] * rampUp[i / 2] + lastDataOutput[i] * rampDown[i / 2];
-                }
-                else
-                    lastInput = new Complex[HRTF.FILTER_LEN];
-
-                // swap buffers and save current data for next call
-                Complex[] tmp = lastInput;
-                lastInput = currInput;
-                currInput = tmp;
-                lastOutput = currOutput;
             }
 
             // Optimized multiply of two conjugate symmetric arrays (c = a * b).

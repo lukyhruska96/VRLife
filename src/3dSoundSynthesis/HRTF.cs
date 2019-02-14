@@ -62,8 +62,8 @@ namespace _3dSoundSynthesis
                 for(int j = 0; j < N_ELEV; ++j)
                 {
                     hrtf[azimIndex][j] = new Complex[2][];
-                    hrtf[azimIndex][j][LEFT] = new Complex[BUF_LEN / 2 + 1];
-                    hrtf[azimIndex][j][RIGHT] = new Complex[BUF_LEN / 2 + 1];
+                    hrtf[azimIndex][j][LEFT] = new Complex[BUF_LEN];
+                    hrtf[azimIndex][j][RIGHT] = new Complex[BUF_LEN];
                     float[] fileFloats;
                     int read;
                     using(WaveFileReader reader = new WaveFileReader(Path.Combine(folderPath, $"IRC_1004_C_R0195_T{i:000}_P{GetElev(j):000}.wav")))
@@ -73,22 +73,20 @@ namespace _3dSoundSynthesis
                         read = provider.Read(fileFloats, 0, fileFloats.Length);
                     }
                     // conversion from HRIR to HRTF (FFT requires an array of length divisible my power of 2)
-                    Complex[] tempLeft = new Complex[BUF_LEN / 2];
-                    Complex[] tempRight = new Complex[BUF_LEN / 2];
-                    for (int k = 0; k < fileFloats.Length/2; ++k)
+                    int k;
+                    for (k = 0; k < fileFloats.Length/2; ++k)
                     {
-                        tempLeft[k] = new Complex(fileFloats[k*2], 0);
-                        tempRight[k] = new Complex(fileFloats[k*2+1], 0);
+                        hrtf[azimIndex][j][LEFT][k] = new Complex(fileFloats[k*2], 0);
+                        hrtf[azimIndex][j][RIGHT][k] = new Complex(fileFloats[k*2+1], 0);
                     }
-                    FourierTransform.FFT(tempLeft, FourierTransform.Direction.Forward);
-                    FourierTransform.FFT(tempRight, FourierTransform.Direction.Forward);
-
-                    // moving to local storage of HRTF values
-                    for(int k = 0; k < BUF_LEN / 2; ++k)
+                    for(k = fileFloats.Length; k < BUF_LEN; ++k)
                     {
-                        hrtf[azimIndex][j][LEFT][k] = tempLeft[k];
-                        hrtf[azimIndex][j][RIGHT][k] = tempRight[k];
+                        hrtf[azimIndex][j][LEFT][k] = new Complex(0, 0);
+                        hrtf[azimIndex][j][RIGHT][k] = new Complex(0, 0);
                     }
+                    FourierTransform.FFT(hrtf[azimIndex][j][LEFT], FourierTransform.Direction.Forward);
+                    FourierTransform.FFT(hrtf[azimIndex][j][RIGHT], FourierTransform.Direction.Forward);
+                    float[] output = hrtf[azimIndex][j][LEFT].Select(x => (float)x.Re).ToArray();
                 }
             }
         }
