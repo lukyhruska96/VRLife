@@ -45,27 +45,27 @@ namespace ICETest
             timer.Interval = 20;
             timer.Tick += new EventHandler(TimerCallback);
             mp3Reader = new Mp3FileReader("test.mp3");
-            WaveOut player = new WaveOut();
+            //WaveOut player = new WaveOut();
             sourceLocation = new SourceLocation(0, 0, 0);
             VoiceStream voiceStream = new VoiceStream(mp3Reader.ToSampleProvider(), new ILowLevelVoiceEffect[] { new BinauralSynthesis(sourceLocation) }, new IHighLevelVoiceEffect[0]);
             ISampleProvider sampleProvider = voiceStream.GetSampleProvider();
             voiceStream.Run();
-            //using (WaveFileWriter writer = new WaveFileWriter("output.wav", sampleProvider.WaveFormat))
-            //{
-            //    float[] buff = new float[13000];
-            //    for (int i = 0; i < 200; ++i)
-            //    {
-            //        int read = sampleProvider.Read(buff, 0, 13000);
-            //        writer.WriteSamples(buff, 0, read);
-            //    }
-            //}
-
-            player.PlaybackStopped += (_, __) =>
+            using (WaveFileWriter writer = new WaveFileWriter("output.wav", sampleProvider.WaveFormat))
             {
-                mp3Reader.Dispose();
-            };
-            player.Init(sampleProvider);
-            player.Play();
+                float[] buff = new float[13*1024];
+                for (int i = 0; i < 200; ++i)
+                {
+                    int read = sampleProvider.Read(buff, 0, 13 * 1024);
+                    writer.WriteSamples(buff, 0, read);
+                }
+            }
+
+            //player.PlaybackStopped += (_, __) =>
+            //{
+            //    mp3Reader.Dispose();
+            //};
+            //player.Init(sampleProvider);
+            //player.Play();
         }
 
         private void TimerCallback(object sender, EventArgs e)

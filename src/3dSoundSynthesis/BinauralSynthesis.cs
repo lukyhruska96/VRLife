@@ -7,6 +7,7 @@ using VoIPLib;
 using NAudio.Wave;
 using AForge.Math;
 using System.IO;
+using System.Diagnostics;
 
 namespace _3dSoundSynthesis
 {
@@ -68,7 +69,7 @@ namespace _3dSoundSynthesis
 
             private Complex[] overlapR = new Complex[HRTF.BUF_LEN - HRTF.FILTER_LEN];
 
-            private int lastIdx = 0;
+            private int lastIdx = HRTF.BUF_LEN;
 
             public SampleProvider(string folderPath, ISampleProvider input, SourceLocation location)
             {
@@ -95,40 +96,34 @@ namespace _3dSoundSynthesis
 
             public int Read(float[] buffer, int offset, int count)
             {
-                if (buff.Length < Math.Ceiling((float)count / HRTF.BUF_LEN) * HRTF.FILTER_LEN)
-                    buff = new float[(int)Math.Ceiling((float)count / HRTF.BUF_LEN) * HRTF.FILTER_LEN];
-                currOutput = hrtf.Get(location.Elev, location.Azim, location.Atten);
-                count -= HRTF.BUF_LEN - lastIdx;
-                offset += HRTF.BUF_LEN - lastIdx;
-                int i, j, buffOffset, moveSize;
+                int alignmentLength = HRTF.FILTER_LEN - ((count/2) % HRTF.FILTER_LEN);
+                if (buff.Length < count / 2 + alignmentLength)
+                    buff = new float[count / 2 + alignmentLength];
+                int totalRead = input.Read(buff, 0, count / 2 + alignmentLength);
+                int i;
+                //Debug.WriteLine($"Writing from last results index {lastIdx}");
                 for (i = 0; i < HRTF.BUF_LEN - lastIdx; ++i)
-                    buffer[i] = dataOutput[lastIdx + i];
+                    buffer[offset + i] = dataOutput[lastIdx + i];
+                int filled = HRTF.BUF_LEN - lastIdx;
+                //Debug.WriteLine($"Last data count: {filled}");
                 int read = -1;
-                i = 0;
-                int totalRead = input.Read(buff, 0, (int)Math.Ceiling((float)count / HRTF.BUF_LEN) * HRTF.FILTER_LEN);
-                buffOffset = 0;
-                while (i < count/2 && read != 0)
+                int bufferOffset = 0;
+                currOutput = hrtf.Get(location.Elev, location.Azim, location.Atten);
+                while(filled != count && read != 0)
                 {
-                    read = i + HRTF.FILTER_LEN < totalRead ? HRTF.FILTER_LEN : totalRead % HRTF.FILTER_LEN;
-                    for(j = 0; j < read; ++j)
-                        currInput[j] = new Complex(buff[buffOffset + j], 0);
-                    buffOffset += read;
-                    for(j = read; j < HRTF.FILTER_LEN; ++j)
-                        currInput[j] = new Complex(0, 0);
+                    read = filled + HRTF.BUF_LEN < count ? HRTF.FILTER_LEN : (count - filled)/2;
+                    for (i = 0; i < read; ++i)
+                        currInput[i] = new Complex(buff[bufferOffset + i], 0);
+                    bufferOffset += read;
+                    for (i = read; i < HRTF.FILTER_LEN; ++i)
+                        currInput[i] = new Complex(0, 0);
                     Process();
-                    moveSize = HRTF.FILTER_LEN * 2 * sizeof(float);
-                    if (i + HRTF.FILTER_LEN >= count / 2)
-                    {
-                        moveSize = (count - (i * 2)) * sizeof(float);
-                        lastIdx = moveSize == 0 ? HRTF.BUF_LEN : moveSize / sizeof(float);
-                    }
-                    else
-                        lastIdx = HRTF.BUF_LEN;
-                    Buffer.BlockCopy(dataOutput, 0, buffer, offset * sizeof(float) + i * 2 * sizeof(float), moveSize);
-
-                    i += read;
+                    lastIdx = Math.Min(count - filled, read * 2);
+                    //Debug.WriteLine($"Writing from index {filled} to {filled + lastIdx-1}");
+                    Buffer.BlockCopy(dataOutput, 0, buffer, (offset + filled) * sizeof(float), lastIdx * sizeof(float));
+                    filled += lastIdx;
                 }
-
+                //Debug.WriteLine($"Lastidx: {lastIdx}");
                 return count;
             }
 
