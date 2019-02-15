@@ -25,6 +25,9 @@ namespace _3dSoundSynthesis
             this.Atten = atten;
         }
     }
+
+    // perfectly explained here:
+    // https://www.eetimes.com/document.asp?doc_id=1275412
     public class BinauralSynthesis : ILowLevelVoiceEffect
     {
         SourceLocation location;
@@ -90,20 +93,18 @@ namespace _3dSoundSynthesis
 
             public int Read(float[] buffer, int offset, int count)
             {
-                // need elements divisible by buffer size
-                count = HRTF.BUF_LEN * (count / HRTF.BUF_LEN);
 
                 // resize the buffer 
                 // input is mono and output is stereo (need just a half of data from input)
-                if (count/2 > buff.Length)
-                    buff = new float[count/2];
-
-                // get data from input
-                int read = input.Read(buff, 0, count/2);
+                if (count / 2 > buff.Length)
+                    buff = new float[count / 2];
                 
                 // get output from HRTF for current location info
                 currOutput = hrtf.Get(location.Elev, location.Azim, location.Atten);
-                
+
+                // get data from input
+                int read = input.Read(buff, 0, count / 2);
+
                 // split data to size of filter buffer
                 for (int i = 0; i < read / HRTF.FILTER_LEN; ++i)
                 {
@@ -112,10 +113,10 @@ namespace _3dSoundSynthesis
                         currInput[j] = new Complex(buff[i * HRTF.FILTER_LEN + j], 0);
                     Process();
                     // save the output of Process method
-                    Buffer.BlockCopy(dataOutput, 0, buffer, offset + i * HRTF.BUF_LEN * sizeof(float), HRTF.BUF_LEN*sizeof(float));
+                    Buffer.BlockCopy(dataOutput, 0, buffer, offset + i * HRTF.BUF_LEN * sizeof(float), HRTF.BUF_LEN * sizeof(float));
                 }
                 // if read returned smaller buffer not divisible by buffer size
-                if(read % HRTF.FILTER_LEN != 0)
+                if (read % HRTF.FILTER_LEN != 0)
                 {
                     int j;
                     for (j = 0; j < read % HRTF.FILTER_LEN; ++j)
@@ -124,9 +125,9 @@ namespace _3dSoundSynthesis
                     for (j = read % HRTF.FILTER_LEN; j < HRTF.FILTER_LEN; ++j)
                         currInput[j] = Complex.Zero;
                     Process();
-                    Buffer.BlockCopy(dataOutput, 0, buffer, offset + HRTF.BUF_LEN * (read / HRTF.FILTER_LEN) * sizeof(float), (read % HRTF.FILTER_LEN)*2 * sizeof(float));
+                    Buffer.BlockCopy(dataOutput, 0, buffer, offset + HRTF.BUF_LEN * (read / HRTF.FILTER_LEN) * sizeof(float), (read % HRTF.FILTER_LEN) * 2 * sizeof(float));
                 }
-                
+
                 return read*2;
             }
 

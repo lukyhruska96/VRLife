@@ -42,7 +42,7 @@ namespace ICETest
             //enumObjects.Add(this.rEar);
             enumObjects.Add(this.source);
             timer.Enabled = true;
-            timer.Interval = 200;
+            timer.Interval = 20;
             timer.Tick += new EventHandler(TimerCallback);
             mp3Reader = new Mp3FileReader("test.mp3");
             WaveOut player = new WaveOut();
@@ -50,7 +50,15 @@ namespace ICETest
             VoiceStream voiceStream = new VoiceStream(mp3Reader.ToSampleProvider(), new ILowLevelVoiceEffect[] { new BinauralSynthesis(sourceLocation) }, new IHighLevelVoiceEffect[0]);
             ISampleProvider sampleProvider = voiceStream.GetSampleProvider();
             voiceStream.Run();
-
+            //using (WaveFileWriter writer = new WaveFileWriter("output.wav", sampleProvider.WaveFormat))
+            //{
+            //    float[] buff = new float[13000];
+            //    for(int i = 0; i < 200; ++i)
+            //    {
+            //        int read = sampleProvider.Read(buff, 0, 13000);
+            //        writer.WriteSamples(buff, 0, 13000);
+            //    }
+            //}
 
             player.PlaybackStopped += (_, __) =>
             {
