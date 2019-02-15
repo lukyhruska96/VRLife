@@ -53,10 +53,10 @@ namespace ICETest
             //using (WaveFileWriter writer = new WaveFileWriter("output.wav", sampleProvider.WaveFormat))
             //{
             //    float[] buff = new float[13000];
-            //    for(int i = 0; i < 200; ++i)
+            //    for (int i = 0; i < 200; ++i)
             //    {
             //        int read = sampleProvider.Read(buff, 0, 13000);
-            //        writer.WriteSamples(buff, 0, 13000);
+            //        writer.WriteSamples(buff, 0, read);
             //    }
             //}
 
