@@ -45,8 +45,11 @@ namespace ICETest
             timer.Interval = 20;
             timer.Tick += new EventHandler(TimerCallback);
             mp3Reader = new Mp3FileReader("test.mp3");
-            WaveOut player = new WaveOut();
-            sourceLocation = new SourceLocation(0, 0, 0);
+            WaveOut player = new WaveOut()
+            {
+                DesiredLatency = 100
+            };
+            sourceLocation = new SourceLocation(0, 0, 1);
             VoiceStream voiceStream = new VoiceStream(mp3Reader.ToSampleProvider(), new ILowLevelVoiceEffect[] { new BinauralSynthesis(sourceLocation) }, new IHighLevelVoiceEffect[0]);
             ISampleProvider sampleProvider = voiceStream.GetSampleProvider();
             voiceStream.Run();
@@ -93,6 +96,7 @@ namespace ICETest
             sourceLocation.Azim = (180.0/Math.PI) * - Math.Atan2(lEar.location.Y - source.location.Y, lEar.location.X - source.location.X);
             this.azimLabel.Text = $"{sourceLocation.Azim}°";
             this.cursor_label.Text = $"{e.Location.X};{e.Location.Y}";
+            sourceLocation.Atten = 1 - (Math.Sqrt(Math.Pow(lEar.location.X - source.location.X, 2) + Math.Pow(lEar.location.Y - source.location.Y, 2)))/200;
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)

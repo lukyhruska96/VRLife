@@ -16,7 +16,6 @@ namespace _3dSoundSynthesis
     {
         public double Elev { get; set; }
         public double Azim { get; set; }
-
         public double Atten { get; set; }
 
         public SourceLocation(double elev, double azim, double atten)
@@ -96,28 +95,34 @@ namespace _3dSoundSynthesis
 
             public int Read(float[] buffer, int offset, int count)
             {
-                int currIdx = lastIdx;
-                int filled = HRTF.BUF_LEN - lastIdx;
-                int alignmentLength = HRTF.FILTER_LEN - (((count - filled)/2) % HRTF.FILTER_LEN);
+                int currIdx, filled, alignmentLength, totalRead, i, read, bufferOffset;
+                currIdx = lastIdx;
+                filled = HRTF.BUF_LEN - lastIdx;
+                alignmentLength = HRTF.FILTER_LEN - (((count - filled)/2) % HRTF.FILTER_LEN);
                 if (buff.Length < (count - filled) / 2 + alignmentLength)
                     buff = new float[(count - filled) / 2 + alignmentLength];
-                int totalRead = input.Read(buff, 0, (count - filled) / 2 + alignmentLength);
-                int i;
+                totalRead = input.Read(buff, 0, (count - filled) / 2 + alignmentLength);
                 //Debug.WriteLine($"Writing from last results index {lastIdx}");
                 for (i = 0; i < filled; ++i)
                     buffer[offset + i] = dataOutput[lastIdx + i];
                 //Debug.WriteLine($"Last data count: {filled}");
-                int read = -1;
-                int bufferOffset = 0;
+                read = -1;
+                bufferOffset = 0;
                 currOutput = hrtf.Get(location.Elev, location.Azim, location.Atten);
-                while(filled != count && read != 0)
+                while (filled != count && read != 0)
                 {
-                    read = (filled - HRTF.BUF_LEN + currIdx)/ 2 + HRTF.FILTER_LEN <= totalRead ? HRTF.FILTER_LEN : totalRead - (filled - HRTF.BUF_LEN + currIdx) / 2;
+                    read = (filled - HRTF.BUF_LEN + currIdx) / 2 + HRTF.FILTER_LEN <= totalRead ? HRTF.FILTER_LEN : totalRead - (filled - HRTF.BUF_LEN + currIdx) / 2;
                     for (i = 0; i < read; ++i)
-                        currInput[i] = new Complex(buff[bufferOffset + i], 0);
+                    {
+                        currInput[i].Re = buff[bufferOffset + i];
+                        currInput[i].Im = 0;
+                    }
                     bufferOffset += read;
                     for (i = read; i < HRTF.FILTER_LEN; ++i)
-                        currInput[i] = new Complex(0, 0);
+                    {
+                        currInput[i].Re = 0;
+                        currInput[i].Im = 0;
+                    }
                     Process();
                     lastIdx = Math.Min(count - filled, read * 2);
                     //Debug.WriteLine($"Writing from index {filled} to {filled + lastIdx-1}");
