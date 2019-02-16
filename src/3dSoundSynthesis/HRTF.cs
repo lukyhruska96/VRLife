@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _3dSoundSynthesis
 {
@@ -134,7 +132,7 @@ namespace _3dSoundSynthesis
             if(azim > 180)
             {
                 azim -= 180;
-                azim = 180 - azim; // TODO this sounds at least sometimes correctly (temp solution)
+                azim = 180 - azim;
                 flip = true;
             }
             int azimIndex = (int)Math.Round(azim / 15);

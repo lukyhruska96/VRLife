@@ -50,7 +50,7 @@ namespace ICETest
                 DesiredLatency = 100
             };
             sourceLocation = new SourceLocation(0, 0, 1);
-            VoiceStream voiceStream = new VoiceStream(mp3Reader.ToSampleProvider(), new ILowLevelVoiceEffect[] { new BinauralSynthesis(sourceLocation) }, new IHighLevelVoiceEffect[0]);
+            VoiceStream voiceStream = new VoiceStream(mp3Reader.ToSampleProvider(), new ILowLevelVoiceEffect[] { new ICEFilter(sourceLocation) }, new IHighLevelVoiceEffect[0]);
             ISampleProvider sampleProvider = voiceStream.GetSampleProvider();
             voiceStream.Run();
             //using (WaveFileWriter writer = new WaveFileWriter("output.wav", sampleProvider.WaveFormat))

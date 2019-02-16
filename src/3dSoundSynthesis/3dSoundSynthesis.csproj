@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BinauralSynthesis.cs" />
     <Compile Include="HRTF.cs" />
+    <Compile Include="ICEFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
