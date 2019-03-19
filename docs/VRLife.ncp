@@ -47,10 +47,10 @@
       <Entity type="Interface">
         <Name>ILowLevelVoiceEffect</Name>
         <Access>Public</Access>
-        <Location left="521" top="543" />
+        <Location left="521" top="544" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">byte[] Proccess(byte[] data)</Member>
+        <Member type="Method">byte[] Proccess(float[] data)</Member>
       </Entity>
       <Entity type="Structure">
         <Name>VoiceStreamStruct</Name>
@@ -224,7 +224,7 @@
         <Name>IModule</Name>
         <Access>Public</Access>
         <Location left="843" top="78" />
-        <Size width="162" height="216" />
+        <Size width="280" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">bool IsUIModule()</Member>
         <Member type="Method">void IsRoomModule()</Member>
@@ -235,7 +235,7 @@
       <Entity type="Class">
         <Name>UIModule</Name>
         <Access>Public</Access>
-        <Location left="843" top="393" />
+        <Location left="886" top="393" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -256,7 +256,337 @@
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>EventAnimation</Name>
+        <Access>Public</Access>
+        <Location left="223" top="428" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Animation ControlAnimation</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>ProtobufModels</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>MainMsg</Name>
+        <Access>Public</Access>
+        <Location left="1239" top="374" />
+        <Size width="209" height="122" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int msgTypeID</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PlayerEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1262" top="587" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int playerId</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ApplicationEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1016" top="587" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int applicationID</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RoomEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1514" top="587" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>VoiceEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="625" top="1095" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ChatEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="875" top="1095" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MenuEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1134" top="1095" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>PlayerEventType</Name>
+        <Access>Public</Access>
+        <Location left="1262" top="846" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Value>Authentication</Value>
+        <Value>FriendsList</Value>
+        <Value>FriendRequest</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>RoomEventType</Name>
+        <Access>Public</Access>
+        <Location left="1514" top="846" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Value>ChangeRoom</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>FriendsEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1383" top="1095" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MsgChain</Name>
+        <Access>Public</Access>
+        <Location left="1262" top="22" />
+        <Size width="162" height="103" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ServerManagementMsg</Name>
+        <Access>Public</Access>
+        <Location left="786" top="587" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>ServerManagementType</Name>
+        <Access>Public</Access>
+        <Location left="786" top="831" />
+        <Size width="162" height="144" />
+        <Collapsed>False</Collapsed>
+        <Value>HelloMsg</Value>
+        <Value>HeartBeat</Value>
+        <Value>ManageRoom</Value>
+        <Value>LeavingMsg</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>ServerMsg</Name>
+        <Access>Public</Access>
+        <Location left="1133" top="193" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int serverId</Member>
+        <Member type="Field">IPAddress rerouteAddress</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ClientMsg</Name>
+        <Access>Public</Access>
+        <Location left="1381" top="193" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int clientId</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GroupEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1777" top="587" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>GroupEventType</Name>
+        <Access>Public</Access>
+        <Location left="1777" top="846" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Value>CreateGroup</Value>
+        <Value>ChangeGroup</Value>
+        <Value>JoinGroup</Value>
+        <Value>InvitePlayer</Value>
+        <Value>KickPlayer</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>AppStoreEventMsg</Name>
+        <Access>Public</Access>
+        <Location left="1602" top="1097" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1098</X>
+          <Y>969</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1098</X>
+          <Y>968</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1097</X>
+          <Y>969</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1346</X>
+          <Y>827</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1346</X>
+          <Y>821</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1097</X>
+          <Y>968</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1463</X>
+          <Y>1070</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1600</X>
+          <Y>821</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="13">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="14">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="16">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1857</X>
+          <Y>821</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="15">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>871</X>
+          <Y>806</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="17">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1098</X>
+          <Y>966</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
   </ProjectItem>
 </Project>

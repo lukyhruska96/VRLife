@@ -103,7 +103,7 @@ namespace _3dSoundSynthesis
             long i;
             for (i = 0; i <= half; ++i)
                 c[i] = a[i] * b[i];
-            for (i = 0; i < half; i++)
+            for (i = 0; i < half; ++i)
             {
                 c[half + i].Re = c[half - i].Re;
                 c[half + i].Im = -c[half - i].Im;
