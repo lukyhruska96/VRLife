@@ -1,11 +1,12 @@
 ﻿using System;
-namespace VrLifeServer.DbModels
+using System.ComponentModel.DataAnnotations;
+
+namespace VrLifeServer.Database.DbModels
 {
     public class Account
     {
-        public int Id { get; set; }
+        [Key]
         public string Username { get; set; }
         public string Passphrase { get; set; }
-        public string OAuth { get; set; }
     }
 }

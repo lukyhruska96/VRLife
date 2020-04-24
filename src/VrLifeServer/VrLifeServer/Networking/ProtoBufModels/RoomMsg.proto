@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+package VrLifeServer.Networking.NetworkingModels;
+
+
+message RoomMsg { // room management msg
+
+}

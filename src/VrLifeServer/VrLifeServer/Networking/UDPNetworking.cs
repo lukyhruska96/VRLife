@@ -1,37 +1,80 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Net;
 using System.Net.Sockets;
-using VrLifeServer.NetworkModels;
+using System.Threading.Tasks;
 
 namespace VrLifeServer.Networking
 {
-    public class UDPNetworking : INetworking
+    /// <summary>
+    /// Protobuff message based UDP Server
+    /// </summary>
+    /// <typeparam name="T">Protobuff generated message type</typeparam>
+    public class UDPSocketState<T> where T: IMessage<T>
     {
-        private IPAddress ipAddress;
-        private int port;
-        private Socket socket;
+        public UdpClient Socket;
+        public Func<T, T> MsgHandler;
+        public MessageParser<T> MsgParser;
+    }
 
-        public UDPNetworking(IPAddress ipAddress, int port)
+    public class UDPNetworking<T> : INetworking<T> where T: IMessage<T>, new()
+    {
+        private UdpClient socket;
+        private UDPSocketState<T> socketState;
+
+        public UDPNetworking(IPAddress ipAddress, int port, Func<T, T> msgHandler)
         {
-            this.ipAddress = ipAddress;
-            this.port = port;
-            this.socket = new Socket(ipAddress.AddressFamily,
-                SocketType.Dgram, ProtocolType.Udp);
+            IPEndPoint endpoint = new IPEndPoint(ipAddress, port);
+            this.socket = new UdpClient(endpoint);
+            this.socketState.Socket = socket;
+            this.socketState.MsgHandler = msgHandler;
+            this.socketState.MsgParser = new MessageParser<T>(() => new T());
+            socket.BeginReceive(new AsyncCallback(OnUdpData), this.socketState);
         }
 
-        public void RegisterHandler(int appId, Func<Message, Message> handler)
+        public void StartListening()
         {
             throw new NotImplementedException();
         }
 
-        public void Send(Message req)
+        private static void OnUdpData(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            UDPSocketState<T> state = result.AsyncState as UDPSocketState<T>;
+            UdpClient socket = state.Socket;
+            IPEndPoint source = new IPEndPoint(0, 0);
+            byte[] message = socket.EndReceive(result, ref source);
+
+            // listen for next request
+            socket.BeginReceive(new AsyncCallback(OnUdpData), socket);
+
+            //handle received message and send response
+            T msg = state.MsgParser.ParseFrom(message);
+            T response = state.MsgHandler(msg);
+            byte[] rawResponse = response.ToByteArray();
+            socket.Send(rawResponse, rawResponse.Length, source);
         }
 
-        public void Start()
+        public void Send(T req, IPEndPoint address, Action<T> callback, Action<Exception> err = null)
         {
-            throw new NotImplementedException();
+            Task.Run(() =>
+            {
+                try
+                {
+                    UdpClient socket = new UdpClient(address);
+                    socket.Client.ReceiveTimeout = 5000;
+                    socket.Client.SendTimeout = 5000;
+                    byte[] data = req.ToByteArray();
+                    socket.Send(data, data.Length);
+                    byte[] response = socket.Receive(ref address);
+                    MessageParser<T> parser = new MessageParser<T>(() => new T());
+                    T parsedResponse = parser.ParseFrom(response);
+                    callback(parsedResponse);
+                }
+                catch(Exception e)
+                {
+                    err?.Invoke(e);
+                }
+            });
         }
     }
 }

@@ -1,0 +1,6 @@
+﻿syntax = "proto3";
+package VrLifeServer.Networking.NetworkingModels;
+
+message TickMsg { // Tick information for client
+
+}

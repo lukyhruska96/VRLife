@@ -1,0 +1,6 @@
+﻿syntax = "proto3";
+package VrLifeServer.Networking.NetworkingModels;
+
+message UserMsg	{ // user, lobby and group management message
+
+}

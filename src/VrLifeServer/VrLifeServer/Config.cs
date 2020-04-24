@@ -36,6 +36,9 @@ namespace VrLifeServer
         public DatabaseConnectionStruct Database { get => database; }
         private DatabaseConnectionStruct database;
 
+        public bool Debug { get => debug; }
+        private bool debug;
+
         private static IPAddress ParseAddress(string str)
         {
             if (str == null)
@@ -209,15 +212,34 @@ namespace VrLifeServer
             {
                 return null;
             }
+
+            #region debug field
+            if(!obj.ContainsKey("debug"))
+            {
+                conf.debug = false;
+            }
+            else
+            {
+                conf.debug = obj["debug"].Value<bool>();
+            }
+            #endregion
+
+            #region listen field
             if (!obj.ContainsKey("listen"))
             {
                 return null;
             }
             conf.address = ParseAddress(obj["listen"].Value<string>());
+            #endregion
+
+            #region address field
             if (conf.address == null)
             {
                 return null;
             }
+            #endregion
+
+            #region tcp-port field
             if (!obj.ContainsKey("tcp-port"))
             {
                 return null;
@@ -228,6 +250,9 @@ namespace VrLifeServer
                 return null;
             }
             conf.tcpport = (uint)tmpPort;
+            #endregion
+
+            #region udp-port field
             if (!obj.ContainsKey("udp-port"))
             {
                 return null;
@@ -238,6 +263,9 @@ namespace VrLifeServer
                 return null;
             }
             conf.udpport = (uint)tmpPort;
+            #endregion
+
+            #region statistics field
             if (!obj.ContainsKey("statistics"))
             {
                 return null;
@@ -252,23 +280,30 @@ namespace VrLifeServer
                 }
                 conf.StatisticsConf.Add(tmpConf);
             }
+            #endregion
+
+            #region main field
             if (!obj.ContainsKey("main"))
             {
                 return null;
             }
             conf.isMain = obj["main"].Value<bool>();
+            #endregion
+
+            #region forward field
             if (!obj.ContainsKey("forward"))
             {
                 return null;
             }
             string forwardStr = obj["forward"].Value<string>();
-
             conf.forward = ParseEndPoint(forwardStr);
             if (conf.forward == null)
             {
                 return null;
             }
+            #endregion
 
+            #region log field
             if (!obj.ContainsKey("log"))
             {
                 return null;
@@ -282,7 +317,9 @@ namespace VrLifeServer
                     conf.loggers.Add(tmpLogger);
                 }
             }
+            #endregion
 
+            #region database field
             if (obj.ContainsKey("database"))
             {
                 DatabaseConnectionStruct? db = ParseDatabase(obj["database"].Value<JObject>());
@@ -291,6 +328,7 @@ namespace VrLifeServer
                     conf.database = db.Value;
                 }
             }
+            #endregion
 
             return conf;
         }

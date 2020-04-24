@@ -8,8 +8,8 @@ using VrLifeServer.Database;
 namespace VrLifeServer.Migrations
 {
     [DbContext(typeof(VrLifeDbContext))]
-    [Migration("20200327004054_CreateVrLifeDB")]
-    partial class CreateVrLifeDB
+    [Migration("20200420134711_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,22 +18,15 @@ namespace VrLifeServer.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("VrLifeServer.Models.Account", b =>
+            modelBuilder.Entity("VrLifeServer.Database.DbModels.Account", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("OAuth")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<string>("Username")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Passphrase")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
+                    b.HasKey("Username");
 
                     b.ToTable("Accounts");
                 });

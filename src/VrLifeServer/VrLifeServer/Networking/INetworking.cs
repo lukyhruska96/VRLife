@@ -1,12 +1,13 @@
-﻿using System;
-using VrLifeServer.NetworkModels;
+﻿using Google.Protobuf;
+using System;
+using System.Net;
+using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer.Networking
 {
-    public interface INetworking
+    public interface INetworking<T>
     {
-        void Send(Message req);
-        void RegisterHandler(int appId, Func<Message, Message> handler);
-        void Start();
+        void Send(T req, IPEndPoint address, Action<T> callback, Action<Exception> err);
+        void StartListening();
     }
 }

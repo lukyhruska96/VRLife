@@ -16,22 +16,15 @@ namespace VrLifeServer.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("VrLifeServer.Models.Account", b =>
+            modelBuilder.Entity("VrLifeServer.Database.DbModels.Account", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("OAuth")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<string>("Username")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Passphrase")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
+                    b.HasKey("Username");
 
                     b.ToTable("Accounts");
                 });
