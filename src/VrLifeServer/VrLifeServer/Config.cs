@@ -27,6 +27,9 @@ namespace VrLifeServer
         public bool IsMain { get => isMain; }
         private bool isMain;
 
+        public IPEndPoint MainServer { get => mainServer; }
+        private IPEndPoint mainServer;
+
         public IPEndPoint Forward { get => forward; }
         private IPEndPoint forward;
 
@@ -288,6 +291,19 @@ namespace VrLifeServer
                 return null;
             }
             conf.isMain = obj["main"].Value<bool>();
+            #endregion
+
+            #region mainServer field
+            if(!conf.isMain)
+            {
+                if(!obj.ContainsKey("mainServer"))
+                {
+                    return null;
+                }
+                string address = obj["mainServer"].Value<string>();
+                string[] splitAddress = address.Split(":");
+                conf.mainServer = new IPEndPoint(IPAddress.Parse(splitAddress[0]), int.Parse(splitAddress[1]));
+            }
             #endregion
 
             #region forward field

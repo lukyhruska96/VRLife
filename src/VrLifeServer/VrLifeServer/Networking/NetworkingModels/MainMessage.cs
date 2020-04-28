@@ -23,41 +23,30 @@ namespace VrLifeServer.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFNYWluTWVzc2FnZS5wcm90bxIoVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcu",
-            "TmV0d29ya2luZ01vZGVscxoPU3lzdGVtTXNnLnByb3RvIrsBCgtNYWluTWVz",
-            "c2FnZRINCgVtc2dJZBgBIAEoBBJGCgdtc2dUeXBlGAIgASgOMjUuVnJMaWZl",
-            "U2VydmVyLk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5NZXNzYWdlVHlw",
-            "ZRJICglzeXN0ZW1Nc2cYAyABKAsyMy5WckxpZmVTZXJ2ZXIuTmV0d29ya2lu",
-            "Zy5OZXR3b3JraW5nTW9kZWxzLlN5c3RlbU1zZ0gAQgsKCW9uZW9mX21zZypj",
-            "CgtNZXNzYWdlVHlwZRIOCgpTWVNURU1fTVNHEAASDAoIVElDS19NU0cQARIN",
-            "CglFVkVOVF9NU0cQAhIMCghST09NX01TRxADEgwKCFVTRVJfTVNHEAQSCwoH",
-            "QVBQX01TRxAFYgZwcm90bzM="));
+            "TmV0d29ya2luZ01vZGVscxoPU3lzdGVtTXNnLnByb3RvGg1UaWNrTXNnLnBy",
+            "b3RvGg5FdmVudE1zZy5wcm90bxoNUm9vbU1zZy5wcm90bxoNVXNlck1zZy5w",
+            "cm90bxoMQXBwTXNnLnByb3RvIocECgtNYWluTWVzc2FnZRINCgVtc2dJZBgB",
+            "IAEoBBISCghzZXJ2ZXJJZBgCIAEoDUgAEhIKCGNsaWVudElkGAMgASgNSAAS",
+            "SAoJc3lzdGVtTXNnGAQgASgLMjMuVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcu",
+            "TmV0d29ya2luZ01vZGVscy5TeXN0ZW1Nc2dIARJECgd0aWNrTXNnGAUgASgL",
+            "MjEuVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5U",
+            "aWNrTXNnSAESRgoIZXZlbnRNc2cYBiABKAsyMi5WckxpZmVTZXJ2ZXIuTmV0",
+            "d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkV2ZW50TXNnSAESRAoHcm9vbU1z",
+            "ZxgHIAEoCzIxLlZyTGlmZVNlcnZlci5OZXR3b3JraW5nLk5ldHdvcmtpbmdN",
+            "b2RlbHMuUm9vbU1zZ0gBEkQKB3VzZXJNc2cYCCABKAsyMS5WckxpZmVTZXJ2",
+            "ZXIuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLlVzZXJNc2dIARJCCgZh",
+            "cHBNc2cYCSABKAsyMC5WckxpZmVTZXJ2ZXIuTmV0d29ya2luZy5OZXR3b3Jr",
+            "aW5nTW9kZWxzLkFwcE1zZ0gBQgoKCFNlbmRlcklkQg0KC01lc3NhZ2VUeXBl",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::VrLifeServer.Networking.NetworkingModels.SystemMsgReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::VrLifeServer.Networking.NetworkingModels.MessageType), }, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.MainMessage), global::VrLifeServer.Networking.NetworkingModels.MainMessage.Parser, new[]{ "MsgId", "MsgType", "SystemMsg" }, new[]{ "OneofMsg" }, null, null)
+          new pbr::FileDescriptor[] { global::VrLifeServer.Networking.NetworkingModels.SystemMsgReflection.Descriptor, global::VrLifeServer.Networking.NetworkingModels.TickMsgReflection.Descriptor, global::VrLifeServer.Networking.NetworkingModels.EventMsgReflection.Descriptor, global::VrLifeServer.Networking.NetworkingModels.RoomMsgReflection.Descriptor, global::VrLifeServer.Networking.NetworkingModels.UserMsgReflection.Descriptor, global::VrLifeServer.Networking.NetworkingModels.AppMsgReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.MainMessage), global::VrLifeServer.Networking.NetworkingModels.MainMessage.Parser, new[]{ "MsgId", "ServerId", "ClientId", "SystemMsg", "TickMsg", "EventMsg", "RoomMsg", "UserMsg", "AppMsg" }, new[]{ "SenderId", "MessageType" }, null, null)
           }));
     }
     #endregion
 
   }
-  #region Enums
-  public enum MessageType {
-    [pbr::OriginalName("SYSTEM_MSG")] SystemMsg = 0,
-    /// <summary>
-    ///  have to be in this layer (the smallest size of msg)
-    /// </summary>
-    [pbr::OriginalName("TICK_MSG")] TickMsg = 1,
-    /// <summary>
-    ///  same reason as the above
-    /// </summary>
-    [pbr::OriginalName("EVENT_MSG")] EventMsg = 2,
-    [pbr::OriginalName("ROOM_MSG")] RoomMsg = 3,
-    [pbr::OriginalName("USER_MSG")] UserMsg = 4,
-    [pbr::OriginalName("APP_MSG")] AppMsg = 5,
-  }
-
-  #endregion
-
   #region Messages
   public sealed partial class MainMessage : pb::IMessage<MainMessage> {
     private static readonly pb::MessageParser<MainMessage> _parser = new pb::MessageParser<MainMessage>(() => new MainMessage());
@@ -84,10 +73,33 @@ namespace VrLifeServer.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public MainMessage(MainMessage other) : this() {
       msgId_ = other.msgId_;
-      msgType_ = other.msgType_;
-      switch (other.OneofMsgCase) {
-        case OneofMsgOneofCase.SystemMsg:
+      switch (other.SenderIdCase) {
+        case SenderIdOneofCase.ServerId:
+          ServerId = other.ServerId;
+          break;
+        case SenderIdOneofCase.ClientId:
+          ClientId = other.ClientId;
+          break;
+      }
+
+      switch (other.MessageTypeCase) {
+        case MessageTypeOneofCase.SystemMsg:
           SystemMsg = other.SystemMsg.Clone();
+          break;
+        case MessageTypeOneofCase.TickMsg:
+          TickMsg = other.TickMsg.Clone();
+          break;
+        case MessageTypeOneofCase.EventMsg:
+          EventMsg = other.EventMsg.Clone();
+          break;
+        case MessageTypeOneofCase.RoomMsg:
+          RoomMsg = other.RoomMsg.Clone();
+          break;
+        case MessageTypeOneofCase.UserMsg:
+          UserMsg = other.UserMsg.Clone();
+          break;
+        case MessageTypeOneofCase.AppMsg:
+          AppMsg = other.AppMsg.Clone();
           break;
       }
 
@@ -109,44 +121,134 @@ namespace VrLifeServer.Networking.NetworkingModels {
       }
     }
 
-    /// <summary>Field number for the "msgType" field.</summary>
-    public const int MsgTypeFieldNumber = 2;
-    private global::VrLifeServer.Networking.NetworkingModels.MessageType msgType_ = 0;
+    /// <summary>Field number for the "serverId" field.</summary>
+    public const int ServerIdFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::VrLifeServer.Networking.NetworkingModels.MessageType MsgType {
-      get { return msgType_; }
+    public uint ServerId {
+      get { return senderIdCase_ == SenderIdOneofCase.ServerId ? (uint) senderId_ : 0; }
       set {
-        msgType_ = value;
+        senderId_ = value;
+        senderIdCase_ = SenderIdOneofCase.ServerId;
+      }
+    }
+
+    /// <summary>Field number for the "clientId" field.</summary>
+    public const int ClientIdFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint ClientId {
+      get { return senderIdCase_ == SenderIdOneofCase.ClientId ? (uint) senderId_ : 0; }
+      set {
+        senderId_ = value;
+        senderIdCase_ = SenderIdOneofCase.ClientId;
       }
     }
 
     /// <summary>Field number for the "systemMsg" field.</summary>
-    public const int SystemMsgFieldNumber = 3;
+    public const int SystemMsgFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.SystemMsg SystemMsg {
-      get { return oneofMsgCase_ == OneofMsgOneofCase.SystemMsg ? (global::VrLifeServer.Networking.NetworkingModels.SystemMsg) oneofMsg_ : null; }
+      get { return messageTypeCase_ == MessageTypeOneofCase.SystemMsg ? (global::VrLifeServer.Networking.NetworkingModels.SystemMsg) messageType_ : null; }
       set {
-        oneofMsg_ = value;
-        oneofMsgCase_ = value == null ? OneofMsgOneofCase.None : OneofMsgOneofCase.SystemMsg;
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.SystemMsg;
       }
     }
 
-    private object oneofMsg_;
-    /// <summary>Enum of possible cases for the "oneof_msg" oneof.</summary>
-    public enum OneofMsgOneofCase {
-      None = 0,
-      SystemMsg = 3,
-    }
-    private OneofMsgOneofCase oneofMsgCase_ = OneofMsgOneofCase.None;
+    /// <summary>Field number for the "tickMsg" field.</summary>
+    public const int TickMsgFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public OneofMsgOneofCase OneofMsgCase {
-      get { return oneofMsgCase_; }
+    public global::VrLifeServer.Networking.NetworkingModels.TickMsg TickMsg {
+      get { return messageTypeCase_ == MessageTypeOneofCase.TickMsg ? (global::VrLifeServer.Networking.NetworkingModels.TickMsg) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.TickMsg;
+      }
+    }
+
+    /// <summary>Field number for the "eventMsg" field.</summary>
+    public const int EventMsgFieldNumber = 6;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeServer.Networking.NetworkingModels.EventMsg EventMsg {
+      get { return messageTypeCase_ == MessageTypeOneofCase.EventMsg ? (global::VrLifeServer.Networking.NetworkingModels.EventMsg) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.EventMsg;
+      }
+    }
+
+    /// <summary>Field number for the "roomMsg" field.</summary>
+    public const int RoomMsgFieldNumber = 7;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeServer.Networking.NetworkingModels.RoomMsg RoomMsg {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomMsg ? (global::VrLifeServer.Networking.NetworkingModels.RoomMsg) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomMsg;
+      }
+    }
+
+    /// <summary>Field number for the "userMsg" field.</summary>
+    public const int UserMsgFieldNumber = 8;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeServer.Networking.NetworkingModels.UserMsg UserMsg {
+      get { return messageTypeCase_ == MessageTypeOneofCase.UserMsg ? (global::VrLifeServer.Networking.NetworkingModels.UserMsg) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.UserMsg;
+      }
+    }
+
+    /// <summary>Field number for the "appMsg" field.</summary>
+    public const int AppMsgFieldNumber = 9;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeServer.Networking.NetworkingModels.AppMsg AppMsg {
+      get { return messageTypeCase_ == MessageTypeOneofCase.AppMsg ? (global::VrLifeServer.Networking.NetworkingModels.AppMsg) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.AppMsg;
+      }
+    }
+
+    private object senderId_;
+    /// <summary>Enum of possible cases for the "SenderId" oneof.</summary>
+    public enum SenderIdOneofCase {
+      None = 0,
+      ServerId = 2,
+      ClientId = 3,
+    }
+    private SenderIdOneofCase senderIdCase_ = SenderIdOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SenderIdOneofCase SenderIdCase {
+      get { return senderIdCase_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOneofMsg() {
-      oneofMsgCase_ = OneofMsgOneofCase.None;
-      oneofMsg_ = null;
+    public void ClearSenderId() {
+      senderIdCase_ = SenderIdOneofCase.None;
+      senderId_ = null;
+    }
+
+    private object messageType_;
+    /// <summary>Enum of possible cases for the "MessageType" oneof.</summary>
+    public enum MessageTypeOneofCase {
+      None = 0,
+      SystemMsg = 4,
+      TickMsg = 5,
+      EventMsg = 6,
+      RoomMsg = 7,
+      UserMsg = 8,
+      AppMsg = 9,
+    }
+    private MessageTypeOneofCase messageTypeCase_ = MessageTypeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public MessageTypeOneofCase MessageTypeCase {
+      get { return messageTypeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearMessageType() {
+      messageTypeCase_ = MessageTypeOneofCase.None;
+      messageType_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -163,9 +265,16 @@ namespace VrLifeServer.Networking.NetworkingModels {
         return true;
       }
       if (MsgId != other.MsgId) return false;
-      if (MsgType != other.MsgType) return false;
+      if (ServerId != other.ServerId) return false;
+      if (ClientId != other.ClientId) return false;
       if (!object.Equals(SystemMsg, other.SystemMsg)) return false;
-      if (OneofMsgCase != other.OneofMsgCase) return false;
+      if (!object.Equals(TickMsg, other.TickMsg)) return false;
+      if (!object.Equals(EventMsg, other.EventMsg)) return false;
+      if (!object.Equals(RoomMsg, other.RoomMsg)) return false;
+      if (!object.Equals(UserMsg, other.UserMsg)) return false;
+      if (!object.Equals(AppMsg, other.AppMsg)) return false;
+      if (SenderIdCase != other.SenderIdCase) return false;
+      if (MessageTypeCase != other.MessageTypeCase) return false;
       return true;
     }
 
@@ -173,9 +282,16 @@ namespace VrLifeServer.Networking.NetworkingModels {
     public override int GetHashCode() {
       int hash = 1;
       if (MsgId != 0UL) hash ^= MsgId.GetHashCode();
-      if (MsgType != 0) hash ^= MsgType.GetHashCode();
-      if (oneofMsgCase_ == OneofMsgOneofCase.SystemMsg) hash ^= SystemMsg.GetHashCode();
-      hash ^= (int) oneofMsgCase_;
+      if (senderIdCase_ == SenderIdOneofCase.ServerId) hash ^= ServerId.GetHashCode();
+      if (senderIdCase_ == SenderIdOneofCase.ClientId) hash ^= ClientId.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.SystemMsg) hash ^= SystemMsg.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.TickMsg) hash ^= TickMsg.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.EventMsg) hash ^= EventMsg.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomMsg) hash ^= RoomMsg.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.UserMsg) hash ^= UserMsg.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.AppMsg) hash ^= AppMsg.GetHashCode();
+      hash ^= (int) senderIdCase_;
+      hash ^= (int) messageTypeCase_;
       return hash;
     }
 
@@ -190,13 +306,37 @@ namespace VrLifeServer.Networking.NetworkingModels {
         output.WriteRawTag(8);
         output.WriteUInt64(MsgId);
       }
-      if (MsgType != 0) {
+      if (senderIdCase_ == SenderIdOneofCase.ServerId) {
         output.WriteRawTag(16);
-        output.WriteEnum((int) MsgType);
+        output.WriteUInt32(ServerId);
       }
-      if (oneofMsgCase_ == OneofMsgOneofCase.SystemMsg) {
-        output.WriteRawTag(26);
+      if (senderIdCase_ == SenderIdOneofCase.ClientId) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(ClientId);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.SystemMsg) {
+        output.WriteRawTag(34);
         output.WriteMessage(SystemMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.TickMsg) {
+        output.WriteRawTag(42);
+        output.WriteMessage(TickMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.EventMsg) {
+        output.WriteRawTag(50);
+        output.WriteMessage(EventMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomMsg) {
+        output.WriteRawTag(58);
+        output.WriteMessage(RoomMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.UserMsg) {
+        output.WriteRawTag(66);
+        output.WriteMessage(UserMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.AppMsg) {
+        output.WriteRawTag(74);
+        output.WriteMessage(AppMsg);
       }
     }
 
@@ -206,11 +346,29 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (MsgId != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MsgId);
       }
-      if (MsgType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MsgType);
+      if (senderIdCase_ == SenderIdOneofCase.ServerId) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ServerId);
       }
-      if (oneofMsgCase_ == OneofMsgOneofCase.SystemMsg) {
+      if (senderIdCase_ == SenderIdOneofCase.ClientId) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ClientId);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.SystemMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SystemMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.TickMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TickMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.EventMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.UserMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UserMsg);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.AppMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AppMsg);
       }
       return size;
     }
@@ -223,12 +381,33 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (other.MsgId != 0UL) {
         MsgId = other.MsgId;
       }
-      if (other.MsgType != 0) {
-        MsgType = other.MsgType;
+      switch (other.SenderIdCase) {
+        case SenderIdOneofCase.ServerId:
+          ServerId = other.ServerId;
+          break;
+        case SenderIdOneofCase.ClientId:
+          ClientId = other.ClientId;
+          break;
       }
-      switch (other.OneofMsgCase) {
-        case OneofMsgOneofCase.SystemMsg:
+
+      switch (other.MessageTypeCase) {
+        case MessageTypeOneofCase.SystemMsg:
           SystemMsg = other.SystemMsg;
+          break;
+        case MessageTypeOneofCase.TickMsg:
+          TickMsg = other.TickMsg;
+          break;
+        case MessageTypeOneofCase.EventMsg:
+          EventMsg = other.EventMsg;
+          break;
+        case MessageTypeOneofCase.RoomMsg:
+          RoomMsg = other.RoomMsg;
+          break;
+        case MessageTypeOneofCase.UserMsg:
+          UserMsg = other.UserMsg;
+          break;
+        case MessageTypeOneofCase.AppMsg:
+          AppMsg = other.AppMsg;
           break;
       }
 
@@ -247,16 +426,65 @@ namespace VrLifeServer.Networking.NetworkingModels {
             break;
           }
           case 16: {
-            msgType_ = (global::VrLifeServer.Networking.NetworkingModels.MessageType) input.ReadEnum();
+            ServerId = input.ReadUInt32();
             break;
           }
-          case 26: {
+          case 24: {
+            ClientId = input.ReadUInt32();
+            break;
+          }
+          case 34: {
             global::VrLifeServer.Networking.NetworkingModels.SystemMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.SystemMsg();
-            if (oneofMsgCase_ == OneofMsgOneofCase.SystemMsg) {
+            if (messageTypeCase_ == MessageTypeOneofCase.SystemMsg) {
               subBuilder.MergeFrom(SystemMsg);
             }
             input.ReadMessage(subBuilder);
             SystemMsg = subBuilder;
+            break;
+          }
+          case 42: {
+            global::VrLifeServer.Networking.NetworkingModels.TickMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.TickMsg();
+            if (messageTypeCase_ == MessageTypeOneofCase.TickMsg) {
+              subBuilder.MergeFrom(TickMsg);
+            }
+            input.ReadMessage(subBuilder);
+            TickMsg = subBuilder;
+            break;
+          }
+          case 50: {
+            global::VrLifeServer.Networking.NetworkingModels.EventMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.EventMsg();
+            if (messageTypeCase_ == MessageTypeOneofCase.EventMsg) {
+              subBuilder.MergeFrom(EventMsg);
+            }
+            input.ReadMessage(subBuilder);
+            EventMsg = subBuilder;
+            break;
+          }
+          case 58: {
+            global::VrLifeServer.Networking.NetworkingModels.RoomMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.RoomMsg();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomMsg) {
+              subBuilder.MergeFrom(RoomMsg);
+            }
+            input.ReadMessage(subBuilder);
+            RoomMsg = subBuilder;
+            break;
+          }
+          case 66: {
+            global::VrLifeServer.Networking.NetworkingModels.UserMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.UserMsg();
+            if (messageTypeCase_ == MessageTypeOneofCase.UserMsg) {
+              subBuilder.MergeFrom(UserMsg);
+            }
+            input.ReadMessage(subBuilder);
+            UserMsg = subBuilder;
+            break;
+          }
+          case 74: {
+            global::VrLifeServer.Networking.NetworkingModels.AppMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.AppMsg();
+            if (messageTypeCase_ == MessageTypeOneofCase.AppMsg) {
+              subBuilder.MergeFrom(AppMsg);
+            }
+            input.ReadMessage(subBuilder);
+            AppMsg = subBuilder;
             break;
           }
         }

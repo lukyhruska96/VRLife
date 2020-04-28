@@ -6,6 +6,7 @@ namespace VrLifeServer.Logging
         void Info(String msg);
         void Error(String msg);
         void Error(Exception ex);
+        void Warn(String msg);
         void Debug(String msg);
         void Debug(Exception ex);
         

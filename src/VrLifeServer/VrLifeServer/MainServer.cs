@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeServer.API;
 using VrLifeServer.Core.Services;
 using VrLifeServer.Database;
 using VrLifeServer.Networking;
@@ -14,8 +15,11 @@ namespace VrLifeServer
     class MainServer
     {
         private UDPNetworking<MainMessage> udpListenner;
-        private List<IService> coreServices = new List<IService>();
+        private List<IService> coreServices = 
+            new List<IService>(Enum.GetValues(typeof(MainMessage.MessageTypeOneofCase)).Length);
         private bool prepared = false;
+        private OpenAPI _openAPI;
+        private ClosedAPI _closedAPI;
 
         public void Init()
         {
@@ -47,12 +51,30 @@ namespace VrLifeServer
 
         private void PrepareMainServices()
         {
-            coreServices[(int)MessageType.SystemMsg] = new SystemService();
-            coreServices[(int)MessageType.TickMsg] = new TickRateService();
-            coreServices[(int)MessageType.EventMsg] = new EventService();
-            coreServices[(int)MessageType.RoomMsg] = new RoomService();
-            coreServices[(int)MessageType.UserMsg] = new UserService();
-            coreServices[(int)MessageType.AppMsg] = new AppService();
+            ServiceProvider sp = new ServiceProvider(
+                new SystemService(), 
+                new EventService(), 
+                new TickRateService(), 
+                new RoomService(), 
+                new UserService(), 
+                new AppService());
+
+            coreServices[(int)MainMessage.MessageTypeOneofCase.SystemMsg] = sp.System;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.TickMsg] = sp.TickRate;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.EventMsg] = sp.Event;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.RoomMsg] = sp.Room;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.UserMsg] = sp.User;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.AppMsg] = sp.App;
+
+            // APIs
+            _openAPI = new OpenAPI(udpListenner, VrLifeServer.Conf.Loggers);
+            _closedAPI = new ClosedAPI(_openAPI, sp);
+
+            // Initialization of services
+            foreach (IService service in coreServices)
+            {
+                service.Init(_closedAPI);
+            }
         }
 
         public void Start()
@@ -66,7 +88,7 @@ namespace VrLifeServer
 
         private MainMessage MsgRouter(MainMessage msg)
         {
-            return coreServices[(int)msg.MsgType].HandleMessage(msg);
+            return coreServices[(int)msg.MessageTypeCase].HandleMessage(msg);
         }
     }
 }

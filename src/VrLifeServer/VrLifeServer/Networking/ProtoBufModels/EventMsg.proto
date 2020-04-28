@@ -2,7 +2,7 @@
 package VrLifeServer.Networking.NetworkingModels;
 
 message EventMsg { // Event message from client to server
-	repeated EventEl events;
+	repeated EventEl events = 1;
 }
 
 message EventEl { // Element of Event List

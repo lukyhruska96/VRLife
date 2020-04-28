@@ -56,6 +56,11 @@ namespace VrLifeServer.Logging
             Write(msg, "INFO");
         }
 
+        public void Warn(string msg)
+        {
+            Write(msg, "WARN");
+        }
+
         private void Write(string msg, string type)
         {
             string line = $"[{DateTime.Now}]\t{type}\t{msg}{Environment.NewLine}";
