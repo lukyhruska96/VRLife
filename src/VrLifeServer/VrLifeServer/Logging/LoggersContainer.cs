@@ -59,5 +59,13 @@ namespace VrLifeServer.Logging
                 logger.Info(msg);
             }
         }
+
+        public void Warn(string msg)
+        {
+            foreach (ILogger logger in loggers)
+            {
+                logger.Warn(msg);
+            }
+        }
     }
 }

@@ -23,56 +23,41 @@ namespace VrLifeServer.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg9TeXN0ZW1Nc2cucHJvdG8SKFZyTGlmZVNlcnZlci5OZXR3b3JraW5nLk5l",
-            "dHdvcmtpbmdNb2RlbHMilwQKCVN5c3RlbU1zZxJFCgR0eXBlGAEgASgOMjcu",
-            "VnJMaWZlU2VydmVyLk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5TeXN0",
-            "ZW1Nc2dUeXBlEkAKBW9rTXNnGAIgASgLMi8uVnJMaWZlU2VydmVyLk5ldHdv",
-            "cmtpbmcuTmV0d29ya2luZ01vZGVscy5Pa01zZ0gAEkYKCGVycm9yTXNnGAMg",
-            "ASgLMjIuVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVs",
-            "cy5FcnJvck1zZ0gAEkAKBWhpTXNnGAQgASgLMi8uVnJMaWZlU2VydmVyLk5l",
-            "dHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5IaU1zZ0gAEkwKC3JlZGlyZWN0",
-            "TXNnGAUgASgLMjUuVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcuTmV0d29ya2lu",
-            "Z01vZGVscy5SZWRpcmVjdE1zZ0gAEkQKB3N0YXRNc2cYBiABKAsyMS5Wckxp",
-            "ZmVTZXJ2ZXIuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLlN0YXRNc2dI",
-            "ABJWChByb29tTWlncmF0aW9uTXNnGAcgASgLMjouVnJMaWZlU2VydmVyLk5l",
-            "dHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5Sb29tTWlncmF0aW9uTXNnSABC",
-            "CwoJb25lb2Zfc3lzIhYKBU9rTXNnEg0KBW1zZ0lkGAEgASgEIlEKCEVycm9y",
-            "TXNnEg0KBW1zZ0lkGAEgASgEEhEKCWVycm9yVHlwZRgCIAEoDRIRCgllcnJv",
-            "ckNvZGUYAyABKA0SEAoIZXJyb3JNc2cYBCABKAkiKAoFSGlNc2cSDwoHdGhy",
-            "ZWFkcxgBIAEoDRIOCgZtZW1vcnkYAiABKAQiQQoLUmVkaXJlY3RNc2cSDwoH",
-            "YWRkcmVzcxgBIAEoEBIMCgRwb3J0GAIgASgFEhMKC3JlY2VpdmVkTXNnGAMg",
-            "ASgMIlYKB1N0YXRNc2cSEwoLdGhyZWFkVXNhZ2UYASADKA0SEgoKbWVtb3J5",
-            "VXNlZBgCIAEoBBITCgttZW1vcnlUb3RhbBgDIAEoBBINCgVyb29tcxgEIAEo",
-            "DSI0ChBSb29tTWlncmF0aW9uTXNnEg8KB21kNXN1bUgYASABKBASDwoHbWQ1",
-            "c3VtTBgCIAEoECpuCg1TeXN0ZW1Nc2dUeXBlEgoKBkhJX01TRxAAEgoKBk9L",
-            "X01TRxABEg0KCUVSUk9SX01TRxACEgwKCFNUQVRfTVNHEAMSEAoMUkVESVJF",
-            "Q1RfTVNHEAQSFgoSUk9PTV9NSUdSQVRJT05fTVNHEAViBnByb3RvMw=="));
+            "dHdvcmtpbmdNb2RlbHMi1AMKCVN5c3RlbU1zZxJACgVva01zZxgBIAEoCzIv",
+            "LlZyTGlmZVNlcnZlci5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuT2tN",
+            "c2dIABJGCghlcnJvck1zZxgCIAEoCzIyLlZyTGlmZVNlcnZlci5OZXR3b3Jr",
+            "aW5nLk5ldHdvcmtpbmdNb2RlbHMuRXJyb3JNc2dIABJACgVoaU1zZxgDIAEo",
+            "CzIvLlZyTGlmZVNlcnZlci5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMu",
+            "SGlNc2dIABJMCgtyZWRpcmVjdE1zZxgEIAEoCzI1LlZyTGlmZVNlcnZlci5O",
+            "ZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuUmVkaXJlY3RNc2dIABJECgdz",
+            "dGF0TXNnGAUgASgLMjEuVnJMaWZlU2VydmVyLk5ldHdvcmtpbmcuTmV0d29y",
+            "a2luZ01vZGVscy5TdGF0TXNnSAASVgoQcm9vbU1pZ3JhdGlvbk1zZxgGIAEo",
+            "CzI6LlZyTGlmZVNlcnZlci5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMu",
+            "Um9vbU1pZ3JhdGlvbk1zZ0gAQg8KDVN5c3RlbU1zZ1R5cGUiFgoFT2tNc2cS",
+            "DQoFbXNnSWQYASABKAQiUQoIRXJyb3JNc2cSDQoFbXNnSWQYASABKAQSEQoJ",
+            "ZXJyb3JUeXBlGAIgASgNEhEKCWVycm9yQ29kZRgDIAEoDRIQCghlcnJvck1z",
+            "ZxgEIAEoCSI5CgVIaU1zZxIPCgd0aHJlYWRzGAEgASgNEg4KBm1lbW9yeRgC",
+            "IAEoBBIPCgd2ZXJzaW9uGAMgASgJIkEKC1JlZGlyZWN0TXNnEg8KB2FkZHJl",
+            "c3MYASABKBASDAoEcG9ydBgCIAEoBRITCgtyZWNlaXZlZE1zZxgDIAEoDCJT",
+            "CgdTdGF0TXNnEhAKCGNwdVVzYWdlGAEgASgNEhIKCm1lbW9yeVVzZWQYAiAB",
+            "KAQSEwoLbWVtb3J5VG90YWwYAyABKAQSDQoFcm9vbXMYBCABKA0iNAoQUm9v",
+            "bU1pZ3JhdGlvbk1zZxIPCgdtZDVzdW1IGAEgASgQEg8KB21kNXN1bUwYAiAB",
+            "KBBiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::VrLifeServer.Networking.NetworkingModels.SystemMsgType), }, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.SystemMsg), global::VrLifeServer.Networking.NetworkingModels.SystemMsg.Parser, new[]{ "Type", "OkMsg", "ErrorMsg", "HiMsg", "RedirectMsg", "StatMsg", "RoomMigrationMsg" }, new[]{ "OneofSys" }, null, null),
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.SystemMsg), global::VrLifeServer.Networking.NetworkingModels.SystemMsg.Parser, new[]{ "OkMsg", "ErrorMsg", "HiMsg", "RedirectMsg", "StatMsg", "RoomMigrationMsg" }, new[]{ "SystemMsgType" }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.OkMsg), global::VrLifeServer.Networking.NetworkingModels.OkMsg.Parser, new[]{ "MsgId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.ErrorMsg), global::VrLifeServer.Networking.NetworkingModels.ErrorMsg.Parser, new[]{ "MsgId", "ErrorType", "ErrorCode", "ErrorMsg_" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.HiMsg), global::VrLifeServer.Networking.NetworkingModels.HiMsg.Parser, new[]{ "Threads", "Memory" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.HiMsg), global::VrLifeServer.Networking.NetworkingModels.HiMsg.Parser, new[]{ "Threads", "Memory", "Version" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.RedirectMsg), global::VrLifeServer.Networking.NetworkingModels.RedirectMsg.Parser, new[]{ "Address", "Port", "ReceivedMsg" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.StatMsg), global::VrLifeServer.Networking.NetworkingModels.StatMsg.Parser, new[]{ "ThreadUsage", "MemoryUsed", "MemoryTotal", "Rooms" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.StatMsg), global::VrLifeServer.Networking.NetworkingModels.StatMsg.Parser, new[]{ "CpuUsage", "MemoryUsed", "MemoryTotal", "Rooms" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg), global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg.Parser, new[]{ "Md5SumH", "Md5SumL" }, null, null, null)
           }));
     }
     #endregion
 
   }
-  #region Enums
-  public enum SystemMsgType {
-    [pbr::OriginalName("HI_MSG")] HiMsg = 0,
-    [pbr::OriginalName("OK_MSG")] OkMsg = 1,
-    [pbr::OriginalName("ERROR_MSG")] ErrorMsg = 2,
-    [pbr::OriginalName("STAT_MSG")] StatMsg = 3,
-    [pbr::OriginalName("REDIRECT_MSG")] RedirectMsg = 4,
-    [pbr::OriginalName("ROOM_MIGRATION_MSG")] RoomMigrationMsg = 5,
-  }
-
-  #endregion
-
   #region Messages
   public sealed partial class SystemMsg : pb::IMessage<SystemMsg> {
     private static readonly pb::MessageParser<SystemMsg> _parser = new pb::MessageParser<SystemMsg>(() => new SystemMsg());
@@ -98,24 +83,23 @@ namespace VrLifeServer.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public SystemMsg(SystemMsg other) : this() {
-      type_ = other.type_;
-      switch (other.OneofSysCase) {
-        case OneofSysOneofCase.OkMsg:
+      switch (other.SystemMsgTypeCase) {
+        case SystemMsgTypeOneofCase.OkMsg:
           OkMsg = other.OkMsg.Clone();
           break;
-        case OneofSysOneofCase.ErrorMsg:
+        case SystemMsgTypeOneofCase.ErrorMsg:
           ErrorMsg = other.ErrorMsg.Clone();
           break;
-        case OneofSysOneofCase.HiMsg:
+        case SystemMsgTypeOneofCase.HiMsg:
           HiMsg = other.HiMsg.Clone();
           break;
-        case OneofSysOneofCase.RedirectMsg:
+        case SystemMsgTypeOneofCase.RedirectMsg:
           RedirectMsg = other.RedirectMsg.Clone();
           break;
-        case OneofSysOneofCase.StatMsg:
+        case SystemMsgTypeOneofCase.StatMsg:
           StatMsg = other.StatMsg.Clone();
           break;
-        case OneofSysOneofCase.RoomMigrationMsg:
+        case SystemMsgTypeOneofCase.RoomMigrationMsg:
           RoomMigrationMsg = other.RoomMigrationMsg.Clone();
           break;
       }
@@ -127,104 +111,93 @@ namespace VrLifeServer.Networking.NetworkingModels {
       return new SystemMsg(this);
     }
 
-    /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 1;
-    private global::VrLifeServer.Networking.NetworkingModels.SystemMsgType type_ = 0;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::VrLifeServer.Networking.NetworkingModels.SystemMsgType Type {
-      get { return type_; }
-      set {
-        type_ = value;
-      }
-    }
-
     /// <summary>Field number for the "okMsg" field.</summary>
-    public const int OkMsgFieldNumber = 2;
+    public const int OkMsgFieldNumber = 1;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.OkMsg OkMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.OkMsg ? (global::VrLifeServer.Networking.NetworkingModels.OkMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.OkMsg ? (global::VrLifeServer.Networking.NetworkingModels.OkMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.OkMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.OkMsg;
       }
     }
 
     /// <summary>Field number for the "errorMsg" field.</summary>
-    public const int ErrorMsgFieldNumber = 3;
+    public const int ErrorMsgFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.ErrorMsg ErrorMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.ErrorMsg ? (global::VrLifeServer.Networking.NetworkingModels.ErrorMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.ErrorMsg ? (global::VrLifeServer.Networking.NetworkingModels.ErrorMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.ErrorMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.ErrorMsg;
       }
     }
 
     /// <summary>Field number for the "hiMsg" field.</summary>
-    public const int HiMsgFieldNumber = 4;
+    public const int HiMsgFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.HiMsg HiMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.HiMsg ? (global::VrLifeServer.Networking.NetworkingModels.HiMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.HiMsg ? (global::VrLifeServer.Networking.NetworkingModels.HiMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.HiMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.HiMsg;
       }
     }
 
     /// <summary>Field number for the "redirectMsg" field.</summary>
-    public const int RedirectMsgFieldNumber = 5;
+    public const int RedirectMsgFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.RedirectMsg RedirectMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.RedirectMsg ? (global::VrLifeServer.Networking.NetworkingModels.RedirectMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.RedirectMsg ? (global::VrLifeServer.Networking.NetworkingModels.RedirectMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.RedirectMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.RedirectMsg;
       }
     }
 
     /// <summary>Field number for the "statMsg" field.</summary>
-    public const int StatMsgFieldNumber = 6;
+    public const int StatMsgFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.StatMsg StatMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.StatMsg ? (global::VrLifeServer.Networking.NetworkingModels.StatMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.StatMsg ? (global::VrLifeServer.Networking.NetworkingModels.StatMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.StatMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.StatMsg;
       }
     }
 
     /// <summary>Field number for the "roomMigrationMsg" field.</summary>
-    public const int RoomMigrationMsgFieldNumber = 7;
+    public const int RoomMigrationMsgFieldNumber = 6;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg RoomMigrationMsg {
-      get { return oneofSysCase_ == OneofSysOneofCase.RoomMigrationMsg ? (global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg) oneofSys_ : null; }
+      get { return systemMsgTypeCase_ == SystemMsgTypeOneofCase.RoomMigrationMsg ? (global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg) systemMsgType_ : null; }
       set {
-        oneofSys_ = value;
-        oneofSysCase_ = value == null ? OneofSysOneofCase.None : OneofSysOneofCase.RoomMigrationMsg;
+        systemMsgType_ = value;
+        systemMsgTypeCase_ = value == null ? SystemMsgTypeOneofCase.None : SystemMsgTypeOneofCase.RoomMigrationMsg;
       }
     }
 
-    private object oneofSys_;
-    /// <summary>Enum of possible cases for the "oneof_sys" oneof.</summary>
-    public enum OneofSysOneofCase {
+    private object systemMsgType_;
+    /// <summary>Enum of possible cases for the "SystemMsgType" oneof.</summary>
+    public enum SystemMsgTypeOneofCase {
       None = 0,
-      OkMsg = 2,
-      ErrorMsg = 3,
-      HiMsg = 4,
-      RedirectMsg = 5,
-      StatMsg = 6,
-      RoomMigrationMsg = 7,
+      OkMsg = 1,
+      ErrorMsg = 2,
+      HiMsg = 3,
+      RedirectMsg = 4,
+      StatMsg = 5,
+      RoomMigrationMsg = 6,
     }
-    private OneofSysOneofCase oneofSysCase_ = OneofSysOneofCase.None;
+    private SystemMsgTypeOneofCase systemMsgTypeCase_ = SystemMsgTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public OneofSysOneofCase OneofSysCase {
-      get { return oneofSysCase_; }
+    public SystemMsgTypeOneofCase SystemMsgTypeCase {
+      get { return systemMsgTypeCase_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearOneofSys() {
-      oneofSysCase_ = OneofSysOneofCase.None;
-      oneofSys_ = null;
+    public void ClearSystemMsgType() {
+      systemMsgTypeCase_ = SystemMsgTypeOneofCase.None;
+      systemMsgType_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -240,28 +213,26 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Type != other.Type) return false;
       if (!object.Equals(OkMsg, other.OkMsg)) return false;
       if (!object.Equals(ErrorMsg, other.ErrorMsg)) return false;
       if (!object.Equals(HiMsg, other.HiMsg)) return false;
       if (!object.Equals(RedirectMsg, other.RedirectMsg)) return false;
       if (!object.Equals(StatMsg, other.StatMsg)) return false;
       if (!object.Equals(RoomMigrationMsg, other.RoomMigrationMsg)) return false;
-      if (OneofSysCase != other.OneofSysCase) return false;
+      if (SystemMsgTypeCase != other.SystemMsgTypeCase) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != 0) hash ^= Type.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.OkMsg) hash ^= OkMsg.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.ErrorMsg) hash ^= ErrorMsg.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.HiMsg) hash ^= HiMsg.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.RedirectMsg) hash ^= RedirectMsg.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.StatMsg) hash ^= StatMsg.GetHashCode();
-      if (oneofSysCase_ == OneofSysOneofCase.RoomMigrationMsg) hash ^= RoomMigrationMsg.GetHashCode();
-      hash ^= (int) oneofSysCase_;
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.OkMsg) hash ^= OkMsg.GetHashCode();
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.ErrorMsg) hash ^= ErrorMsg.GetHashCode();
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.HiMsg) hash ^= HiMsg.GetHashCode();
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RedirectMsg) hash ^= RedirectMsg.GetHashCode();
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.StatMsg) hash ^= StatMsg.GetHashCode();
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RoomMigrationMsg) hash ^= RoomMigrationMsg.GetHashCode();
+      hash ^= (int) systemMsgTypeCase_;
       return hash;
     }
 
@@ -272,32 +243,28 @@ namespace VrLifeServer.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Type != 0) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Type);
-      }
-      if (oneofSysCase_ == OneofSysOneofCase.OkMsg) {
-        output.WriteRawTag(18);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.OkMsg) {
+        output.WriteRawTag(10);
         output.WriteMessage(OkMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.ErrorMsg) {
-        output.WriteRawTag(26);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.ErrorMsg) {
+        output.WriteRawTag(18);
         output.WriteMessage(ErrorMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.HiMsg) {
-        output.WriteRawTag(34);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.HiMsg) {
+        output.WriteRawTag(26);
         output.WriteMessage(HiMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.RedirectMsg) {
-        output.WriteRawTag(42);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RedirectMsg) {
+        output.WriteRawTag(34);
         output.WriteMessage(RedirectMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.StatMsg) {
-        output.WriteRawTag(50);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.StatMsg) {
+        output.WriteRawTag(42);
         output.WriteMessage(StatMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.RoomMigrationMsg) {
-        output.WriteRawTag(58);
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RoomMigrationMsg) {
+        output.WriteRawTag(50);
         output.WriteMessage(RoomMigrationMsg);
       }
     }
@@ -305,25 +272,22 @@ namespace VrLifeServer.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Type != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
-      }
-      if (oneofSysCase_ == OneofSysOneofCase.OkMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.OkMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(OkMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.ErrorMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.ErrorMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ErrorMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.HiMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.HiMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(HiMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.RedirectMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RedirectMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(RedirectMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.StatMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.StatMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatMsg);
       }
-      if (oneofSysCase_ == OneofSysOneofCase.RoomMigrationMsg) {
+      if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RoomMigrationMsg) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomMigrationMsg);
       }
       return size;
@@ -334,26 +298,23 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (other == null) {
         return;
       }
-      if (other.Type != 0) {
-        Type = other.Type;
-      }
-      switch (other.OneofSysCase) {
-        case OneofSysOneofCase.OkMsg:
+      switch (other.SystemMsgTypeCase) {
+        case SystemMsgTypeOneofCase.OkMsg:
           OkMsg = other.OkMsg;
           break;
-        case OneofSysOneofCase.ErrorMsg:
+        case SystemMsgTypeOneofCase.ErrorMsg:
           ErrorMsg = other.ErrorMsg;
           break;
-        case OneofSysOneofCase.HiMsg:
+        case SystemMsgTypeOneofCase.HiMsg:
           HiMsg = other.HiMsg;
           break;
-        case OneofSysOneofCase.RedirectMsg:
+        case SystemMsgTypeOneofCase.RedirectMsg:
           RedirectMsg = other.RedirectMsg;
           break;
-        case OneofSysOneofCase.StatMsg:
+        case SystemMsgTypeOneofCase.StatMsg:
           StatMsg = other.StatMsg;
           break;
-        case OneofSysOneofCase.RoomMigrationMsg:
+        case SystemMsgTypeOneofCase.RoomMigrationMsg:
           RoomMigrationMsg = other.RoomMigrationMsg;
           break;
       }
@@ -368,58 +329,54 @@ namespace VrLifeServer.Networking.NetworkingModels {
           default:
             input.SkipLastField();
             break;
-          case 8: {
-            type_ = (global::VrLifeServer.Networking.NetworkingModels.SystemMsgType) input.ReadEnum();
-            break;
-          }
-          case 18: {
+          case 10: {
             global::VrLifeServer.Networking.NetworkingModels.OkMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.OkMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.OkMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.OkMsg) {
               subBuilder.MergeFrom(OkMsg);
             }
             input.ReadMessage(subBuilder);
             OkMsg = subBuilder;
             break;
           }
-          case 26: {
+          case 18: {
             global::VrLifeServer.Networking.NetworkingModels.ErrorMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.ErrorMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.ErrorMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.ErrorMsg) {
               subBuilder.MergeFrom(ErrorMsg);
             }
             input.ReadMessage(subBuilder);
             ErrorMsg = subBuilder;
             break;
           }
-          case 34: {
+          case 26: {
             global::VrLifeServer.Networking.NetworkingModels.HiMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.HiMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.HiMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.HiMsg) {
               subBuilder.MergeFrom(HiMsg);
             }
             input.ReadMessage(subBuilder);
             HiMsg = subBuilder;
             break;
           }
-          case 42: {
+          case 34: {
             global::VrLifeServer.Networking.NetworkingModels.RedirectMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.RedirectMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.RedirectMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RedirectMsg) {
               subBuilder.MergeFrom(RedirectMsg);
             }
             input.ReadMessage(subBuilder);
             RedirectMsg = subBuilder;
             break;
           }
-          case 50: {
+          case 42: {
             global::VrLifeServer.Networking.NetworkingModels.StatMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.StatMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.StatMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.StatMsg) {
               subBuilder.MergeFrom(StatMsg);
             }
             input.ReadMessage(subBuilder);
             StatMsg = subBuilder;
             break;
           }
-          case 58: {
+          case 50: {
             global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg subBuilder = new global::VrLifeServer.Networking.NetworkingModels.RoomMigrationMsg();
-            if (oneofSysCase_ == OneofSysOneofCase.RoomMigrationMsg) {
+            if (systemMsgTypeCase_ == SystemMsgTypeOneofCase.RoomMigrationMsg) {
               subBuilder.MergeFrom(RoomMigrationMsg);
             }
             input.ReadMessage(subBuilder);
@@ -779,6 +736,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
     public HiMsg(HiMsg other) : this() {
       threads_ = other.threads_;
       memory_ = other.memory_;
+      version_ = other.version_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -814,6 +772,20 @@ namespace VrLifeServer.Networking.NetworkingModels {
       }
     }
 
+    /// <summary>Field number for the "version" field.</summary>
+    public const int VersionFieldNumber = 3;
+    private string version_ = "";
+    /// <summary>
+    ///  server version
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Version {
+      get { return version_; }
+      set {
+        version_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as HiMsg);
@@ -829,6 +801,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
       }
       if (Threads != other.Threads) return false;
       if (Memory != other.Memory) return false;
+      if (Version != other.Version) return false;
       return true;
     }
 
@@ -837,6 +810,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
       int hash = 1;
       if (Threads != 0) hash ^= Threads.GetHashCode();
       if (Memory != 0UL) hash ^= Memory.GetHashCode();
+      if (Version.Length != 0) hash ^= Version.GetHashCode();
       return hash;
     }
 
@@ -855,6 +829,10 @@ namespace VrLifeServer.Networking.NetworkingModels {
         output.WriteRawTag(16);
         output.WriteUInt64(Memory);
       }
+      if (Version.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Version);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -865,6 +843,9 @@ namespace VrLifeServer.Networking.NetworkingModels {
       }
       if (Memory != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Memory);
+      }
+      if (Version.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Version);
       }
       return size;
     }
@@ -879,6 +860,9 @@ namespace VrLifeServer.Networking.NetworkingModels {
       }
       if (other.Memory != 0UL) {
         Memory = other.Memory;
+      }
+      if (other.Version.Length != 0) {
+        Version = other.Version;
       }
     }
 
@@ -896,6 +880,10 @@ namespace VrLifeServer.Networking.NetworkingModels {
           }
           case 16: {
             Memory = input.ReadUInt64();
+            break;
+          }
+          case 26: {
+            Version = input.ReadString();
             break;
           }
         }
@@ -1107,7 +1095,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public StatMsg(StatMsg other) : this() {
-      threadUsage_ = other.threadUsage_.Clone();
+      cpuUsage_ = other.cpuUsage_;
       memoryUsed_ = other.memoryUsed_;
       memoryTotal_ = other.memoryTotal_;
       rooms_ = other.rooms_;
@@ -1118,17 +1106,18 @@ namespace VrLifeServer.Networking.NetworkingModels {
       return new StatMsg(this);
     }
 
-    /// <summary>Field number for the "threadUsage" field.</summary>
-    public const int ThreadUsageFieldNumber = 1;
-    private static readonly pb::FieldCodec<uint> _repeated_threadUsage_codec
-        = pb::FieldCodec.ForUInt32(10);
-    private readonly pbc::RepeatedField<uint> threadUsage_ = new pbc::RepeatedField<uint>();
+    /// <summary>Field number for the "cpuUsage" field.</summary>
+    public const int CpuUsageFieldNumber = 1;
+    private uint cpuUsage_;
     /// <summary>
-    ///  percentage usage of all threads
+    ///  percentage usage of CPU
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<uint> ThreadUsage {
-      get { return threadUsage_; }
+    public uint CpuUsage {
+      get { return cpuUsage_; }
+      set {
+        cpuUsage_ = value;
+      }
     }
 
     /// <summary>Field number for the "memoryUsed" field.</summary>
@@ -1186,7 +1175,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!threadUsage_.Equals(other.threadUsage_)) return false;
+      if (CpuUsage != other.CpuUsage) return false;
       if (MemoryUsed != other.MemoryUsed) return false;
       if (MemoryTotal != other.MemoryTotal) return false;
       if (Rooms != other.Rooms) return false;
@@ -1196,7 +1185,7 @@ namespace VrLifeServer.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= threadUsage_.GetHashCode();
+      if (CpuUsage != 0) hash ^= CpuUsage.GetHashCode();
       if (MemoryUsed != 0UL) hash ^= MemoryUsed.GetHashCode();
       if (MemoryTotal != 0UL) hash ^= MemoryTotal.GetHashCode();
       if (Rooms != 0) hash ^= Rooms.GetHashCode();
@@ -1210,7 +1199,10 @@ namespace VrLifeServer.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      threadUsage_.WriteTo(output, _repeated_threadUsage_codec);
+      if (CpuUsage != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(CpuUsage);
+      }
       if (MemoryUsed != 0UL) {
         output.WriteRawTag(16);
         output.WriteUInt64(MemoryUsed);
@@ -1228,7 +1220,9 @@ namespace VrLifeServer.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += threadUsage_.CalculateSize(_repeated_threadUsage_codec);
+      if (CpuUsage != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(CpuUsage);
+      }
       if (MemoryUsed != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MemoryUsed);
       }
@@ -1246,7 +1240,9 @@ namespace VrLifeServer.Networking.NetworkingModels {
       if (other == null) {
         return;
       }
-      threadUsage_.Add(other.threadUsage_);
+      if (other.CpuUsage != 0) {
+        CpuUsage = other.CpuUsage;
+      }
       if (other.MemoryUsed != 0UL) {
         MemoryUsed = other.MemoryUsed;
       }
@@ -1266,9 +1262,8 @@ namespace VrLifeServer.Networking.NetworkingModels {
           default:
             input.SkipLastField();
             break;
-          case 10:
           case 8: {
-            threadUsage_.AddEntriesFrom(input, _repeated_threadUsage_codec);
+            CpuUsage = input.ReadUInt32();
             break;
           }
           case 16: {

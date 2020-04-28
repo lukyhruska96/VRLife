@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="Database\DbModels\" />
     <Folder Include="Applications\" />
-    <Folder Include="API\" />
     <Folder Include="Networking\NetworkingModels\" />
   </ItemGroup>
   <ItemGroup>

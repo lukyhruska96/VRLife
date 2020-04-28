@@ -12,6 +12,7 @@ namespace VrLifeServer
     {
         private const string CONFIG_FILE = "config.json";
 
+        public const string VERSION = "0.0.1";
 
         private static Config conf = null;
 

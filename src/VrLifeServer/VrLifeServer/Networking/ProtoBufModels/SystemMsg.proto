@@ -1,24 +1,15 @@
 ﻿syntax = "proto3";
 package VrLifeServer.Networking.NetworkingModels;
 
-enum SystemMsgType {
-	HI_MSG = 0;
-	OK_MSG = 1;
-	ERROR_MSG = 2;
-	STAT_MSG = 3;
-	REDIRECT_MSG = 4;
-	ROOM_MIGRATION_MSG = 5;
-}
 
 message SystemMsg {
-	SystemMsgType type = 1;
-	oneof oneof_sys {
-		OkMsg okMsg = 2;
-		ErrorMsg errorMsg = 3;
-		HiMsg hiMsg = 4;
-		RedirectMsg redirectMsg = 5;
-		StatMsg statMsg = 6;
-		RoomMigrationMsg roomMigrationMsg = 7;
+	oneof SystemMsgType {
+		OkMsg okMsg = 1;
+		ErrorMsg errorMsg = 2;
+		HiMsg hiMsg = 3;
+		RedirectMsg redirectMsg = 4;
+		StatMsg statMsg = 5;
+		RoomMigrationMsg roomMigrationMsg = 6;
 	}
 }
 
@@ -36,6 +27,7 @@ message ErrorMsg {
 message HiMsg {
 	uint32 threads = 1; // number of machine's threads
 	uint64 memory = 2; // number of RAM in bytes
+	string version = 3; // server version
 }
 
 message RedirectMsg {	// redirection to server which takes care of this client
@@ -45,12 +37,11 @@ message RedirectMsg {	// redirection to server which takes care of this client
 }
 
 message StatMsg {
-	repeated uint32 threadUsage = 1;	// percentage usage of all threads
+	uint32 cpuUsage = 1;	// percentage usage of CPU
 	uint64 memoryUsed = 2;	// used RAM of machine in bytes
 	uint64 memoryTotal = 3;	// total available RAM in machine
 	uint32 rooms = 4;	// number of running rooms on machine
 }
-
 message RoomMigrationMsg { // migration message to another server
 	sfixed64 md5sumH = 1;
 	sfixed64 md5sumL = 2;

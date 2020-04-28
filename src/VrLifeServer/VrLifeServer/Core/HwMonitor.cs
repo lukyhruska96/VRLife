@@ -30,6 +30,10 @@ namespace VrLifeServer.Core
 
         public static Func<ulong> GetTotalMemory = null;
 
+        public static Func<ulong> GetUsedMemory = null;
+
+        public static Func<uint> GetCoreUsage = null;
+
         private static ulong GetTotalMemoryWin()
         {
             if (totalMemory != 0)
@@ -64,6 +68,40 @@ namespace VrLifeServer.Core
             return totalMemory;
         }
 
+        private static ulong GetUsedMemoryWin()
+        {
+            string output = RunCmd("wmic OS get FreePhysicalMemory").Split("\n")[1];
+            return ulong.TryParse(output, out ulong result) ? result : 0;
+        }
+
+        private static ulong GetUsedMemoryLinux()
+        {
+            string output = RunCmd("head -n 1 /proc/meminfo | tail -n 1 | tr -s \" \" | cut -d \" \" -f 2") + "000";
+            return ulong.TryParse(output, out ulong result) ? result : 0;
+        }
+
+        private static ulong GetUsedMemoryMac()
+        {
+            string output = RunCmd("ps -axro pmem | awk '{sum+=$1} END {print sum}'");
+            float percentage = float.TryParse(output, out percentage) ? percentage : 0f;
+            return (ulong)(percentage * GetTotalMemoryMac());
+        }
+
+        private static uint GetCoreUsageWin()
+        {
+            string output = RunCmd("wmic cpu get loadpercentage").Split("\n")[1];
+            return uint.TryParse(output, out uint result) ? result : 0;
+        }
+        private static uint GetCoreUsageLinux()
+        {
+            string output = RunCmd("ps -axro pcpu | awk '{sum+=$1} END {print sum}'");
+            return float.TryParse(output, out float result) ? (uint)(result * 100) : 0;
+        }
+        private static uint GetCoreUsageMac()
+        {
+            return GetCoreUsageLinux();
+        }
+
         public static uint GetCoreCount()
         {
             return (uint)Environment.ProcessorCount;
@@ -90,6 +128,8 @@ namespace VrLifeServer.Core
         private static void SetOSWindows()
         {
             GetTotalMemory = GetTotalMemoryWin;
+            GetUsedMemory = GetUsedMemoryWin;
+            GetCoreUsage = GetCoreUsageWin;
             cmdFileName = "cmd.exe";
             cmdArgumentFirst = "/C ";
         }
@@ -97,6 +137,8 @@ namespace VrLifeServer.Core
         private static void SetOSLinux()
         {
             GetTotalMemory = GetTotalMemoryLinux;
+            GetUsedMemory = GetUsedMemoryLinux;
+            GetCoreUsage = GetCoreUsageLinux;
             cmdFileName = "/bin/bash";
             cmdArgumentFirst = "";
         }
@@ -104,6 +146,8 @@ namespace VrLifeServer.Core
         private static void SetOSMac()
         {
             GetTotalMemory = GetTotalMemoryMac;
+            GetUsedMemory = GetUsedMemoryMac;
+            GetCoreUsage = GetCoreUsageMac;
             cmdFileName = "/bin/bash";
             cmdArgumentFirst = "";
         }

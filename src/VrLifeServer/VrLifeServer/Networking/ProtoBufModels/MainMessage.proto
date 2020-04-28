@@ -1,20 +1,25 @@
 ﻿syntax = "proto3";
 package VrLifeServer.Networking.NetworkingModels;
 import "SystemMsg.proto";
+import "TickMsg.proto";
+import "EventMsg.proto";
+import "RoomMsg.proto";
+import "UserMsg.proto";
+import "AppMsg.proto";
 
-enum MessageType {
-	SYSTEM_MSG = 0;
-	TICK_MSG = 1;	// have to be in this layer (the smallest size of msg)
-	EVENT_MSG = 2;	// same reason as the above
-	ROOM_MSG = 3;
-	USER_MSG = 4;
-	APP_MSG = 5;
-}
 
 message MainMessage {
 	uint64 msgId = 1;
-	MessageType msgType = 2;
-	oneof oneof_msg {
-		SystemMsg systemMsg = 3;
+	oneof SenderId {
+		uint32 serverId = 2;
+		uint32 clientId = 3;
+	}
+	oneof MessageType {
+		SystemMsg systemMsg = 4;
+		TickMsg tickMsg = 5;
+		EventMsg eventMsg = 6;
+		RoomMsg roomMsg = 7;
+		UserMsg userMsg = 8;
+		AppMsg appMsg = 9;
 	}
 }

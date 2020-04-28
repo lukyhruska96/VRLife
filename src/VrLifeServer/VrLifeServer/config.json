@@ -10,6 +10,7 @@
     }
   ],
   "main": true,
+  "mainAddress": "127.0.0.1:8765"
   "database": {
     "type": "mysql",
     "host": "localhost",

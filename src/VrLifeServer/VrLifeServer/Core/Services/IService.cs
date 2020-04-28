@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeServer.API;
 using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services
@@ -8,6 +9,6 @@ namespace VrLifeServer.Core.Services
     interface IService
     {
         MainMessage HandleMessage(MainMessage msg);
-        void Init();
+        void Init(ClosedAPI api);
     }
 }
