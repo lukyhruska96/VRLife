@@ -5,7 +5,7 @@ using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services
 {
-    interface ISystemService
+    interface ISystemService : IService
     {
 
         public static MainMessage CreateHelloMessage()

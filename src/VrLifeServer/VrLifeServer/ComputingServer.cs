@@ -22,7 +22,7 @@ namespace VrLifeServer
         public void Start()
         {
             // say hi
-            udpListenner.Send(SystemServiceProvider.CreateHelloMessage(),
+            udpListenner.Send(ISystemService.CreateHelloMessage(),
                 VrLifeServer.Conf.MainServer,
                 this.AfterFirstResponse);
         }
@@ -45,7 +45,7 @@ namespace VrLifeServer
             switch(msg.SystemMsg.SystemMsgTypeCase)
             {
                 default:
-                    response = SystemServiceProvider.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
+                    response = ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
                     break;
             }
             response.ServerId = serverId;

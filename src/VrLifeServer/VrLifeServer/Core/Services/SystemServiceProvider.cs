@@ -19,7 +19,7 @@ namespace VrLifeServer.Core.Services
         public float ramUsage;
     }
 
-    class SystemServiceProvider : IService
+    class SystemServiceProvider : ISystemService
     {
         private const long STATS_INTERVAL_MS = 1000;
 
