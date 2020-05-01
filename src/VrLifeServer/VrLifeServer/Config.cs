@@ -74,31 +74,31 @@ namespace VrLifeServer
         {
             if (!obj.ContainsKey("type"))
             {
-                return null;
+                throw new FormatException("'type' field not found.");
             }
             string type = obj["type"].Value<string>().ToLower();
             if (Array.IndexOf(Applications.Statistics.SUPPORTED_TYPES, type)
                 == -1)
             {
-                return null;
+                throw new FormatException("'type' field could not be found in list of supported types.");
             }
             if (!obj.ContainsKey("address"))
             {
-                return null;
+                throw new FormatException("'address' field not found.");
             }
             IPAddress address = ParseAddress(obj["address"].Value<string>());
             if (address == null)
             {
-                return null;
+                throw new FormatException("'address' field could not be parsed.");
             }
             if (!obj.ContainsKey("port"))
             {
-                return null;
+                throw new FormatException("'port' field not found.");
             }
             int port = ParsePort(obj["port"].Value<string>());
             if (port < 0)
             {
-                return null;
+                throw new FormatException("'port' field could not be parsed.");
             }
             return new Applications.StatisticsConf(type, address, (uint)port);
         }
@@ -135,24 +135,26 @@ namespace VrLifeServer
         {
             if (!obj.ContainsKey("type"))
             {
-                return null;
+                throw new FormatException("'type' field not found.");
             }
             string type = obj["type"].Value<string>();
             switch (type)
             {
-                case "text":
-                    return ParseTextLogger(obj);
+                case "file":
+                    return ParseFileLogger(obj);
+                case "console":
+                    return new ConsoleLogger();
                 default:
-                    return null;
+                    throw new FormatException("'type' field have unsupported value.");
             }
         }
 
-        private static ILogger ParseTextLogger(JObject obj)
+        private static ILogger ParseFileLogger(JObject obj)
         {
             ILogger logger = null;
             if (!obj.ContainsKey("path"))
             {
-                return null;
+                throw new FormatException("'path' field not found.");
             }
             string path = obj["path"].Value<string>();
             try
@@ -161,7 +163,7 @@ namespace VrLifeServer
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("Unable to initialize text logger: " + e.Message);
+                throw new FormatException("Unable to initialize text logger.", e);
             }
             return logger;
         }
@@ -171,32 +173,32 @@ namespace VrLifeServer
             DatabaseConnectionStruct db;
             if (!obj.ContainsKey("type"))
             {
-                return null;
+                throw new FormatException("'type' field not found.");
             }
             db.Type = obj["type"].Value<string>();
             if (!obj.ContainsKey("host"))
             {
-                return null;
+                throw new FormatException("'host' field not found.");
             }
             db.Host = obj["host"].Value<string>();
             if (!obj.ContainsKey("port"))
             {
-                return null;
+                throw new FormatException("'port' field not found.");
             }
             db.Port = obj["port"].Value<int>();
             if (!obj.ContainsKey("username"))
             {
-                return null;
+                throw new FormatException("'username' field not found.");
             }
             db.Username = obj["username"].Value<string>();
             if (!obj.ContainsKey("password"))
             {
-                return null;
+                throw new FormatException("'password' field not found.");
             }
             db.Password = obj["password"].Value<string>();
             if (!obj.ContainsKey("database"))
             {
-                return null;
+                throw new FormatException("'database' field not found.");
             }
             db.Database = obj["database"].Value<string>();
             return db;
@@ -213,7 +215,7 @@ namespace VrLifeServer
             }
             catch (JsonReaderException)
             {
-                return null;
+                throw new FormatException("Config file could not be parsed as JSON file.");
             }
 
             #region debug field
@@ -230,27 +232,25 @@ namespace VrLifeServer
             #region listen field
             if (!obj.ContainsKey("listen"))
             {
-                return null;
+                throw new FormatException("'listen' field not found.");
             }
             conf.address = ParseAddress(obj["listen"].Value<string>());
-            #endregion
 
-            #region address field
             if (conf.address == null)
             {
-                return null;
+                throw new FormatException("'listen' field could not be parsed.");
             }
             #endregion
 
             #region tcp-port field
             if (!obj.ContainsKey("tcp-port"))
             {
-                return null;
+                throw new FormatException("'tcp-port' field not found.");
             }
             int tmpPort = ParsePort(obj["tcp-port"].Value<string>());
             if (tmpPort < 0)
             {
-                return null;
+                throw new FormatException("'tcp-port' field could not be parsed.");
             }
             conf.tcpport = (uint)tmpPort;
             #endregion
@@ -258,12 +258,12 @@ namespace VrLifeServer
             #region udp-port field
             if (!obj.ContainsKey("udp-port"))
             {
-                return null;
+                throw new FormatException("'udp-port' field not found.");
             }
             tmpPort = ParsePort(obj["udp-port"].Value<string>());
             if (tmpPort < 0)
             {
-                return null;
+                throw new FormatException("'udp-port' field could not be parsed.");
             }
             conf.udpport = (uint)tmpPort;
             #endregion
@@ -271,24 +271,19 @@ namespace VrLifeServer
             #region statistics field
             if (!obj.ContainsKey("statistics"))
             {
-                return null;
+                throw new FormatException("'statistics' field not found.");
             }
             JArray arr = obj["statistics"].Value<JArray>();
             foreach (JObject each in arr)
             {
-                Applications.StatisticsConf tmpConf = ParseStatistics(each);
-                if (tmpConf == null)
-                {
-                    return null;
-                }
-                conf.StatisticsConf.Add(tmpConf);
+                conf.StatisticsConf.Add(ParseStatistics(each));
             }
             #endregion
 
             #region main field
             if (!obj.ContainsKey("main"))
             {
-                return null;
+                throw new FormatException("'main' field not found.");
             }
             conf.isMain = obj["main"].Value<bool>();
             #endregion
@@ -298,7 +293,7 @@ namespace VrLifeServer
             {
                 if(!obj.ContainsKey("mainServer"))
                 {
-                    return null;
+                    throw new FormatException("'mainServer' field not found.");
                 }
                 string address = obj["mainServer"].Value<string>();
                 string[] splitAddress = address.Split(":");
@@ -306,23 +301,10 @@ namespace VrLifeServer
             }
             #endregion
 
-            #region forward field
-            if (!obj.ContainsKey("forward"))
-            {
-                return null;
-            }
-            string forwardStr = obj["forward"].Value<string>();
-            conf.forward = ParseEndPoint(forwardStr);
-            if (conf.forward == null)
-            {
-                return null;
-            }
-            #endregion
-
             #region log field
             if (!obj.ContainsKey("log"))
             {
-                return null;
+                throw new FormatException("'log' field not found.");
             }
             JArray logArray = obj["log"].Value<JArray>();
             foreach (JObject tmpObject in logArray)
@@ -333,6 +315,7 @@ namespace VrLifeServer
                     conf.loggers.Add(tmpLogger);
                 }
             }
+            conf.loggers.SetDebug(conf.Debug);
             #endregion
 
             #region database field
@@ -358,15 +341,13 @@ namespace VrLifeServer
         {
             if (!File.Exists(path))
             {
-                Console.Error.WriteLine($"Config file {path} does not exist");
-                return null;
+                throw new FormatException($"Config file {path} does not exist");
             }
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
                 if (!fs.CanRead)
                 {
-                    Console.Error.WriteLine("Not enough permissions to read config file");
-                    return null;
+                    throw new FormatException("Not enough permissions to read config file");
                 }
             }
             string configContent = File.ReadAllText(path);

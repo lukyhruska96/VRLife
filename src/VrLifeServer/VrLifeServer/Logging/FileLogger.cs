@@ -8,6 +8,7 @@ namespace VrLifeServer.Logging
     {
         private FileStream fs;
         private Encoding encoding = new UTF8Encoding(true);
+        private bool _debug = false;
         public FileLogger(String filePath)
         {
             if (File.Exists(filePath))
@@ -26,11 +27,19 @@ namespace VrLifeServer.Logging
 
         public void Debug(string msg)
         {
+            if (!_debug)
+            {
+                return;
+            }
             Write(msg, "DEBUG");
         }
 
         public void Debug(Exception ex)
         {
+            if(!_debug)
+            {
+                return;
+            }
             Write(ex.Message, "DEBUG");
             byte[] bytes = encoding.GetBytes(ex.StackTrace + Environment.NewLine);
             fs.Write(bytes, 0, bytes.Length);
@@ -54,6 +63,11 @@ namespace VrLifeServer.Logging
         public void Info(string msg)
         {
             Write(msg, "INFO");
+        }
+
+        public void SetDebug(bool status)
+        {
+            this._debug = status;
         }
 
         public void Warn(string msg)

@@ -4,9 +4,9 @@ using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services
+namespace VrLifeServer.Core.Services.TickRateService
 {
-    class RoomService : IService
+    class TickRateServiceProvider : ITickRateService
     {
         public MainMessage HandleMessage(MainMessage msg)
         {

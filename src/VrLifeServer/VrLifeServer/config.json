@@ -1,7 +1,8 @@
 ﻿{
+  "debug": true,
   "listen": "0.0.0.0",
-  "tcp-port": 8765,
-  "udp-port": 8766,
+  "tcp-port": 8865,
+  "udp-port": 8866,
   "statistics": [
     {
       "type": "mqtt",
@@ -9,8 +10,8 @@
       "port": "65535"
     }
   ],
-  "main": true,
-  "mainAddress": "127.0.0.1:8765"
+  "main": false,
+  "mainServer": "127.0.0.1:8766",
   "database": {
     "type": "mysql",
     "host": "localhost",
@@ -19,11 +20,13 @@
     "password": "dev123",
     "database": "dev"
   },
-  "forward": "127.0.0.1:8765",
   "log": [
     {
       "type": "file",
-      "path": "/tmp/vrlife-server.log"
-    }
+      "path": "./vrlife-server.log"
+    },
+    {
+     "type": "console"
+	}
   ]
 }

@@ -1,6 +1,43 @@
 ﻿syntax = "proto3";
 package VrLifeServer.Networking.NetworkingModels;
 
-message UserMsg	{ // user, lobby and group management message
+message UserMngMsg	{ // user, lobby and group management message
+	oneof UserMngMsgType {
+		AuthMsg authMsg = 1;
+		UserMsg userMsg = 2;
+		//GroupMsg groupMsg = 3;
+		//LobbyMsg lobbyMsg = 4;
+	}
+}
 
+message AuthMsg {
+	string username = 1;
+	string password = 2;
+}
+
+message UserMsg {
+	oneof UserMsgType {
+		UserDetailMsg userDetailMsg = 1;
+		UserListMsg userListMsg = 2;
+		UserRequestMsg userRequestMsg = 3;
+	}
+}
+
+message UserDetailMsg {
+	uint64 userId = 1;
+	string username = 2;
+	string password = 3;
+}
+
+message UserListMsg {
+	repeated UserDetailMsg users = 1;	
+}
+
+message UserRequestMsg {
+	oneof UserRequestType {
+		UserDetailMsg listQuery = 1;
+		uint64 userDetail = 2;
+		UserDetailMsg updateQuery = 3;
+		UserDetailMsg createQuery = 4;
+	}
 }

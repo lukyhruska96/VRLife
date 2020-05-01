@@ -11,17 +11,18 @@ namespace VrLifeServer.API
     {
         public UDPNetworking<MainMessage> Networking { get => _udpNetworking; }
         private UDPNetworking<MainMessage> _udpNetworking;
-        private ILogger _logger;
+        public Config Conf { get => _config; }
+        private Config _config;
 
-        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, ILogger logger)
+        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
         {
             this._udpNetworking = udpNetworking;
-            this._logger = logger;
+            this._config = config;
         }
 
         public ILogger CreateLogger(string className)
         {
-            return new LoggerWrapper(className, this._logger);
+            return new LoggerWrapper(className, this._config.Loggers);
         }
 
         

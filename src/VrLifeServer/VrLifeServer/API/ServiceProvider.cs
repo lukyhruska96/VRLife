@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.Core.Services;
+using VrLifeServer.Core.Services.AppService;
+using VrLifeServer.Core.Services.EventService;
+using VrLifeServer.Core.Services.RoomService;
+using VrLifeServer.Core.Services.SystemService;
+using VrLifeServer.Core.Services.TickRateService;
+using VrLifeServer.Core.Services.UserService;
 
 namespace VrLifeServer.API
 {
@@ -10,28 +16,30 @@ namespace VrLifeServer.API
         private ISystemService _systemService;
         public ISystemService System { get => _systemService; }
 
-        private EventService _eventService;
-        public EventService Event { get => _eventService; }
+        private IEventService _eventService;
+        public IEventService Event { get => _eventService; }
 
-        private TickRateService _tickRateService;
-        public TickRateService TickRate { get => _tickRateService; }
+        private ITickRateService _tickRateService;
+        public ITickRateService TickRate { get => _tickRateService; }
 
-        private RoomService _roomService;
-        public RoomService Room { get => _roomService; }
+        private IRoomService _roomService;
+        public IRoomService Room { get => _roomService; }
 
-        private UserService _userService;
-        public UserService User { get => _userService; }
+        private IUserService _userService;
+        public IUserService User { get => _userService; }
 
-        private AppService _appService;
-        public AppService App { get => _appService; }
+        private IAppService _appService;
 
-        public ServiceProvider(ISystemService systemService, 
-            EventService eventService, 
-            TickRateService tickRateService, 
-            RoomService roomService, 
-            UserService userService, 
-            AppService appService)
+        public IAppService App { get => _appService; }
+
+        public ServiceProvider(ISystemService systemService,
+            IEventService eventService,
+            ITickRateService tickRateService,
+            IRoomService roomService,
+            IUserService userService,
+            IAppService appService)
         {
+            this._systemService = systemService;
             this._eventService = eventService;
             this._tickRateService = tickRateService;
             this._roomService = roomService;

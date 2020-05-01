@@ -4,9 +4,9 @@ using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services
+namespace VrLifeServer.Core.Services.UserService
 {
-    class AppService : IService
+    class UserServiceForwarder : IUserService
     {
         public MainMessage HandleMessage(MainMessage msg)
         {
@@ -15,6 +15,7 @@ namespace VrLifeServer.Core.Services
 
         public void Init(ClosedAPI api)
         {
+
         }
     }
 }

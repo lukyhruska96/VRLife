@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace VrLifeServer.Core
+namespace VrLifeServer.Core.Utils
 {
     class HwMonitor
     {
@@ -71,7 +71,7 @@ namespace VrLifeServer.Core
         private static ulong GetUsedMemoryWin()
         {
             string output = RunCmd("wmic OS get FreePhysicalMemory").Split("\n")[1];
-            return ulong.TryParse(output, out ulong result) ? result : 0;
+            return ulong.TryParse(output, out ulong result) ? GetTotalMemory() - result : 0;
         }
 
         private static ulong GetUsedMemoryLinux()

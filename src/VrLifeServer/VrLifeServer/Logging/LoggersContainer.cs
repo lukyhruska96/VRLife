@@ -60,6 +60,14 @@ namespace VrLifeServer.Logging
             }
         }
 
+        public void SetDebug(bool status)
+        {
+            foreach (ILogger logger in loggers)
+            {
+                logger.SetDebug(status);
+            }
+        }
+
         public void Warn(string msg)
         {
             foreach (ILogger logger in loggers)

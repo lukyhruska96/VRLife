@@ -19,7 +19,7 @@ message MainMessage {
 		TickMsg tickMsg = 5;
 		EventMsg eventMsg = 6;
 		RoomMsg roomMsg = 7;
-		UserMsg userMsg = 8;
+		UserMngMsg userMngMsg = 8;
 		AppMsg appMsg = 9;
 	}
 }
