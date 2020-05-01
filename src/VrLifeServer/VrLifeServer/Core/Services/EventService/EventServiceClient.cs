@@ -4,17 +4,18 @@ using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services
+namespace VrLifeServer.Core.Services.EventService
 {
-    class EventService : IService
+    class EventServiceClient : IServiceClient
     {
-        public MainMessage HandleMessage(MainMessage msg)
+        public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
         }
 
         public void Init(ClosedAPI api)
         {
+            throw new NotImplementedException();
         }
     }
 }

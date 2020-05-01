@@ -45,6 +45,11 @@ namespace VrLifeServer.Logging
             logger.Info($"{wrapMsg}: {msg}");
         }
 
+        public void SetDebug(bool status)
+        {
+            logger.SetDebug(status);
+        }
+
         public void Warn(string msg)
         {
             logger.Warn($"{wrapMsg}: {msg}");

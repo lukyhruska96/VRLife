@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VrLifeServer.Core
+namespace VrLifeServer.Core.Services.RoomService
 {
     class Room
     {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeServer.Core.Utils;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services
+namespace VrLifeServer.Core.Services.SystemService
 {
     interface ISystemService : IService
     {
@@ -15,6 +16,7 @@ namespace VrLifeServer.Core.Services
             HiMsg hiMsg = new HiMsg();
             hiMsg.Memory = HwMonitor.GetTotalMemory();
             hiMsg.Threads = HwMonitor.GetCoreCount();
+            hiMsg.Version = VrLifeServer.VERSION;
             msg.HiMsg = hiMsg;
             mainMsg.SystemMsg = msg;
             return mainMsg;

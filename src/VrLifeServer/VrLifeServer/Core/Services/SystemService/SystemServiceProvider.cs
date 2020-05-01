@@ -8,9 +8,9 @@ using VrLifeServer.API;
 using VrLifeServer.Logging;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services
+namespace VrLifeServer.Core.Services.SystemService
 {
-    struct ComputingServer
+    class ComputingServer
     {
         public uint id;
         public uint cores;
@@ -21,7 +21,6 @@ namespace VrLifeServer.Core.Services
 
     class SystemServiceProvider : ISystemService
     {
-        private const long STATS_INTERVAL_MS = 1000;
 
         private ClosedAPI _api;
 
@@ -35,6 +34,8 @@ namespace VrLifeServer.Core.Services
             {
                 case SystemMsg.SystemMsgTypeOneofCase.HiMsg:
                     return HandleHiMsg(sysMsg.HiMsg);
+                case SystemMsg.SystemMsgTypeOneofCase.StatMsg:
+                    return HandleStatMsg(msg);
                 default:
                     return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
             }
@@ -44,61 +45,38 @@ namespace VrLifeServer.Core.Services
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
-            if(!VrLifeServer.Conf.IsMain)
-            {
-                InitStats();
-            }
-        }
-
-        private void InitStats()
-        {
-            Task t = new Task(() => 
-            {
-                Stopwatch sw = new Stopwatch();
-                while (true)
-                {
-                    sw.Restart();
-                    SystemMsg sysMsg = new SystemMsg();
-                    StatMsg statMsg = new StatMsg();
-                    statMsg.CpuUsage = HwMonitor.GetCoreUsage();
-                    statMsg.MemoryTotal = HwMonitor.GetTotalMemory();
-                    statMsg.MemoryUsed = HwMonitor.GetUsedMemory();
-                    sysMsg.StatMsg = statMsg;
-                    MainMessage msg = new MainMessage();
-                    msg.SystemMsg = sysMsg;
-                    sw.Stop();
-
-                    long ms = sw.ElapsedMilliseconds;
-                    if (ms > STATS_INTERVAL_MS)
-                    {
-                        this._log.Warn("HW status calculation takes longer than specified interval.");
-                    }
-                    else
-                    {
-                        Thread.Sleep((int)(STATS_INTERVAL_MS - ms));
-                    }
-
-                _api.OpenAPI.Networking.Send(msg, VrLifeServer.Conf.MainServer, this.MainServerMessageHandler);
-                }
-            }, TaskCreationOptions.LongRunning);
-            t.Start();
+            this._log.Debug("Loger initialized.");
         }
 
         private MainMessage HandleHiMsg(HiMsg msg)
         {
+            this._log.Debug("Received Hi message.");
             if (msg.Version != VrLifeServer.VERSION)
             {
+                this._log.Debug("Not compatiable version of client.");
                 return ISystemService.CreateErrorMessage(0, 0, 0, "Not compatiable version");
             }
             MainMessage response = ISystemService.CreateOkMessage();
             response.ServerId = (uint)computingServers.Count;
+            this._log.Debug($"Sending {response.ServerId} as a new ServerID.");
             computingServers.Add(new ComputingServer { id = response.ServerId, cores = msg.Threads, memory = msg.Memory });
             return response;
         }
 
-        private void MainServerMessageHandler(MainMessage msg)
+        private MainMessage HandleStatMsg(MainMessage msg)
         {
-            throw new NotImplementedException();
+            _log.Debug("In HandleStatMsg method");
+            uint serverId = msg.ServerId;
+            if(serverId >= computingServers.Count)
+            {
+                _log.Error("Unknown Computing Server.");
+                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown Computing Server.");
+            }
+            StatMsg statMsg = msg.SystemMsg.StatMsg;
+            computingServers[(int)serverId].cpuUsage = statMsg.CpuUsage;
+            computingServers[(int)serverId].ramUsage = statMsg.MemoryUsed;
+            _log.Debug($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
+            return ISystemService.CreateOkMessage((uint)msg.MsgId);
         }
     }
 }

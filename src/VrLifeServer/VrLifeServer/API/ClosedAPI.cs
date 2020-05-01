@@ -15,7 +15,7 @@ namespace VrLifeServer.API
 
         public ClosedAPI(OpenAPI openAPI, ServiceProvider serviceProvider)
         {
-            this._openApi = OpenAPI;
+            this._openApi = openAPI;
             this._services = serviceProvider;
         }
     }

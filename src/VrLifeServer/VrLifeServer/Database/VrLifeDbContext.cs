@@ -7,10 +7,11 @@ namespace VrLifeServer.Database
     public class VrLifeDbContext : DbContext
     {
         private DatabaseConnectionStruct conn;
+        private static Config _conf;
 
         public VrLifeDbContext()
         {
-            this.conn = VrLifeServer.Conf.Database;
+            this.conn = _conf.Database;
         }
 
         public VrLifeDbContext(DatabaseConnectionStruct conn)
@@ -21,6 +22,11 @@ namespace VrLifeServer.Database
         public void SetConnectionStruct(DatabaseConnectionStruct conn)
         {
             this.conn = conn;
+        }
+
+        public static void SetConfig(Config conf)
+        {
+            _conf = conf;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

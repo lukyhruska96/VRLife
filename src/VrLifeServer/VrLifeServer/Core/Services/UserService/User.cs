@@ -8,7 +8,7 @@ using VrLifeServer.Database;
 using VrLifeServer.Database.DbModels;
 using VrLifeServer.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core
+namespace VrLifeServer.Core.Services.UserService
 {
     struct Token : IEquatable<Token>
     {

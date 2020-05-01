@@ -4,7 +4,10 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
 using VrLifeServer.Core;
+using VrLifeServer.Core.Utils;
+using VrLifeServer.Database;
 using VrLifeServer.Logging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace VrLifeServer
 {
@@ -17,29 +20,31 @@ namespace VrLifeServer
         private static Config conf = null;
 
 
-        public static Config Conf { get => conf == null ? VrLifeServer.LoadConf() : conf; set => conf = value; }
-        public static ILogger Logger { get => VrLifeServer.Conf.Loggers; }
-
-
         public static int Main(string[] args)
         {
-            ulong memory = HwMonitor.GetTotalMemory();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
             // Config file loading
-            VrLifeServer.LoadConf();
-            if(VrLifeServer.Conf.IsMain)
+            Init();
+            conf.Loggers.Info("Logger has been initialized.");
+
+            if(conf.IsMain)
             {
+                conf.Loggers.Info("Configurating Main Server...");
                 MainServer server = new MainServer();
-                server.Init();
+                server.Init(conf);
+                conf.Loggers.Info("Starting Main Server...");
                 server.Start();
             }
             else
             {
+                conf.Loggers.Info("Configurating Computing Server...");
                 ComputingServer server = new ComputingServer();
-                server.Init();
+                server.Init(conf);
+                conf.Loggers.Info("Starting Computing Server...");
                 server.Start();
             }
+            conf.Loggers.Info("Server is running");
             while (true) {
                     Thread.Sleep(1000);    
             }
@@ -47,10 +52,16 @@ namespace VrLifeServer
 
         public static void Init()
         {
-            if(conf == null)
+            try
             {
-                LoadConf();
+                conf = LoadConf();
             }
+            catch(FormatException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
+            VrLifeDbContext.SetConfig(conf);
         }
 
         private static Config LoadConf()
@@ -58,14 +69,13 @@ namespace VrLifeServer
             string configPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 VrLifeServer.CONFIG_FILE);
-            VrLifeServer.Conf = Config.Init(configPath);
-            return VrLifeServer.Conf;
+            return Config.Init(configPath);
         }
 
         public static void OnProcessExit(object sender, EventArgs e)
         {
-            if (VrLifeServer.Conf == null) return;
-            VrLifeServer.Conf.Loggers.Dispose();
+            if (conf == null) return;
+            conf.Loggers.Dispose();
         }
 
     }

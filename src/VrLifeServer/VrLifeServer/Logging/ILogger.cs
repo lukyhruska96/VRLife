@@ -9,6 +9,7 @@ namespace VrLifeServer.Logging
         void Warn(String msg);
         void Debug(String msg);
         void Debug(Exception ex);
+        void SetDebug(bool status);
         
         ILogger Wrap(String className)
         {

@@ -9,5 +9,9 @@ namespace VrLifeServer
         public ServerException(string message) : base(message)
         {
         }
+
+        public ServerException(string message, Exception e) : base(message)
+        {
+        }
     }
 }
