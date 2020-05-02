@@ -18,7 +18,7 @@ namespace VrLifeServer.Core.Services.UserService
 
         public MainMessage HandleMessage(MainMessage msg)
         {
-            if(msg.MessageTypeCase != MainMessage.MessageTypeOneofCase.UserMsg)
+            if(msg.MessageTypeCase != MainMessage.MessageTypeOneofCase.UserMngMsg)
             {
                 _log.Error("Cannot handle this type of message.");
                 return ISystemService.CreateErrorMessage(0, 0, 0, 
