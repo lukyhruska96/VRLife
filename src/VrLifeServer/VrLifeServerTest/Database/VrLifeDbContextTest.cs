@@ -5,9 +5,11 @@ using Xunit;
 using VrLifeServer.Database;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Xunit.Extensions.Ordering;
 
 namespace VrLifeServerTest.Database
 {
+    [Order(1)]
     public class VrLifeDbContextTest : IDisposable
     {
 

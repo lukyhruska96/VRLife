@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Database\DbModels\" />
     <Folder Include="Applications\" />
     <Folder Include="Networking\NetworkingModels\" />
   </ItemGroup>

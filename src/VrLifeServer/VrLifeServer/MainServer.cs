@@ -16,6 +16,7 @@ using VrLifeServer.Core.Services.UserService;
 using VrLifeServer.Database;
 using VrLifeServer.Logging;
 using VrLifeServer.Networking;
+using VrLifeServer.Networking.Middlewares;
 using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer
@@ -68,7 +69,10 @@ namespace VrLifeServer
 
         private void PrepareListenner()
         {
-            udpListenner = new UDPNetworking<MainMessage>(_config.Address, (int)_config.UdpPort, this.MsgRouter);
+            var middlewares = new List<IMiddleware<MainMessage>>();
+            middlewares.Add(new MsgIdIncrement());
+            middlewares.Add(new ServerIdFiller());
+            udpListenner = new UDPNetworking<MainMessage>(_config.Address, (int)_config.UdpPort, this.MsgRouter, middlewares);
         }
 
         private void PrepareMainServices()
@@ -90,7 +94,7 @@ namespace VrLifeServer
             coreServices[(int)MainMessage.MessageTypeOneofCase.TickMsg] = sp.TickRate;
             coreServices[(int)MainMessage.MessageTypeOneofCase.EventMsg] = sp.Event;
             coreServices[(int)MainMessage.MessageTypeOneofCase.RoomMsg] = sp.Room;
-            coreServices[(int)MainMessage.MessageTypeOneofCase.UserMsg] = sp.User;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.UserMngMsg] = sp.User;
             coreServices[(int)MainMessage.MessageTypeOneofCase.AppMsg] = sp.App;
 
             // APIs

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using VrLifeServer.Core.Utils;
 using VrLifeServer.Networking.NetworkingModels;
@@ -46,6 +48,24 @@ namespace VrLifeServer.Core.Services.SystemService
             MainMessage msg = new MainMessage();
             msg.SystemMsg = sysMsg;
             return msg;
+        }
+
+        public static MainMessage CreateRedirectMessage(MainMessage recvMsg, long address, int port)
+        {
+            RedirectMsg redirectMsg = new RedirectMsg();
+            redirectMsg.Address = address;
+            redirectMsg.Port = port;
+            redirectMsg.ReceivedMsg =  ByteString.CopyFrom(recvMsg.ToByteArray());
+            SystemMsg sysMsg = new SystemMsg();
+            sysMsg.RedirectMsg = redirectMsg;
+            MainMessage msg = new MainMessage();
+            return msg;
+        }
+
+        public static MainMessage CreateRedirectMessage(MainMessage recvMsg, IPEndPoint ip)
+        {
+            return ISystemService.CreateRedirectMessage(recvMsg, 
+                BitConverter.ToInt64(ip.Address.GetAddressBytes(), 0), ip.Port);
         }
     }
 }

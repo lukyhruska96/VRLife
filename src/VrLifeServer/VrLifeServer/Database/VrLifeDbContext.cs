@@ -11,6 +11,10 @@ namespace VrLifeServer.Database
 
         public VrLifeDbContext()
         {
+            if(_conf == null)
+            {
+                VrLifeServer.Init();
+            }
             this.conn = _conf.Database;
         }
 
@@ -42,7 +46,13 @@ namespace VrLifeServer.Database
                     throw new ArgumentException("Unknown database type.");
             }
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>()
+                .HasIndex(x => x.Username)
+                .IsUnique();
+        }
 
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -1,116 +1,93 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using VrLifeServer.Database;
-using VrLifeServer.Database.DbModels;
-using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
-    struct Token : IEquatable<Token>
+    public class User
     {
+        private Database.DbModels.User _dbUser;
 
-        public string TokenString;
-        public DateTime ExpirationTime;
+        public ulong Id { get => _dbUser.UserId; }
+        public string Username { get => _dbUser.Username; }
 
-        public Token(double hours)
+        public User(Database.DbModels.User dbUser)
         {
-            this.TokenString = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            this.ExpirationTime = DateTime.Now.AddHours(hours);
-        }
-
-        public override bool Equals(Object obj)
-        {
-            return obj is Token && Equals((Token)obj);
-        }
-
-        public bool Equals([AllowNull] Token other)
-        {
-            return other.TokenString == this.TokenString && other.ExpirationTime == this.ExpirationTime;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public static bool operator ==(Token a, Token b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(Token a, Token b) 
-        {
-            return !a.Equals(b);
-        }
-    }
-
-    struct Credentials
-    {
-        public string username;
-        public string passphrase;
-    }
-    class User
-    {
-
-        public string Username { get => username; }
-        private string username;
-
-        public Token token;
-
-        private static ConcurrentDictionary<string, Token> authTokens = new ConcurrentDictionary<string, Token>();
-
-        private static Token? Auth(Credentials credentials)
-        {
-            using (var db = new VrLifeDbContext())
+            if(dbUser == null)
             {
-                var result = db.Accounts
-                    .Where(x => x.Username == credentials.username 
-                        && x.Passphrase == credentials.passphrase)
-                    .ToList();
-                if(result.Count == 0)
-                {
-                    return null;
-                }
-                return new Token(2.0);
+                throw new ArgumentNullException("Argumen 'dbUser' cannot be null.");
             }
+            this._dbUser = dbUser;
         }
 
-        private static bool IsAuthorized(string username, Token token)
+        public User(User user)
         {
-            return authTokens.ContainsKey(username) && authTokens[username] == token && authTokens[username].ExpirationTime > DateTime.Now;
-        }
-
-        private static Token? RefreshToken(string username, Token token)
-        {
-            if(!IsAuthorized(username, token))
+            if(user == null)
             {
-                return null;
+                throw new ArgumentNullException("Argument 'user' cannot be null.");
             }
-            Token newToken = new Token(2.0);
-            authTokens[username] = newToken;
-            return newToken;
+            this._dbUser = user._dbUser;
         }
 
-        private static void Register(string username, string passphrase)
+        public bool CheckPassword(string password)
         {
-            using (var db = new VrLifeDbContext())
+            return _dbUser.Passphrase == password;
+        }
+
+        public void ChangePassword(string oldPassword, string newPassword)
+        {
+            if(!CheckPassword(oldPassword))
             {
-                Account account = new Account();
-                account.Username = username;
-                account.Passphrase = passphrase;
-                db.Accounts.Add(account);
+                throw new UserException("Invalid old password.");
+            }
+            using(var db = new VrLifeDbContext())
+            {
+                db.Attach(this._dbUser);
+                _dbUser.Passphrase = newPassword;
                 db.SaveChanges();
             }
         }
 
-        public MainMessage HandleMsg(UserMsg msg)
+        public static User Register(string username, string passphrase)
         {
-            return null;
+            using (var db = new VrLifeDbContext())
+            {
+                Database.DbModels.User user = new Database.DbModels.User();
+                user.Username = username;
+                user.Passphrase = passphrase;
+                db.Users.Add(user);
+                db.SaveChanges();
+                return new User(user);
+            }
         }
 
+        public void Delete()
+        {
+            using (var db = new VrLifeDbContext())
+            {
+                db.Attach(this._dbUser);
+                db.Users.Remove(this._dbUser);
+                db.SaveChanges();
+            }
+        }
+
+        public static User Get(ulong userId)
+        {
+            using (var db = new VrLifeDbContext())
+            {
+                var dbUser = db.Users.SingleOrDefault(x => x.UserId == userId);
+                return dbUser == null ? null : new User(dbUser);
+            }
+        }
+
+        public static User Get(string username)
+        {
+            using (var db = new VrLifeDbContext())
+            {
+                var dbUser = db.Users.SingleOrDefault(x => x.Username == username);
+                return dbUser == null ? null : new User(dbUser);
+            }
+        }
     }
 }

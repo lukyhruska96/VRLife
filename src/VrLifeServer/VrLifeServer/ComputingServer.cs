@@ -13,6 +13,7 @@ using VrLifeServer.Networking;
 using VrLifeServer.Networking.NetworkingModels;
 using System.Linq;
 using VrLifeServer.Logging;
+using VrLifeServer.Networking.Middlewares;
 
 namespace VrLifeServer
 {
@@ -26,14 +27,18 @@ namespace VrLifeServer
         private ClosedAPI _closedAPI;
         private Config _config;
         private ILogger _log;
-        private uint serverId = 0;
+        private uint _serverId = 0;
+        private ServerIdFiller _serverIdFiller = new ServerIdFiller();
 
         public void Init(Config config)
         {
             this._config = config;
             this._log = new LoggerWrapper(this.GetType().Name, this._config.Loggers);
             this._log.Debug("Logger initialized.");
-            udpListenner = new UDPNetworking<MainMessage>(_config.Address, (int)_config.UdpPort, this.MsgRouter);
+            var middlewares = new List<IMiddleware<MainMessage>>();
+            middlewares.Add(new MsgIdIncrement());
+            middlewares.Add(_serverIdFiller);
+            udpListenner = new UDPNetworking<MainMessage>(_config.Address, (int)_config.UdpPort, this.MsgRouter, middlewares);
         }
 
         public void Start()
@@ -59,8 +64,9 @@ namespace VrLifeServer
             {
                 throw new ServerException(sysMsg.ErrorMsg.ErrorMsg_);
             }
-            serverId = msg.ServerId;
-            this._log.Info("Assigned ID: " + serverId.ToString());
+            _serverId = msg.ServerId;
+            _serverIdFiller.SetId(_serverId);
+            this._log.Info("Assigned ID: " + _serverId.ToString());
             this._log.Info("Preparing Services...");
 
             ServiceProvider sp = new ServiceProvider(
@@ -80,7 +86,7 @@ namespace VrLifeServer
             coreServices[(int)MainMessage.MessageTypeOneofCase.TickMsg] = sp.TickRate;
             coreServices[(int)MainMessage.MessageTypeOneofCase.EventMsg] = sp.Event;
             coreServices[(int)MainMessage.MessageTypeOneofCase.RoomMsg] = sp.Room;
-            coreServices[(int)MainMessage.MessageTypeOneofCase.UserMsg] = sp.User;
+            coreServices[(int)MainMessage.MessageTypeOneofCase.UserMngMsg] = sp.User;
             coreServices[(int)MainMessage.MessageTypeOneofCase.AppMsg] = sp.App;
 
             // APIs
@@ -107,7 +113,6 @@ namespace VrLifeServer
                     response = ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
                     break;
             }
-            response.ServerId = serverId;
             return response;
         }
     }

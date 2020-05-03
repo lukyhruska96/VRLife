@@ -19,7 +19,6 @@ namespace VrLifeServer
 
         private static Config conf = null;
 
-
         public static int Main(string[] args)
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -28,7 +27,7 @@ namespace VrLifeServer
             Init();
             conf.Loggers.Info("Logger has been initialized.");
 
-            if(conf.IsMain)
+            if (conf.IsMain)
             {
                 conf.Loggers.Info("Configurating Main Server...");
                 MainServer server = new MainServer();

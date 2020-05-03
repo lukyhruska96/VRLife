@@ -1,8 +1,10 @@
 ﻿using Google.Protobuf;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using VrLifeServer.Networking.Middlewares;
 
 namespace VrLifeServer.Networking
 {
@@ -15,20 +17,24 @@ namespace VrLifeServer.Networking
         public UdpClient Socket;
         public Func<T, T> MsgHandler;
         public MessageParser<T> MsgParser;
+        public List<IMiddleware<T>> Middlewares;
     }
 
     public class UDPNetworking<T> : INetworking<T> where T: IMessage<T>, new()
     {
         private UdpClient socket;
         private UDPSocketState<T> socketState = new UDPSocketState<T>();
+        private List<IMiddleware<T>> _middlewares;
 
-        public UDPNetworking(IPAddress ipAddress, int port, Func<T, T> msgHandler)
+        public UDPNetworking(IPAddress ipAddress, int port, Func<T, T> msgHandler, List<IMiddleware<T>> middlewares)
         {
+            this._middlewares = middlewares;
             IPEndPoint endpoint = new IPEndPoint(ipAddress, port);
             this.socket = new UdpClient(endpoint);
             this.socketState.Socket = socket;
             this.socketState.MsgHandler = msgHandler;
             this.socketState.MsgParser = new MessageParser<T>(() => new T());
+            this.socketState.Middlewares = middlewares;
         }
 
         public void StartListening()
@@ -48,6 +54,9 @@ namespace VrLifeServer.Networking
 
             //handle received message and send response
             T msg = state.MsgParser.ParseFrom(message);
+            foreach (IMiddleware<T> middleware in state.Middlewares) {
+                msg = middleware.TransformInputMsg(msg);
+            }
             T response = state.MsgHandler(msg);
             byte[] rawResponse = response.ToByteArray();
             socket.Send(rawResponse, rawResponse.Length, source);
@@ -59,6 +68,10 @@ namespace VrLifeServer.Networking
             {
                 try
                 {
+                    foreach(IMiddleware<T> middleware in this._middlewares)
+                    {
+                        req = middleware.TransformOutputMsg(req);
+                    }
                     UdpClient socket = new UdpClient();
                     socket.Client.ReceiveTimeout = 5000;
                     socket.Client.SendTimeout = 5000;

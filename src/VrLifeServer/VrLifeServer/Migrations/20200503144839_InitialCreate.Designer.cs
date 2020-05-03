@@ -8,7 +8,7 @@ using VrLifeServer.Database;
 namespace VrLifeServer.Migrations
 {
     [DbContext(typeof(VrLifeDbContext))]
-    [Migration("20200420134711_InitialCreate")]
+    [Migration("20200503144839_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,17 +18,21 @@ namespace VrLifeServer.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("VrLifeServer.Database.DbModels.Account", b =>
+            modelBuilder.Entity("VrLifeServer.Database.DbModels.User", b =>
                 {
-                    b.Property<string>("Username")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                    b.Property<ulong>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("Passphrase")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.ToTable("Accounts");
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

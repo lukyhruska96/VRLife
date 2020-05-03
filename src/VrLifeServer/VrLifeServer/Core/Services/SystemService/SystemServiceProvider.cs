@@ -45,6 +45,9 @@ namespace VrLifeServer.Core.Services.SystemService
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
+            // empty object to fill 0 index
+            this.computingServers.Clear();
+            this.computingServers.Add(new ComputingServer());
             this._log.Debug("Loger initialized.");
         }
 

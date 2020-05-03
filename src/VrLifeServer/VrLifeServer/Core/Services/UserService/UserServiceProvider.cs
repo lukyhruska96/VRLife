@@ -11,10 +11,13 @@ using VrLifeServer.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
+
     class UserServiceProvider : IUserService
     {
         private ClosedAPI _api;
         private ILogger _log;
+
+        private List<User> _clientMachines = new List<User>();
 
         public MainMessage HandleMessage(MainMessage msg)
         {
@@ -25,7 +28,7 @@ namespace VrLifeServer.Core.Services.UserService
                     this.GetType().Name + ": Cannot handle this type of message.");
             }
             UserMngMsg userMngMsg = msg.UserMngMsg;
-            switch(userMngMsg.UserMngMsgTypeCase)
+            switch (userMngMsg.UserMngMsgTypeCase)
             {
                 case UserMngMsg.UserMngMsgTypeOneofCase.AuthMsg:
                     return HandleAuthMsg(msg);
@@ -41,6 +44,9 @@ namespace VrLifeServer.Core.Services.UserService
         {
             this._api = api;
             _log = api.OpenAPI.CreateLogger(this.GetType().Name);
+            // empty object to fill 0 index
+            _clientMachines.Clear();
+            _clientMachines.Add(null);
         }
 
         private MainMessage HandleAuthMsg(MainMessage msg)
@@ -50,39 +56,40 @@ namespace VrLifeServer.Core.Services.UserService
             string username = authMsg.Username;
             string password = authMsg.Password;
 
-            // TODO !!!
-            // Even client have to send hi msg first to obtain clientId.
-            // After identification of device, the client can send authorization message.
-
-            if (msg.ClientId == 0)
-            {
-                _log.Debug("Client does not have ID. Send Hi msg first.");
+            User user = User.Get(username);
+            if(user == null) 
+            { 
+                _log.Debug("Could not find user with this username.");
                 return ISystemService.CreateErrorMessage(0, 0, 0,
-                    "Client does not have ID. Send Hi msg first.");
+                    "Could not find user with this username.");
             }
-
-            using (var context = new VrLifeDbContext())
+            if(!user.CheckPassword(password))
             {
-                Account acc = context.Accounts.Single(x => x.Username == username);
-                if(acc == null)
-                {
-                    _log.Debug("Could not find user with this username.");
-                    return ISystemService.CreateErrorMessage(0, 0, 0,
-                        "Could not find user with this username.");
-                }
-                if(acc.Passphrase != password)
-                {
-                    _log.Debug("Invalid password.");
-                    return ISystemService.CreateErrorMessage(0, 0, 0,
-                        "Invalid password.");
-                }
-                return ISystemService.CreateOkMessage(msg.MsgId);
+                _log.Debug("Invalid password.");
+                return ISystemService.CreateErrorMessage(0, 0, 0,
+                    "Invalid password.");
             }
+            MainMessage response = ISystemService.CreateOkMessage(msg.MsgId);
+
+            // clientId == 0 --> unsassigned ID
+            if(msg.ClientId != 0 && msg.ClientId < _clientMachines.Count)
+            {
+                _clientMachines[(int)msg.ClientId] = user;
+                response.ClientId = msg.ClientId;
+            }
+            else
+            {
+                response.ClientId = (uint)_clientMachines.Count;
+                _clientMachines.Add(user);
+            }
+            return response;
         }
 
         private MainMessage HandleUserMsg(MainMessage msg)
         {
-
+            _log.Error("This server does not handle UserMsg.");
+            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, 
+                "This server does not handle UserMsg.");
         }
     }
 }
