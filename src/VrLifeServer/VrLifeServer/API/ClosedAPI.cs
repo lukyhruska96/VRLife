@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.API
 {
     class ClosedAPI
     {
-        public OpenAPI OpenAPI { get => _openApi; }
         private OpenAPI _openApi;
+        public OpenAPI OpenAPI { get => _openApi; }
 
         private ServiceProvider _services;
         public ServiceProvider Services { get => _services; }

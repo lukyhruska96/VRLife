@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+package VrLifeShared.Networking.NetworkingModels;
+
+message EventMsg { // Event message from client to server
+	uint32 roomId = 1;
+	uint32 eventType = 2;
+	oneof ValueType {
+		uint32 intValue = 3;
+		float floatValue = 4;
+		bytes customValue = 5;
+	}
+	oneof AppType {
+		uint32 instanceId = 6; // Nullable<uint>
+	}
+}

@@ -9,11 +9,11 @@ using VrLifeServer.Core.Services.SystemService;
 using VrLifeServer.Core.Services.TickRateService;
 using VrLifeServer.Core.Services.UserService;
 using VrLifeServer.Core.Services.AppService;
-using VrLifeServer.Networking;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Networking;
+using VrLifeShared.Networking.NetworkingModels;
 using System.Linq;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking.Middlewares;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking.Middlewares;
 
 namespace VrLifeServer
 {

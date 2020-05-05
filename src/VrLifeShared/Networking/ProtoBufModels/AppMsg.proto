@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+package VrLifeShared.Networking.NetworkingModels;
+
+message AppMsg { // the simplest message with data for specific app by its ID
+	uint64 appId = 1;
+	bytes data = 2;
+}
