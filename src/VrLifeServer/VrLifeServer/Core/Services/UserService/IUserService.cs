@@ -6,5 +6,6 @@ namespace VrLifeServer.Core.Services.UserService
 {
     interface IUserService : IService
     {
+        ulong GetUserId(uint clientId);
     }
 }

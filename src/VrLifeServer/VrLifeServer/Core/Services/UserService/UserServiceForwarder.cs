@@ -4,8 +4,8 @@ using System.Net;
 using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.Core.Services.SystemService;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
@@ -13,15 +13,15 @@ namespace VrLifeServer.Core.Services.UserService
     {
         private ClosedAPI _api;
         private ILogger _log;
+
+        public ulong GetUserId(uint clientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public MainMessage HandleMessage(MainMessage msg)
         {
-            if (msg.MessageTypeCase != MainMessage.MessageTypeOneofCase.UserMngMsg)
-            {
-                _log.Error("Cannot handle this type of message.");
-                return ISystemService.CreateErrorMessage(0, 0, 0,
-                    this.GetType().Name + ": Cannot handle this type of message.");
-            }
-            return ISystemService.CreateRedirectMessage(msg, _api.OpenAPI.Conf.MainServer);
+            return ISystemService.CreateRedirectMessage(msg, _api.OpenAPI.Config.MainServer);
         }
 
         public void Init(ClosedAPI api)

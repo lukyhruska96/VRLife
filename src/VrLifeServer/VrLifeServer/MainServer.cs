@@ -14,10 +14,10 @@ using VrLifeServer.Core.Services.SystemService;
 using VrLifeServer.Core.Services.TickRateService;
 using VrLifeServer.Core.Services.UserService;
 using VrLifeServer.Database;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking;
-using VrLifeServer.Networking.Middlewares;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking;
+using VrLifeShared.Networking.Middlewares;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer
 {

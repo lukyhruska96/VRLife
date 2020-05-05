@@ -1,0 +1,49 @@
+﻿syntax = "proto3";
+package VrLifeShared.Networking.NetworkingModels;
+
+
+message SystemMsg {
+	oneof SystemMsgType {
+		OkMsg okMsg = 1;
+		ErrorMsg errorMsg = 2;
+		HiMsg hiMsg = 3;
+		RedirectMsg redirectMsg = 4;
+		StatMsg statMsg = 5;
+		RoomMigrationMsg roomMigrationMsg = 6;
+	}
+}
+
+message OkMsg {
+	uint64 msgId = 1; // confirmed message ID
+}
+
+message ErrorMsg {
+	uint64 msgId = 1;
+	uint32 errorType = 2;
+	uint32 errorCode = 3;
+	string errorMsg = 4;
+}
+
+message HiMsg {
+	uint32 threads = 1; // number of machine's threads
+	uint64 memory = 2; // number of RAM in bytes
+	string version = 3; // server version
+}
+
+message RedirectMsg {	// redirection to server which takes care of this client
+	sfixed64 address = 1;	
+	int32 port = 2;
+	bytes receivedMsg = 3;	// message which server received from client
+}
+
+message StatMsg {
+	uint32 cpuUsage = 1;	// percentage usage of CPU
+	uint64 memoryUsed = 2;	// used RAM of machine in bytes
+	uint64 memoryTotal = 3;	// total available RAM in machine
+	uint32 rooms = 4;	// number of running rooms on machine
+}
+message RoomMigrationMsg { // migration message to another server
+	sfixed64 md5sumH = 1;
+	sfixed64 md5sumL = 2;
+
+}

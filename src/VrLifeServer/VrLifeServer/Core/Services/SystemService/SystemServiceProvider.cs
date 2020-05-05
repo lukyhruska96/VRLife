@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VrLifeServer.API;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.SystemService
 {

@@ -6,7 +6,7 @@ using System.Threading;
 using VrLifeServer.Core;
 using VrLifeServer.Core.Utils;
 using VrLifeServer.Database;
-using VrLifeServer.Logging;
+using VrLifeShared.Logging;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace VrLifeServer

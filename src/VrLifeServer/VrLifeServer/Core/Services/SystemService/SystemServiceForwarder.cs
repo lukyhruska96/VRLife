@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using VrLifeServer.API;
 using VrLifeServer.Core.Utils;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.SystemService
 {
@@ -64,7 +64,7 @@ namespace VrLifeServer.Core.Services.SystemService
                     msg.SystemMsg = sysMsg;
                     Thread.Sleep((int)STATS_INTERVAL_MS);
 
-                    _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Conf.MainServer, (_) => { }, (err) => {
+                    _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer, (_) => { }, (err) => {
                         _log.Error("There was an error during status sending to Main Server.");
                         Environment.Exit(1);
                     });

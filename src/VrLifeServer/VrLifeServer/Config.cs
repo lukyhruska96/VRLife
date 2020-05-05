@@ -6,7 +6,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VrLifeServer.Database;
-using VrLifeServer.Logging;
+using VrLifeShared.Logging;
 
 namespace VrLifeServer
 {
@@ -21,17 +21,14 @@ namespace VrLifeServer
         public uint UdpPort { get => udpport; }
         private uint udpport;
 
-        public List<Applications.StatisticsConf> StatisticsConf { get; } = new
-            List<Applications.StatisticsConf>();
+        public List<Core.StatisticsConf> StatisticsConf { get; } = new
+            List<Core.StatisticsConf>();
 
         public bool IsMain { get => isMain; }
         private bool isMain;
 
         public IPEndPoint MainServer { get => mainServer; }
         private IPEndPoint mainServer;
-
-        public IPEndPoint Forward { get => forward; }
-        private IPEndPoint forward;
 
         public ILogger Loggers { get => loggers; }
         private LoggersContainer loggers = new LoggersContainer();
@@ -70,14 +67,14 @@ namespace VrLifeServer
             return tmp;
         }
 
-        private static Applications.StatisticsConf ParseStatistics(JObject obj)
+        private static Core.StatisticsConf ParseStatistics(JObject obj)
         {
             if (!obj.ContainsKey("type"))
             {
                 throw new FormatException("'type' field not found.");
             }
             string type = obj["type"].Value<string>().ToLower();
-            if (Array.IndexOf(Applications.Statistics.SUPPORTED_TYPES, type)
+            if (Array.IndexOf(Core.Statistics.SUPPORTED_TYPES, type)
                 == -1)
             {
                 throw new FormatException("'type' field could not be found in list of supported types.");
@@ -100,7 +97,7 @@ namespace VrLifeServer
             {
                 throw new FormatException("'port' field could not be parsed.");
             }
-            return new Applications.StatisticsConf(type, address, (uint)port);
+            return new Core.StatisticsConf(type, address, (uint)port);
         }
 
         private static IPEndPoint ParseEndPoint(string str)

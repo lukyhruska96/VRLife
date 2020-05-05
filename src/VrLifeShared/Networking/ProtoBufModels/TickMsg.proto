@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+package VrLifeShared.Networking.NetworkingModels;
+
+message TickMsg { // Tick information for client
+	repeated Person persons = 1;
+}
+
+message Person {
+	uint64 userId = 1;
+	Coord head = 2;
+	Coord neck = 3;
+	Coord hip = 4;
+	Coord leftHand1 = 5;
+	Coord leftHand2 = 6;
+	Coord rightHand1 = 7;
+	Coord rightHand2 = 8;
+	Coord leftLeg1 = 9;
+	Coord leftLeg2 = 10;
+	Coord rightLeg1 = 11;
+	Coord rightLeg2 = 12;
+}
+
+message Coord {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}

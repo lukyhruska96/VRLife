@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VrLifeServer.Logging;
-using VrLifeServer.Networking;
-using VrLifeServer.Networking.NetworkingModels;
+using VrLifeShared.Logging;
+using VrLifeShared.Networking;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.API
 {
@@ -11,7 +11,7 @@ namespace VrLifeServer.API
     {
         public UDPNetworking<MainMessage> Networking { get => _udpNetworking; }
         private UDPNetworking<MainMessage> _udpNetworking;
-        public Config Conf { get => _config; }
+        public Config Config { get => _config; }
         private Config _config;
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
