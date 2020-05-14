@@ -73,32 +73,37 @@ namespace VrLifeShared.Networking
             socket.Send(rawResponse, rawResponse.Length, source);
         }
 
-        public void Send(T req, IPEndPoint address, Action<T> callback, Action<Exception> err = null)
+        public void SendAsync(T req, IPEndPoint address, Action<T> callback, Action<Exception> err = null)
         {
             Task.Run(() =>
             {
-                try
-                {
-                    foreach(IMiddleware<T> middleware in this._middlewares)
-                    {
-                        req = middleware.TransformOutputMsg(req);
-                    }
-                    UdpClient socket = new UdpClient();
-                    socket.Client.ReceiveTimeout = 5000;
-                    socket.Client.SendTimeout = 5000;
-                    byte[] data = req.ToByteArray();
-                    socket.Send(data, data.Length, address);
-                    byte[] response = socket.Receive(ref address);
-                    MessageParser<T> parser = new MessageParser<T>(() => new T());
-                    socket.Close();
-                    T parsedResponse = parser.ParseFrom(response);
-                    callback(parsedResponse);
+            try
+            {
+                    callback(Send(req, address));
                 }
                 catch(Exception e)
                 {
                     err?.Invoke(e);
                 }
             });
+        }
+
+        public T Send(T req, IPEndPoint address)
+        {
+            foreach (IMiddleware<T> middleware in this._middlewares)
+            {
+                req = middleware.TransformOutputMsg(req);
+            }
+            UdpClient socket = new UdpClient();
+            socket.Client.ReceiveTimeout = 5000;
+            socket.Client.SendTimeout = 5000;
+            byte[] data = req.ToByteArray();
+            socket.Send(data, data.Length, address);
+            byte[] response = socket.Receive(ref address);
+            MessageParser<T> parser = new MessageParser<T>(() => new T());
+            socket.Close();
+            T parsedResponse = parser.ParseFrom(response);
+            return parsedResponse;
         }
     }
 }

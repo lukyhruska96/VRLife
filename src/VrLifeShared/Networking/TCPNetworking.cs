@@ -14,7 +14,12 @@ namespace VrLifeShared.Networking
     public class TCPNetworking<T> : INetworking<T> where T : IMessage<T>
     {
 
-        public void Send(T req, IPEndPoint address, Action<T> callback, Action<Exception> err)
+        public void SendAsync(T req, IPEndPoint address, Action<T> callback, Action<Exception> err)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Send(T req, IPEndPoint address)
         {
             throw new NotImplementedException();
         }

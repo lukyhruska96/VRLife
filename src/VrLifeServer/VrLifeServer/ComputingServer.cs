@@ -46,7 +46,7 @@ namespace VrLifeServer
             this._log.Debug("In method Start().");
             // say hi
             this._log.Info("Contacting Main Server...");
-            udpListenner.Send(ISystemService.CreateHelloMessage(),
+            udpListenner.SendAsync(ISystemService.CreateHelloMessage(),
                 _config.MainServer,
                 this.AfterFirstResponse,
                 (e) =>

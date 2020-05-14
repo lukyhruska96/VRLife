@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,9 +87,57 @@ namespace VrLifeServer.Core.Services.UserService
 
         private MainMessage HandleUserMsg(MainMessage msg)
         {
-            _log.Error("This server does not handle UserMsg.");
-            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, 
-                "This server does not handle UserMsg.");
+            UserMsg userMsg = msg.UserMngMsg.UserMsg;
+            switch(userMsg.UserMsgTypeCase)
+            {
+                case UserMsg.UserMsgTypeOneofCase.UserRequestMsg:
+                    return HandleUserMsg(msg);
+                case UserMsg.UserMsgTypeOneofCase.UserDetailMsg:
+                    return HandleUserDetail(msg);
+                case UserMsg.UserMsgTypeOneofCase.UserListMsg:
+                    return HandleUserList(msg);
+                default:
+                    return ISystemService.CreateErrorMessage(0, 0, 0,
+                        this.GetType().Name + ": Cannot handle this type of message.");
+            }
+        }
+
+        private MainMessage HandleUserRequest(MainMessage msg)
+        {
+            UserRequestMsg userRequest = msg.UserMngMsg.UserMsg.UserRequestMsg;
+            switch(userRequest.UserRequestTypeCase)
+            {
+                case UserRequestMsg.UserRequestTypeOneofCase.CreateQuery:
+                    User user;
+                    try
+                    {
+                        user = User.Register(userRequest.CreateQuery.Username, userRequest.CreateQuery.Password);
+                    }
+                    catch (Exception ex) 
+                    {
+                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, ex.Message);
+                    }
+                    UserMsg userMsg = new UserMsg();
+                    userMsg.UserDetailMsg = user.ToMessage();
+                    UserMngMsg userMngMsg = new UserMngMsg();
+                    userMngMsg.UserMsg = userMsg;
+                    MainMessage response = new MainMessage();
+                    response.UserMngMsg = userMngMsg;
+                    return response;
+                    //TODO
+                    
+            }
+            return null;
+        }
+
+        private MainMessage HandleUserDetail(MainMessage msg)
+        {
+            return null;
+        }
+
+        private MainMessage HandleUserList(MainMessage msg)
+        {
+            return null;
         }
     }
 }

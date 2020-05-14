@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VrLifeServer.Core.Services.EventService
+namespace VrLifeShared.Core.Services.EventService
 {
     class EventType
     {

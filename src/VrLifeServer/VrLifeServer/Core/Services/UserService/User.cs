@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using VrLifeServer.Database;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
@@ -88,6 +89,15 @@ namespace VrLifeServer.Core.Services.UserService
                 var dbUser = db.Users.SingleOrDefault(x => x.Username == username);
                 return dbUser == null ? null : new User(dbUser);
             }
+        }
+
+        public UserDetailMsg ToMessage()
+        {
+            UserDetailMsg userDetails = new UserDetailMsg();
+            userDetails.UserId = Id;
+            userDetails.Username = Username;
+
+            return userDetails;
         }
     }
 }

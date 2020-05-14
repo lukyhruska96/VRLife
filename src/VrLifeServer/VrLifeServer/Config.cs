@@ -204,7 +204,6 @@ namespace VrLifeServer
 
         public static Config Parse(string text)
         {
-            Config conf = new Config();
             JObject obj;
             try
             {
@@ -215,8 +214,15 @@ namespace VrLifeServer
                 throw new FormatException("Config file could not be parsed as JSON file.");
             }
 
+            return Parse(obj);
+        }
+
+        public static Config Parse(JObject obj)
+        {
+            Config conf = new Config();
+
             #region debug field
-            if(!obj.ContainsKey("debug"))
+            if (!obj.ContainsKey("debug"))
             {
                 conf.debug = false;
             }
@@ -266,14 +272,13 @@ namespace VrLifeServer
             #endregion
 
             #region statistics field
-            if (!obj.ContainsKey("statistics"))
+            if (obj.ContainsKey("statistics"))
             {
-                throw new FormatException("'statistics' field not found.");
-            }
-            JArray arr = obj["statistics"].Value<JArray>();
-            foreach (JObject each in arr)
-            {
-                conf.StatisticsConf.Add(ParseStatistics(each));
+                JArray arr = obj["statistics"].Value<JArray>();
+                foreach (JObject each in arr)
+                {
+                    conf.StatisticsConf.Add(ParseStatistics(each));
+                }
             }
             #endregion
 

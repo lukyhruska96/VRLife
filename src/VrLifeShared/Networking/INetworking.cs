@@ -7,7 +7,8 @@ namespace VrLifeShared.Networking
 {
     public interface INetworking<T>
     {
-        void Send(T req, IPEndPoint address, Action<T> callback, Action<Exception> err);
+        void SendAsync(T req, IPEndPoint address, Action<T> callback, Action<Exception> err);
+        T Send(T req, IPEndPoint address);
         void StartListening();
     }
 }

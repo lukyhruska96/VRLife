@@ -26,7 +26,7 @@ namespace VrLifeShared.Networking.Middlewares
                 var t = new TaskCompletionSource<MainMessage>();
                 RedirectMsg redirectMsg = msg.SystemMsg.RedirectMsg;
                 MainMessage toSend = MainMessage.Parser.ParseFrom(redirectMsg.ReceivedMsg.ToByteArray());
-                _networking.Send(toSend, new IPEndPoint(redirectMsg.Address, redirectMsg.Port), 
+                _networking.SendAsync(toSend, new IPEndPoint(redirectMsg.Address, redirectMsg.Port), 
                     (x) => t.SetResult(x), (x) => t.SetResult(msg));
                 t.Task.Wait();
                 return t.Task.Result;

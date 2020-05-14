@@ -63,30 +63,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Config.cs" />
     <Compile Include="Assets\Scripts\API\ClosedAPI.cs" />
+    <Compile Include="Assets\Scripts\API\MiddlewareProvider.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI.cs" />
+    <Compile Include="Assets\Scripts\API\ServiceProvider.cs" />
+    <Compile Include="Assets\Scripts\Config.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\IServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\RoomService\Room.cs" />
     <Compile Include="Assets\Scripts\Core\Services\RoomService\RoomServiceClient.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\ServiceCallback.cs" />
     <Compile Include="Assets\Scripts\Core\Services\SystemService\SystemServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\TickRateService\TickRateServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\UserService\UserException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\UserService\UserServiceClient.cs" />
-    <Compile Include="Assets\Scripts\Init.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Init.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Login.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\MenuEventSystem.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Register.cs" />
+    <Compile Include="Assets\Scripts\VrLifeClient.cs" />
     <None Include="Assets\Packages\System.Buffers.4.4.0\useSharedDesignerContext.txt" />
     <None Include="Assets\Packages\System.Buffers.4.4.0\version.txt" />
     <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.5.2\version.txt" />
+    <None Include="Assets\Packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.xml" />
     <None Include="Assets\Packages\System.Numerics.Vectors.4.4.0\lib\netstandard2.0\System.Numerics.Vectors.xml" />
-    <None Include="Assets\Packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.xml" />
+    <None Include="Assets\Packages\System.Collections.Immutable.1.7.0\lib\netstandard2.0\System.Collections.Immutable.xml" />
     <None Include="Assets\Packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.xml" />
     <None Include="Assets\Packages\System.Numerics.Vectors.4.4.0\useSharedDesignerContext.txt" />
     <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.5.2\useSharedDesignerContext.txt" />
     <None Include="Assets\Packages\Google.Protobuf.3.11.4\lib\netstandard2.0\Google.Protobuf.xml" />
-    <None Include="Assets\Packages\System.Memory.4.5.2\useSharedDesignerContext.txt" />
-    <None Include="Assets\Packages\System.Memory.4.5.2\version.txt" />
+    <None Include="Assets\Packages\System.Memory.4.5.3\useSharedDesignerContext.txt" />
+    <None Include="Assets\Packages\System.Collections.Immutable.1.7.0\useSharedDesignerContext.txt" />
+    <None Include="Assets\Packages\System.Collections.Immutable.1.7.0\version.txt" />
+    <None Include="Assets\Packages\System.Memory.4.5.3\version.txt" />
     <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.xml" />
     <None Include="Assets\Packages\System.Numerics.Vectors.4.4.0\version.txt" />
     <Reference Include="UnityEngine">
@@ -275,20 +285,23 @@
     <Reference Include="VrLifeShared">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Libraries/VrLifeShared.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/Google.Protobuf.3.11.4/lib/netstandard2.0/Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Collections.Immutable.1.7.0/lib/netstandard2.0/System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Memory.4.5.3/lib/netstandard2.0/System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics.Vectors">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Numerics.Vectors.4.4.0/lib/netstandard2.0/System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Runtime.CompilerServices.Unsafe.4.5.2/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Memory.4.5.2/lib/netstandard2.0/System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Protobuf">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/Google.Protobuf.3.11.4/lib/netstandard2.0/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
