@@ -93,6 +93,7 @@ namespace VrLifeServer
             JObject mainConf = new JObject();
             mainConf["debug"] = true;
             mainConf["listen"] = "0.0.0.0";
+            mainConf["serverAddress"] = "127.0.0.1";
             mainConf["tcp-port"] = 8765;
             mainConf["udp-port"] = 8766;
             mainConf["main"] = true;
@@ -116,6 +117,7 @@ namespace VrLifeServer
             JObject compConf = new JObject();
             compConf["debug"] = true;
             compConf["listen"] = "0.0.0.0";
+            compConf["serverAddress"] = "127.0.0.1";
             compConf["tcp-port"] = 8865;
             compConf["udp-port"] = 8866;
             compConf["main"] = false;
@@ -132,13 +134,13 @@ namespace VrLifeServer
             Config compConfig = Config.Parse(compConf);
             VrLifeDbContext.SetConfig(mainConfig);
 
-            MainServer mainServer = new MainServer();
-            mainServer.Init(mainConfig);
-            mainServer.Start();
+            ProviderServer providerServer = new ProviderServer();
+            providerServer.Init(mainConfig);
+            providerServer.Start();
 
-            ComputingServer compServer = new ComputingServer();
-            compServer.Init(compConfig);
-            compServer.Start();
+            ForwarderServer forwarderServer = new ForwarderServer();
+            forwarderServer.Init(compConfig);
+            forwarderServer.Start();
 
         }
 

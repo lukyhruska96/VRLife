@@ -7,44 +7,53 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Core.Services
 {
-    class ServiceCallback
+    public class ErrorUnityEvent : UnityEvent<Exception> { }
+
+    class ServiceCallback<T>
     {
-        private Action _action;
-        private UnityEvent _succ = null;
-        private UnityEvent<Exception> _err = null;
-        public ServiceCallback(Action action)
+        private Func<T> _func;
+        private UnityEvent<T> _succ = null;
+        private ErrorUnityEvent _err = null;
+        public ServiceCallback(Func<T> func)
         {
-            this._action = action;
+            this._func = func;
         }
 
-        public ServiceCallback SetSucc(UnityEvent succ)
+        public ServiceCallback<T> SetSucc(UnityEvent<T> succ)
         {
             this._succ = succ;
             return this;
         }
 
-        public ServiceCallback SetErr(UnityEvent<Exception> err)
+        public ServiceCallback<T> SetErr(ErrorUnityEvent err)
         {
             this._err = err;
             return this;
         }
 
-        public ServiceCallback Exec()
+        public T Wait()
+        {
+            return _func.Invoke();
+        }
+
+        public ServiceCallback<T> Exec()
         {
             Task.Run(() =>
             {
+                T val;
                 try
                 {
-                    _action.Invoke();
+                    val = _func.Invoke();
                 }
                 catch (Exception ex)
                 {
                     _err?.Invoke(ex);
                     return;
                 }
-                _succ?.Invoke();
+                _succ?.Invoke(val);
             });
             return this;
         }
+
     }
 }

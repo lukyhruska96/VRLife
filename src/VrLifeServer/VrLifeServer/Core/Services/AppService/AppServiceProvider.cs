@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VrLifeServer.API;
+using VrLifeServer.API.Provider;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.AppService
 {
-    class AppServiceProvider : IAppService
+    class AppServiceProvider : IAppServiceProvider
     {
         public MainMessage HandleEvent(EventMsg msg, ulong userId, uint instanceId)
         {

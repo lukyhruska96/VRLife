@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.API;
+using Assets.Scripts.API.OpenAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +19,21 @@ namespace VrLifeClient.API
         public Config Config { get => _config; }
         private Config _config;
 
-        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
+        public UserAPI User { get => _user; }
+        private UserAPI _user;
+
+        public RoomAPI Room { get => _room; }
+        private RoomAPI _room;
+
+        private ServiceProvider _serviceProvider;
+
+        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config, ServiceProvider serviceProvider)
         {
             this._udpNetworking = udpNetworking;
             this._config = config;
+            this._serviceProvider = serviceProvider;
+            this._user = new UserAPI(serviceProvider.User);
+            this._room = new RoomAPI(serviceProvider.Room);
         }
 
         public ILogger CreateLogger(string className)

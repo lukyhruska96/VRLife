@@ -23,6 +23,7 @@ namespace VrLifeClient.API
             this._openApi = openAPI;
             this._serviceProvider = serviceProvider;
             this._middlewareProvider = middlewareProvider;
+            this._middlewareProvider.RedirectMsgHandler.SetListenner(OpenAPI.Networking);
         }
     }
 }

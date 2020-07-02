@@ -12,8 +12,11 @@ namespace VrLifeServer
 {
     public class Config : IDisposable
     {
-        public IPAddress Address { get => address; }
-        private IPAddress address;
+        public IPAddress Listen { get => listen; }
+        private IPAddress listen;
+
+        public IPAddress ServerAddress { get => serverAddress; }
+        private IPAddress serverAddress;
 
         public uint TcpPort { get => tcpport; }
         private uint tcpport;
@@ -237,12 +240,20 @@ namespace VrLifeServer
             {
                 throw new FormatException("'listen' field not found.");
             }
-            conf.address = ParseAddress(obj["listen"].Value<string>());
+            conf.listen = ParseAddress(obj["listen"].Value<string>());
 
-            if (conf.address == null)
+            if (conf.listen == null)
             {
                 throw new FormatException("'listen' field could not be parsed.");
             }
+            #endregion
+
+            #region serverAddress field
+            if (!obj.ContainsKey("serverAddress"))
+            {
+                throw new FormatException("'serverAddress' field not found.");
+            }
+            conf.serverAddress = IPAddress.Parse(obj["serverAddress"].Value<string>());
             #endregion
 
             #region tcp-port field

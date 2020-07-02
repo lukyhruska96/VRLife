@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using VrLifeServer.API;
+using VrLifeServer.API.Forwarder;
 using VrLifeServer.Core.Utils;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.SystemService
 {
-    class SystemServiceForwarder : ISystemService
+    class SystemServiceForwarder : ISystemServiceForwarder
     {
         private const long STATS_INTERVAL_MS = 1000;
 
@@ -72,6 +73,16 @@ namespace VrLifeServer.Core.Services.SystemService
             }, TaskCreationOptions.LongRunning);
             calculationT.Start();
             sendingT.Start();
+        }
+
+        public MainMessage CreateHelloMessage()
+        {
+            return ISystemService.CreateHelloMessage(_api.OpenAPI.Config);
+        }
+
+        public IPEndPoint GetAddressById(uint serverId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

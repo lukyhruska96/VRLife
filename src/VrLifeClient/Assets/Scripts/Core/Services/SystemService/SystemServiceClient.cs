@@ -8,6 +8,8 @@ namespace VrLifeClient.Core.Services.SystemService
 {
     class SystemServiceClient : IServiceClient
     {
+        private ClosedAPI _api;
+
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
@@ -15,7 +17,12 @@ namespace VrLifeClient.Core.Services.SystemService
 
         public void Init(ClosedAPI api)
         {
-            throw new NotImplementedException();
+            this._api = api;
+        }
+
+        public static bool IsErrorMsg(MainMessage msg)
+        {
+            return msg.MessageTypeCase == MainMessage.MessageTypeOneofCase.SystemMsg && msg.SystemMsg.SystemMsgTypeCase == SystemMsg.SystemMsgTypeOneofCase.ErrorMsg;
         }
     }
 }

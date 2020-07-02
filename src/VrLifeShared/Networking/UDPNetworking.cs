@@ -103,6 +103,10 @@ namespace VrLifeShared.Networking
             MessageParser<T> parser = new MessageParser<T>(() => new T());
             socket.Close();
             T parsedResponse = parser.ParseFrom(response);
+            foreach (IMiddleware<T> middleware in _middlewares)
+            {
+                parsedResponse = middleware.TransformInputMsg(parsedResponse);
+            }
             return parsedResponse;
         }
     }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.API;
+using VrLifeServer.API.Provider;
 using VrLifeServer.Core.Services.SystemService;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.EventService
 {
-    class EventServiceProvider : IEventService
+    class EventServiceProvider : IEventServiceProvider
     {
         private ClosedAPI _api;
         private ILogger _log;

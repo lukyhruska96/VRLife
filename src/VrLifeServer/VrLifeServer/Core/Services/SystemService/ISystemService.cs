@@ -11,19 +11,6 @@ namespace VrLifeServer.Core.Services.SystemService
     interface ISystemService : IService
     {
 
-        public static MainMessage CreateHelloMessage()
-        {
-            MainMessage mainMsg = new MainMessage();
-            SystemMsg msg = new SystemMsg();
-            HiMsg hiMsg = new HiMsg();
-            hiMsg.Memory = HwMonitor.GetTotalMemory();
-            hiMsg.Threads = HwMonitor.GetCoreCount();
-            hiMsg.Version = VrLifeServer.VERSION;
-            msg.HiMsg = hiMsg;
-            mainMsg.SystemMsg = msg;
-            return mainMsg;
-        }
-
         public static MainMessage CreateErrorMessage(ulong msgId, uint errType, uint errCode, string errMsg = null)
         {
             ErrorMsg errorMsg = new ErrorMsg();
@@ -50,22 +37,45 @@ namespace VrLifeServer.Core.Services.SystemService
             return msg;
         }
 
-        public static MainMessage CreateRedirectMessage(MainMessage recvMsg, long address, int port)
+        public static MainMessage CreateRedirectMessage(MainMessage recvMsg, int address, int port)
         {
             RedirectMsg redirectMsg = new RedirectMsg();
             redirectMsg.Address = address;
             redirectMsg.Port = port;
             redirectMsg.ReceivedMsg =  ByteString.CopyFrom(recvMsg.ToByteArray());
-            SystemMsg sysMsg = new SystemMsg();
-            sysMsg.RedirectMsg = redirectMsg;
             MainMessage msg = new MainMessage();
+            msg.SystemMsg = new SystemMsg();
+            msg.SystemMsg.RedirectMsg = redirectMsg;
             return msg;
         }
 
         public static MainMessage CreateRedirectMessage(MainMessage recvMsg, IPEndPoint ip)
         {
-            return ISystemService.CreateRedirectMessage(recvMsg, 
-                BitConverter.ToInt64(ip.Address.GetAddressBytes(), 0), ip.Port);
+            return ISystemService.CreateRedirectMessage(recvMsg, (int)ip.Address.ToInt(), ip.Port);
         }
+
+        public static MainMessage CreateHelloMessage(Config conf)
+        {
+            MainMessage mainMsg = new MainMessage();
+            SystemMsg msg = new SystemMsg();
+            HiMsg hiMsg = new HiMsg();
+            hiMsg.Address = conf.ServerAddress.ToInt();
+            hiMsg.Port = (int)conf.UdpPort;
+            hiMsg.Memory = HwMonitor.GetTotalMemory();
+            hiMsg.Threads = HwMonitor.GetCoreCount();
+            hiMsg.Version = VrLifeServer.VERSION;
+            msg.HiMsg = hiMsg;
+            mainMsg.SystemMsg = msg;
+            return mainMsg;
+        }
+
+        public static bool IsError(MainMessage msg)
+        {
+            return msg.MessageTypeCase == MainMessage.MessageTypeOneofCase.SystemMsg &&
+                msg.SystemMsg.SystemMsgTypeCase == SystemMsg.SystemMsgTypeOneofCase.ErrorMsg;
+        }
+        public MainMessage CreateHelloMessage();
+
+        public IPEndPoint GetAddressById(uint serverId);
     }
 }

@@ -7,6 +7,5 @@ namespace VrLifeServer.Applications
 {
     interface IApplicationClient
     {
-        void Init(OpenAPI api);
     }
 }

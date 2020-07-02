@@ -23,20 +23,46 @@ namespace VrLifeShared.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1Sb29tTXNnLnByb3RvEihWckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3",
-            "b3JraW5nTW9kZWxzIgkKB1Jvb21Nc2diBnByb3RvMw=="));
+            "b3JraW5nTW9kZWxzItQDCgdSb29tTXNnEkoKCnJvb21EZXRhaWwYASABKAsy",
+            "NC5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLlJv",
+            "b21EZXRhaWxIABJKCgpyb29tQ3JlYXRlGAIgASgLMjQuVnJMaWZlU2hhcmVk",
+            "Lk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5Sb29tQ3JlYXRlSAASSAoJ",
+            "cm9vbUVudGVyGAMgASgLMjMuVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0",
+            "d29ya2luZ01vZGVscy5Sb29tRW50ZXJIABJGCghyb29tRXhpdBgEIAEoCzIy",
+            "LlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuUm9v",
+            "bUV4aXRIABJGCghyb29tTGlzdBgFIAEoCzIyLlZyTGlmZVNoYXJlZC5OZXR3",
+            "b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuUm9vbUxpc3RIABJICglyb29tUXVl",
+            "cnkYBiABKAsyMy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5n",
+            "TW9kZWxzLlJvb21RdWVyeUgAQg0KC01lc3NhZ2VUeXBlIlIKCFJvb21MaXN0",
+            "EkYKCHJvb21MaXN0GAEgAygLMjQuVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcu",
+            "TmV0d29ya2luZ01vZGVscy5Sb29tRGV0YWlsIpcBCgpSb29tRGV0YWlsEg4K",
+            "BnJvb21JZBgBIAEoDRIMCgRuYW1lGAIgASgJEhUKDXNlcnZlckFkZHJlc3MY",
+            "AyABKAcSDAoEcG9ydBgEIAEoBRIQCghjYXBhY2l0eRgFIAEoDRIPCgdwbGF5",
+            "ZXJzGAYgAygEEhAKCHRpY2tSYXRlGAcgASgNEhEKCXN0YXJ0VGltZRgIIAEo",
+            "BiJCCg1Sb29tTGlzdFF1ZXJ5Eg4KBnNlYXJjaBgBIAEoCRIQCghub3RFbXB0",
+            "eRgCIAEoCBIPCgdub3RGdWxsGAMgASgIIoIBCglSb29tUXVlcnkSUAoNcm9v",
+            "bUxpc3RRdWVyeRgBIAEoCzI3LlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5l",
+            "dHdvcmtpbmdNb2RlbHMuUm9vbUxpc3RRdWVyeUgAEhYKDHJvb21EZXRhaWxJ",
+            "ZBgCIAEoDUgAQgsKCXJvb21RdWVyeSIsCgpSb29tQ3JlYXRlEgwKBG5hbWUY",
+            "ASABKAkSEAoIY2FwYWNpdHkYAiABKA0iGwoJUm9vbUVudGVyEg4KBnJvb21J",
+            "ZBgBIAEoDSIaCghSb29tRXhpdBIOCgZyb29tSWQYASABKA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomMsg), global::VrLifeShared.Networking.NetworkingModels.RoomMsg.Parser, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomMsg), global::VrLifeShared.Networking.NetworkingModels.RoomMsg.Parser, new[]{ "RoomDetail", "RoomCreate", "RoomEnter", "RoomExit", "RoomList", "RoomQuery" }, new[]{ "MessageType" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomList), global::VrLifeShared.Networking.NetworkingModels.RoomList.Parser, new[]{ "RoomList_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomDetail), global::VrLifeShared.Networking.NetworkingModels.RoomDetail.Parser, new[]{ "RoomId", "Name", "ServerAddress", "Port", "Capacity", "Players", "TickRate", "StartTime" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomListQuery), global::VrLifeShared.Networking.NetworkingModels.RoomListQuery.Parser, new[]{ "Search", "NotEmpty", "NotFull" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomQuery), global::VrLifeShared.Networking.NetworkingModels.RoomQuery.Parser, new[]{ "RoomListQuery", "RoomDetailId" }, new[]{ "RoomQuery" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomCreate), global::VrLifeShared.Networking.NetworkingModels.RoomCreate.Parser, new[]{ "Name", "Capacity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomEnter), global::VrLifeShared.Networking.NetworkingModels.RoomEnter.Parser, new[]{ "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomExit), global::VrLifeShared.Networking.NetworkingModels.RoomExit.Parser, new[]{ "RoomId" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  /// <summary>
-  ///  room management msg
-  /// </summary>
   public sealed partial class RoomMsg : pb::IMessage<RoomMsg> {
     private static readonly pb::MessageParser<RoomMsg> _parser = new pb::MessageParser<RoomMsg>(() => new RoomMsg());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -61,11 +87,121 @@ namespace VrLifeShared.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public RoomMsg(RoomMsg other) : this() {
+      switch (other.MessageTypeCase) {
+        case MessageTypeOneofCase.RoomDetail:
+          RoomDetail = other.RoomDetail.Clone();
+          break;
+        case MessageTypeOneofCase.RoomCreate:
+          RoomCreate = other.RoomCreate.Clone();
+          break;
+        case MessageTypeOneofCase.RoomEnter:
+          RoomEnter = other.RoomEnter.Clone();
+          break;
+        case MessageTypeOneofCase.RoomExit:
+          RoomExit = other.RoomExit.Clone();
+          break;
+        case MessageTypeOneofCase.RoomList:
+          RoomList = other.RoomList.Clone();
+          break;
+        case MessageTypeOneofCase.RoomQuery:
+          RoomQuery = other.RoomQuery.Clone();
+          break;
+      }
+
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public RoomMsg Clone() {
       return new RoomMsg(this);
+    }
+
+    /// <summary>Field number for the "roomDetail" field.</summary>
+    public const int RoomDetailFieldNumber = 1;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomDetail RoomDetail {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomDetail ? (global::VrLifeShared.Networking.NetworkingModels.RoomDetail) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomDetail;
+      }
+    }
+
+    /// <summary>Field number for the "roomCreate" field.</summary>
+    public const int RoomCreateFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomCreate RoomCreate {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomCreate ? (global::VrLifeShared.Networking.NetworkingModels.RoomCreate) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomCreate;
+      }
+    }
+
+    /// <summary>Field number for the "roomEnter" field.</summary>
+    public const int RoomEnterFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomEnter RoomEnter {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomEnter ? (global::VrLifeShared.Networking.NetworkingModels.RoomEnter) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomEnter;
+      }
+    }
+
+    /// <summary>Field number for the "roomExit" field.</summary>
+    public const int RoomExitFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomExit RoomExit {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomExit ? (global::VrLifeShared.Networking.NetworkingModels.RoomExit) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomExit;
+      }
+    }
+
+    /// <summary>Field number for the "roomList" field.</summary>
+    public const int RoomListFieldNumber = 5;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomList RoomList {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomList ? (global::VrLifeShared.Networking.NetworkingModels.RoomList) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomList;
+      }
+    }
+
+    /// <summary>Field number for the "roomQuery" field.</summary>
+    public const int RoomQueryFieldNumber = 6;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomQuery RoomQuery {
+      get { return messageTypeCase_ == MessageTypeOneofCase.RoomQuery ? (global::VrLifeShared.Networking.NetworkingModels.RoomQuery) messageType_ : null; }
+      set {
+        messageType_ = value;
+        messageTypeCase_ = value == null ? MessageTypeOneofCase.None : MessageTypeOneofCase.RoomQuery;
+      }
+    }
+
+    private object messageType_;
+    /// <summary>Enum of possible cases for the "MessageType" oneof.</summary>
+    public enum MessageTypeOneofCase {
+      None = 0,
+      RoomDetail = 1,
+      RoomCreate = 2,
+      RoomEnter = 3,
+      RoomExit = 4,
+      RoomList = 5,
+      RoomQuery = 6,
+    }
+    private MessageTypeOneofCase messageTypeCase_ = MessageTypeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public MessageTypeOneofCase MessageTypeCase {
+      get { return messageTypeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearMessageType() {
+      messageTypeCase_ = MessageTypeOneofCase.None;
+      messageType_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -81,12 +217,26 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (!object.Equals(RoomDetail, other.RoomDetail)) return false;
+      if (!object.Equals(RoomCreate, other.RoomCreate)) return false;
+      if (!object.Equals(RoomEnter, other.RoomEnter)) return false;
+      if (!object.Equals(RoomExit, other.RoomExit)) return false;
+      if (!object.Equals(RoomList, other.RoomList)) return false;
+      if (!object.Equals(RoomQuery, other.RoomQuery)) return false;
+      if (MessageTypeCase != other.MessageTypeCase) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomDetail) hash ^= RoomDetail.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomCreate) hash ^= RoomCreate.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomEnter) hash ^= RoomEnter.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomExit) hash ^= RoomExit.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomList) hash ^= RoomList.GetHashCode();
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomQuery) hash ^= RoomQuery.GetHashCode();
+      hash ^= (int) messageTypeCase_;
       return hash;
     }
 
@@ -97,11 +247,53 @@ namespace VrLifeShared.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomDetail) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RoomDetail);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomCreate) {
+        output.WriteRawTag(18);
+        output.WriteMessage(RoomCreate);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomEnter) {
+        output.WriteRawTag(26);
+        output.WriteMessage(RoomEnter);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomExit) {
+        output.WriteRawTag(34);
+        output.WriteMessage(RoomExit);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomList) {
+        output.WriteRawTag(42);
+        output.WriteMessage(RoomList);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomQuery) {
+        output.WriteRawTag(50);
+        output.WriteMessage(RoomQuery);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomDetail) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomDetail);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomCreate) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomCreate);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomEnter) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomEnter);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomExit) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomExit);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomList) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomList);
+      }
+      if (messageTypeCase_ == MessageTypeOneofCase.RoomQuery) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomQuery);
+      }
       return size;
     }
 
@@ -109,6 +301,463 @@ namespace VrLifeShared.Networking.NetworkingModels {
     public void MergeFrom(RoomMsg other) {
       if (other == null) {
         return;
+      }
+      switch (other.MessageTypeCase) {
+        case MessageTypeOneofCase.RoomDetail:
+          RoomDetail = other.RoomDetail;
+          break;
+        case MessageTypeOneofCase.RoomCreate:
+          RoomCreate = other.RoomCreate;
+          break;
+        case MessageTypeOneofCase.RoomEnter:
+          RoomEnter = other.RoomEnter;
+          break;
+        case MessageTypeOneofCase.RoomExit:
+          RoomExit = other.RoomExit;
+          break;
+        case MessageTypeOneofCase.RoomList:
+          RoomList = other.RoomList;
+          break;
+        case MessageTypeOneofCase.RoomQuery:
+          RoomQuery = other.RoomQuery;
+          break;
+      }
+
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomDetail subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomDetail();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomDetail) {
+              subBuilder.MergeFrom(RoomDetail);
+            }
+            input.ReadMessage(subBuilder);
+            RoomDetail = subBuilder;
+            break;
+          }
+          case 18: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomCreate subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomCreate();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomCreate) {
+              subBuilder.MergeFrom(RoomCreate);
+            }
+            input.ReadMessage(subBuilder);
+            RoomCreate = subBuilder;
+            break;
+          }
+          case 26: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomEnter subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomEnter();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomEnter) {
+              subBuilder.MergeFrom(RoomEnter);
+            }
+            input.ReadMessage(subBuilder);
+            RoomEnter = subBuilder;
+            break;
+          }
+          case 34: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomExit subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomExit();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomExit) {
+              subBuilder.MergeFrom(RoomExit);
+            }
+            input.ReadMessage(subBuilder);
+            RoomExit = subBuilder;
+            break;
+          }
+          case 42: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomList subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomList();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomList) {
+              subBuilder.MergeFrom(RoomList);
+            }
+            input.ReadMessage(subBuilder);
+            RoomList = subBuilder;
+            break;
+          }
+          case 50: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomQuery subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomQuery();
+            if (messageTypeCase_ == MessageTypeOneofCase.RoomQuery) {
+              subBuilder.MergeFrom(RoomQuery);
+            }
+            input.ReadMessage(subBuilder);
+            RoomQuery = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomList : pb::IMessage<RoomList> {
+    private static readonly pb::MessageParser<RoomList> _parser = new pb::MessageParser<RoomList>(() => new RoomList());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomList> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomList() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomList(RoomList other) : this() {
+      roomList_ = other.roomList_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomList Clone() {
+      return new RoomList(this);
+    }
+
+    /// <summary>Field number for the "roomList" field.</summary>
+    public const int RoomList_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::VrLifeShared.Networking.NetworkingModels.RoomDetail> _repeated_roomList_codec
+        = pb::FieldCodec.ForMessage(10, global::VrLifeShared.Networking.NetworkingModels.RoomDetail.Parser);
+    private readonly pbc::RepeatedField<global::VrLifeShared.Networking.NetworkingModels.RoomDetail> roomList_ = new pbc::RepeatedField<global::VrLifeShared.Networking.NetworkingModels.RoomDetail>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::VrLifeShared.Networking.NetworkingModels.RoomDetail> RoomList_ {
+      get { return roomList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomList);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomList other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!roomList_.Equals(other.roomList_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= roomList_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      roomList_.WriteTo(output, _repeated_roomList_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += roomList_.CalculateSize(_repeated_roomList_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomList other) {
+      if (other == null) {
+        return;
+      }
+      roomList_.Add(other.roomList_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            roomList_.AddEntriesFrom(input, _repeated_roomList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomDetail : pb::IMessage<RoomDetail> {
+    private static readonly pb::MessageParser<RoomDetail> _parser = new pb::MessageParser<RoomDetail>(() => new RoomDetail());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomDetail> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomDetail() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomDetail(RoomDetail other) : this() {
+      roomId_ = other.roomId_;
+      name_ = other.name_;
+      serverAddress_ = other.serverAddress_;
+      port_ = other.port_;
+      capacity_ = other.capacity_;
+      players_ = other.players_.Clone();
+      tickRate_ = other.tickRate_;
+      startTime_ = other.startTime_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomDetail Clone() {
+      return new RoomDetail(this);
+    }
+
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 1;
+    private uint roomId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "serverAddress" field.</summary>
+    public const int ServerAddressFieldNumber = 3;
+    private uint serverAddress_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint ServerAddress {
+      get { return serverAddress_; }
+      set {
+        serverAddress_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "port" field.</summary>
+    public const int PortFieldNumber = 4;
+    private int port_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Port {
+      get { return port_; }
+      set {
+        port_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "capacity" field.</summary>
+    public const int CapacityFieldNumber = 5;
+    private uint capacity_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint Capacity {
+      get { return capacity_; }
+      set {
+        capacity_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "players" field.</summary>
+    public const int PlayersFieldNumber = 6;
+    private static readonly pb::FieldCodec<ulong> _repeated_players_codec
+        = pb::FieldCodec.ForUInt64(50);
+    private readonly pbc::RepeatedField<ulong> players_ = new pbc::RepeatedField<ulong>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<ulong> Players {
+      get { return players_; }
+    }
+
+    /// <summary>Field number for the "tickRate" field.</summary>
+    public const int TickRateFieldNumber = 7;
+    private uint tickRate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint TickRate {
+      get { return tickRate_; }
+      set {
+        tickRate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "startTime" field.</summary>
+    public const int StartTimeFieldNumber = 8;
+    private ulong startTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong StartTime {
+      get { return startTime_; }
+      set {
+        startTime_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomDetail);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomDetail other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoomId != other.RoomId) return false;
+      if (Name != other.Name) return false;
+      if (ServerAddress != other.ServerAddress) return false;
+      if (Port != other.Port) return false;
+      if (Capacity != other.Capacity) return false;
+      if(!players_.Equals(other.players_)) return false;
+      if (TickRate != other.TickRate) return false;
+      if (StartTime != other.StartTime) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (ServerAddress != 0) hash ^= ServerAddress.GetHashCode();
+      if (Port != 0) hash ^= Port.GetHashCode();
+      if (Capacity != 0) hash ^= Capacity.GetHashCode();
+      hash ^= players_.GetHashCode();
+      if (TickRate != 0) hash ^= TickRate.GetHashCode();
+      if (StartTime != 0UL) hash ^= StartTime.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoomId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(RoomId);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (ServerAddress != 0) {
+        output.WriteRawTag(29);
+        output.WriteFixed32(ServerAddress);
+      }
+      if (Port != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Port);
+      }
+      if (Capacity != 0) {
+        output.WriteRawTag(40);
+        output.WriteUInt32(Capacity);
+      }
+      players_.WriteTo(output, _repeated_players_codec);
+      if (TickRate != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(TickRate);
+      }
+      if (StartTime != 0UL) {
+        output.WriteRawTag(65);
+        output.WriteFixed64(StartTime);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoomId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (ServerAddress != 0) {
+        size += 1 + 4;
+      }
+      if (Port != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Port);
+      }
+      if (Capacity != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Capacity);
+      }
+      size += players_.CalculateSize(_repeated_players_codec);
+      if (TickRate != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TickRate);
+      }
+      if (StartTime != 0UL) {
+        size += 1 + 8;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomDetail other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoomId != 0) {
+        RoomId = other.RoomId;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.ServerAddress != 0) {
+        ServerAddress = other.ServerAddress;
+      }
+      if (other.Port != 0) {
+        Port = other.Port;
+      }
+      if (other.Capacity != 0) {
+        Capacity = other.Capacity;
+      }
+      players_.Add(other.players_);
+      if (other.TickRate != 0) {
+        TickRate = other.TickRate;
+      }
+      if (other.StartTime != 0UL) {
+        StartTime = other.StartTime;
       }
     }
 
@@ -120,6 +769,772 @@ namespace VrLifeShared.Networking.NetworkingModels {
           default:
             input.SkipLastField();
             break;
+          case 8: {
+            RoomId = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 29: {
+            ServerAddress = input.ReadFixed32();
+            break;
+          }
+          case 32: {
+            Port = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            Capacity = input.ReadUInt32();
+            break;
+          }
+          case 50:
+          case 48: {
+            players_.AddEntriesFrom(input, _repeated_players_codec);
+            break;
+          }
+          case 56: {
+            TickRate = input.ReadUInt32();
+            break;
+          }
+          case 65: {
+            StartTime = input.ReadFixed64();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomListQuery : pb::IMessage<RoomListQuery> {
+    private static readonly pb::MessageParser<RoomListQuery> _parser = new pb::MessageParser<RoomListQuery>(() => new RoomListQuery());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomListQuery> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomListQuery() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomListQuery(RoomListQuery other) : this() {
+      search_ = other.search_;
+      notEmpty_ = other.notEmpty_;
+      notFull_ = other.notFull_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomListQuery Clone() {
+      return new RoomListQuery(this);
+    }
+
+    /// <summary>Field number for the "search" field.</summary>
+    public const int SearchFieldNumber = 1;
+    private string search_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Search {
+      get { return search_; }
+      set {
+        search_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "notEmpty" field.</summary>
+    public const int NotEmptyFieldNumber = 2;
+    private bool notEmpty_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool NotEmpty {
+      get { return notEmpty_; }
+      set {
+        notEmpty_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "notFull" field.</summary>
+    public const int NotFullFieldNumber = 3;
+    private bool notFull_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool NotFull {
+      get { return notFull_; }
+      set {
+        notFull_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomListQuery);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomListQuery other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Search != other.Search) return false;
+      if (NotEmpty != other.NotEmpty) return false;
+      if (NotFull != other.NotFull) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Search.Length != 0) hash ^= Search.GetHashCode();
+      if (NotEmpty != false) hash ^= NotEmpty.GetHashCode();
+      if (NotFull != false) hash ^= NotFull.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Search.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Search);
+      }
+      if (NotEmpty != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(NotEmpty);
+      }
+      if (NotFull != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(NotFull);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Search.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Search);
+      }
+      if (NotEmpty != false) {
+        size += 1 + 1;
+      }
+      if (NotFull != false) {
+        size += 1 + 1;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomListQuery other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Search.Length != 0) {
+        Search = other.Search;
+      }
+      if (other.NotEmpty != false) {
+        NotEmpty = other.NotEmpty;
+      }
+      if (other.NotFull != false) {
+        NotFull = other.NotFull;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Search = input.ReadString();
+            break;
+          }
+          case 16: {
+            NotEmpty = input.ReadBool();
+            break;
+          }
+          case 24: {
+            NotFull = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomQuery : pb::IMessage<RoomQuery> {
+    private static readonly pb::MessageParser<RoomQuery> _parser = new pb::MessageParser<RoomQuery>(() => new RoomQuery());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomQuery> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomQuery() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomQuery(RoomQuery other) : this() {
+      switch (other.RoomQueryCase) {
+        case RoomQueryOneofCase.RoomListQuery:
+          RoomListQuery = other.RoomListQuery.Clone();
+          break;
+        case RoomQueryOneofCase.RoomDetailId:
+          RoomDetailId = other.RoomDetailId;
+          break;
+      }
+
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomQuery Clone() {
+      return new RoomQuery(this);
+    }
+
+    /// <summary>Field number for the "roomListQuery" field.</summary>
+    public const int RoomListQueryFieldNumber = 1;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.RoomListQuery RoomListQuery {
+      get { return roomQueryCase_ == RoomQueryOneofCase.RoomListQuery ? (global::VrLifeShared.Networking.NetworkingModels.RoomListQuery) roomQuery_ : null; }
+      set {
+        roomQuery_ = value;
+        roomQueryCase_ = value == null ? RoomQueryOneofCase.None : RoomQueryOneofCase.RoomListQuery;
+      }
+    }
+
+    /// <summary>Field number for the "roomDetailId" field.</summary>
+    public const int RoomDetailIdFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint RoomDetailId {
+      get { return roomQueryCase_ == RoomQueryOneofCase.RoomDetailId ? (uint) roomQuery_ : 0; }
+      set {
+        roomQuery_ = value;
+        roomQueryCase_ = RoomQueryOneofCase.RoomDetailId;
+      }
+    }
+
+    private object roomQuery_;
+    /// <summary>Enum of possible cases for the "roomQuery" oneof.</summary>
+    public enum RoomQueryOneofCase {
+      None = 0,
+      RoomListQuery = 1,
+      RoomDetailId = 2,
+    }
+    private RoomQueryOneofCase roomQueryCase_ = RoomQueryOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomQueryOneofCase RoomQueryCase {
+      get { return roomQueryCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearRoomQuery() {
+      roomQueryCase_ = RoomQueryOneofCase.None;
+      roomQuery_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomQuery);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomQuery other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(RoomListQuery, other.RoomListQuery)) return false;
+      if (RoomDetailId != other.RoomDetailId) return false;
+      if (RoomQueryCase != other.RoomQueryCase) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomListQuery) hash ^= RoomListQuery.GetHashCode();
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomDetailId) hash ^= RoomDetailId.GetHashCode();
+      hash ^= (int) roomQueryCase_;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomListQuery) {
+        output.WriteRawTag(10);
+        output.WriteMessage(RoomListQuery);
+      }
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomDetailId) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(RoomDetailId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomListQuery) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RoomListQuery);
+      }
+      if (roomQueryCase_ == RoomQueryOneofCase.RoomDetailId) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomDetailId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomQuery other) {
+      if (other == null) {
+        return;
+      }
+      switch (other.RoomQueryCase) {
+        case RoomQueryOneofCase.RoomListQuery:
+          RoomListQuery = other.RoomListQuery;
+          break;
+        case RoomQueryOneofCase.RoomDetailId:
+          RoomDetailId = other.RoomDetailId;
+          break;
+      }
+
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            global::VrLifeShared.Networking.NetworkingModels.RoomListQuery subBuilder = new global::VrLifeShared.Networking.NetworkingModels.RoomListQuery();
+            if (roomQueryCase_ == RoomQueryOneofCase.RoomListQuery) {
+              subBuilder.MergeFrom(RoomListQuery);
+            }
+            input.ReadMessage(subBuilder);
+            RoomListQuery = subBuilder;
+            break;
+          }
+          case 16: {
+            RoomDetailId = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomCreate : pb::IMessage<RoomCreate> {
+    private static readonly pb::MessageParser<RoomCreate> _parser = new pb::MessageParser<RoomCreate>(() => new RoomCreate());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomCreate> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomCreate() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomCreate(RoomCreate other) : this() {
+      name_ = other.name_;
+      capacity_ = other.capacity_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomCreate Clone() {
+      return new RoomCreate(this);
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 1;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "capacity" field.</summary>
+    public const int CapacityFieldNumber = 2;
+    private uint capacity_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint Capacity {
+      get { return capacity_; }
+      set {
+        capacity_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomCreate);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomCreate other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Name != other.Name) return false;
+      if (Capacity != other.Capacity) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Capacity != 0) hash ^= Capacity.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Name.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Name);
+      }
+      if (Capacity != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(Capacity);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Capacity != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Capacity);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomCreate other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Capacity != 0) {
+        Capacity = other.Capacity;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 16: {
+            Capacity = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomEnter : pb::IMessage<RoomEnter> {
+    private static readonly pb::MessageParser<RoomEnter> _parser = new pb::MessageParser<RoomEnter>(() => new RoomEnter());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomEnter> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomEnter() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomEnter(RoomEnter other) : this() {
+      roomId_ = other.roomId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomEnter Clone() {
+      return new RoomEnter(this);
+    }
+
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 1;
+    private uint roomId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomEnter);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomEnter other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoomId != other.RoomId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoomId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(RoomId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoomId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomEnter other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoomId != 0) {
+        RoomId = other.RoomId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            RoomId = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class RoomExit : pb::IMessage<RoomExit> {
+    private static readonly pb::MessageParser<RoomExit> _parser = new pb::MessageParser<RoomExit>(() => new RoomExit());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RoomExit> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.RoomMsgReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomExit() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomExit(RoomExit other) : this() {
+      roomId_ = other.roomId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoomExit Clone() {
+      return new RoomExit(this);
+    }
+
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 1;
+    private uint roomId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RoomExit);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RoomExit other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RoomId != other.RoomId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RoomId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(RoomId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RoomId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RoomExit other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RoomId != 0) {
+        RoomId = other.RoomId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            RoomId = input.ReadUInt32();
+            break;
+          }
         }
       }
     }

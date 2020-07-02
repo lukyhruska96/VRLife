@@ -4,9 +4,20 @@ using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Applications
 {
+    enum SenderType
+    {
+        USER, SERVER
+    }
+
+    struct MsgContext
+    {
+        long msgId;
+        SenderType senderType;
+        int senderId;
+    }
+
     interface IApplicationServer
     {
-        void Init(OpenAPI api);
-        AppMsg HandleEvent(EventMsg eventMsg);
+        AppMsg HandleMessage(byte[] data, int size, MsgContext context);
     }
 }

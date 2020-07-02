@@ -1,7 +1,54 @@
 ﻿syntax = "proto3";
 package VrLifeShared.Networking.NetworkingModels;
 
+message RoomMsg {
+	oneof MessageType {
+		RoomDetail roomDetail = 1;
+		RoomCreate roomCreate = 2;
+		RoomEnter roomEnter = 3;
+		RoomExit roomExit = 4;
+		RoomList roomList = 5;
+		RoomQuery roomQuery = 6;
+	}
+}
 
-message RoomMsg { // room management msg
+message RoomList {
+	repeated RoomDetail roomList = 1;
+}
 
+message RoomDetail {
+	uint32 roomId = 1;
+	string name = 2;
+	fixed32 serverAddress = 3;
+	int32 port = 4;
+	uint32 capacity = 5;
+	repeated uint64 players = 6;
+	uint32 tickRate = 7;
+	fixed64 startTime = 8;
+}
+
+message RoomListQuery {
+	string search = 1;
+	bool notEmpty = 2;
+	bool notFull = 3;
+}
+
+message RoomQuery {
+	oneof roomQuery {
+		RoomListQuery roomListQuery = 1;
+		uint32 roomDetailId = 2;
+	}
+}
+
+message RoomCreate {
+	string name = 1;
+	uint32 capacity = 2;
+}
+
+message RoomEnter {
+	uint32 roomId = 1;
+}
+
+message RoomExit {
+	uint32 roomId = 1;
 }

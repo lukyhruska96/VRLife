@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using VrLifeServer.API;
+using VrLifeServer.API.Provider;
+using VrLifeServer.Core.Utils;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking.NetworkingModels;
 
@@ -17,9 +19,10 @@ namespace VrLifeServer.Core.Services.SystemService
         public ulong memory;
         public float cpuUsage;
         public float ramUsage;
+        public IPEndPoint address;
     }
 
-    class SystemServiceProvider : ISystemService
+    class SystemServiceProvider : ISystemServiceProvider
     {
 
         private ClosedAPI _api;
@@ -62,7 +65,9 @@ namespace VrLifeServer.Core.Services.SystemService
             MainMessage response = ISystemService.CreateOkMessage();
             response.ServerId = (uint)computingServers.Count;
             this._log.Debug($"Sending {response.ServerId} as a new ServerID.");
-            computingServers.Add(new ComputingServer { id = response.ServerId, cores = msg.Threads, memory = msg.Memory });
+            computingServers.Add(
+                new ComputingServer { id = response.ServerId, cores = msg.Threads, 
+                memory = msg.Memory, address = new IPEndPoint(msg.Address, msg.Port) });
             return response;
         }
 
@@ -80,6 +85,20 @@ namespace VrLifeServer.Core.Services.SystemService
             computingServers[(int)serverId].ramUsage = statMsg.MemoryUsed;
             _log.Debug($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
             return ISystemService.CreateOkMessage((uint)msg.MsgId);
+        }
+
+        public MainMessage CreateHelloMessage()
+        {
+            return ISystemService.CreateHelloMessage(_api.OpenAPI.Config);
+        }
+
+        public IPEndPoint GetAddressById(uint serverId)
+        {
+            if(serverId >= computingServers.Count)
+            {
+                return null;
+            }
+            return computingServers[(int)serverId].address;
         }
     }
 }

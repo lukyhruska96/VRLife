@@ -8,14 +8,18 @@ namespace VrLifeClient.Core.Services.AppService
 {
     class AppServiceClient : IServiceClient
     {
+        private ClosedAPI _api;
+
         public void HandleMessage(MainMessage msg)
         {
-            throw new NotImplementedException();
+            AppMsg appMsg = msg.AppMsg;
+
         }
 
         public void Init(ClosedAPI api)
         {
-            throw new NotImplementedException();
+            this._api = api;
+
         }
     }
 }

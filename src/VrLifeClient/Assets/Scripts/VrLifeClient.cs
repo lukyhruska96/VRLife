@@ -1,11 +1,7 @@
 ﻿using Assets.Scripts.API;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services;
 using VrLifeClient.Core.Services.AppService;
@@ -26,6 +22,7 @@ namespace VrLifeClient
         public UDPNetworking<MainMessage> Client { get => _client; }
 
         private OpenAPI _openAPI;
+        public OpenAPI OpenAPI { get => _openAPI; }
 
         private ClosedAPI _closedAPI;
 
@@ -69,7 +66,7 @@ namespace VrLifeClient
             coreServices[(int)MainMessage.MessageTypeOneofCase.AppMsg] = sp.App;
 
             // APIs
-            _openAPI = new OpenAPI(_client, _config);
+            _openAPI = new OpenAPI(_client, _config, sp);
             _closedAPI = new ClosedAPI(_openAPI, sp, _middlewareProvider);
 
             // Initialization of services

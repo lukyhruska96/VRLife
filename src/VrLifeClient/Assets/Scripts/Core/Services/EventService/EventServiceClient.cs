@@ -8,6 +8,8 @@ namespace VrLifeClient.Core.Services.EventService
 {
     class EventServiceClient : IServiceClient
     {
+        private ClosedAPI _api;
+
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
@@ -15,7 +17,7 @@ namespace VrLifeClient.Core.Services.EventService
 
         public void Init(ClosedAPI api)
         {
-            throw new NotImplementedException();
+            _api = api;
         }
     }
 }

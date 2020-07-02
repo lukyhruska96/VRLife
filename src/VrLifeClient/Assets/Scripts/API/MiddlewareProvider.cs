@@ -12,13 +12,13 @@ namespace Assets.Scripts.API
     class MiddlewareProvider
     {
         private ClientIdFiller _clientIdFiller;
-        public ClientIdFiller ClientIdFiller { get; }
+        public ClientIdFiller ClientIdFiller { get => _clientIdFiller; }
 
         private MsgIdIncrement _msgIdIncrement;
-        public MsgIdIncrement MsgIdIncrement { get; }
+        public MsgIdIncrement MsgIdIncrement { get => _msgIdIncrement; }
 
         private RedirectMsgHandler _redirectMsgHandler;
-        public RedirectMsgHandler RedirectMsgHandler { get; }
+        public RedirectMsgHandler RedirectMsgHandler { get => _redirectMsgHandler; }
 
         public MiddlewareProvider(
             ClientIdFiller clientIdFiller,

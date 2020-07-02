@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using VrLifeServer.Database;
 using VrLifeShared.Networking.NetworkingModels;
@@ -29,6 +31,18 @@ namespace VrLifeServer.Core.Services.UserService
                 throw new ArgumentNullException("Argument 'user' cannot be null.");
             }
             this._dbUser = user._dbUser;
+        }
+
+        public User(UserDetailMsg msg)
+        {
+            if(msg == null)
+            {
+                throw new ArgumentNullException("Argument 'user' cannot be null.");
+            }
+            _dbUser = new Database.DbModels.User();
+            _dbUser.UserId = msg.UserId;
+            _dbUser.Username = msg.Username;
+            _dbUser.Passphrase = msg.Password;
         }
 
         public bool CheckPassword(string password)
@@ -98,6 +112,15 @@ namespace VrLifeServer.Core.Services.UserService
             userDetails.Username = Username;
 
             return userDetails;
+        }
+
+        public static User[] List(UserDetailMsg query)
+        {
+            using (var db = new VrLifeDbContext())
+            {
+                var dbUsers = db.Users.Where(x => x.Username.Contains(query.Username));
+                return dbUsers.Select(x => new User(x)).ToArray();
+            }
         }
     }
 }

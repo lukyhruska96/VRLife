@@ -26,9 +26,9 @@ namespace VrLifeClient.Core.Services.UserService
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
         }
 
-        public ServiceCallback SignIn(string username, string password)
+        public ServiceCallback<bool> Login(string username, string password)
         {
-            return new ServiceCallback(() => {
+            return new ServiceCallback<bool>(() => {
                 AuthMsg auth = new AuthMsg();
                 auth.Username = username;
                 auth.Password = password;
@@ -42,12 +42,13 @@ namespace VrLifeClient.Core.Services.UserService
                     throw new ErrorMsgException(response.SystemMsg.ErrorMsg);
                 }
                 _api.Middlewares.ClientIdFiller.SetId(response.ClientId);
+                return true;
             });
         }
 
-        public ServiceCallback SignUp(string username, string password)
+        public ServiceCallback<bool> Register(string username, string password)
         {
-            return new ServiceCallback(() =>
+            return new ServiceCallback<bool>(() =>
             {
                 UserDetailMsg user = new UserDetailMsg();
                 user.Username = username;
@@ -65,6 +66,7 @@ namespace VrLifeClient.Core.Services.UserService
                 {
                     throw new ErrorMsgException(response.SystemMsg.ErrorMsg);
                 }
+                return true;
             });
         }
     }
