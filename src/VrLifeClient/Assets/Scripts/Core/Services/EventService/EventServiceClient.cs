@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
@@ -36,6 +37,7 @@ namespace VrLifeClient.Core.Services.EventService
         public void Init(ClosedAPI api)
         {
             _api = api;
+            _api.Services.Room.RoomExited += Reset;
         }
 
         public ServiceCallback<bool> SendSkeleton(SkeletonState skeleton)
@@ -65,7 +67,16 @@ namespace VrLifeClient.Core.Services.EventService
                 msg.EventMsg.EventDataMsg = eventData;
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.Services.Room.ForwarderAddress);
+                MainMessage response;
+                try
+                {
+                    response = _api.OpenAPI.Networking.Send(msg, _api.Services.Room.ForwarderAddress);
+                }
+                catch (SocketException)
+                {
+                    _api.Services.System.OnForwarderLost();
+                    throw;
+                }
                 sw.Stop();
                 if(SystemServiceClient.IsErrorMsg(response))
                 {
@@ -108,6 +119,14 @@ namespace VrLifeClient.Core.Services.EventService
                     }
                 }
             }
+        }
+
+        public void Reset()
+        {
+            // events contain only clientId, not userId
+            // server keeps eventMask of lost events,
+            // where eventId must be still raising
+            // even if another user logged in
         }
     }
 }

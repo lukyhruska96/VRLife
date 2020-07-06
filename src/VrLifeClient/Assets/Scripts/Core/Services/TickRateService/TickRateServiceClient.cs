@@ -31,6 +31,7 @@ namespace VrLifeClient.Core.Services.TickRateService
         public void Init(ClosedAPI api)
         {
             this._api = api;
+            this._api.Services.Room.RoomExited += Reset;
         }
 
         public ServiceCallback<SnapshotData> GetSnapshot()
@@ -65,6 +66,18 @@ namespace VrLifeClient.Core.Services.TickRateService
                     return data;
                 }
             });
+        }
+
+        public void Reset()
+        {
+            lock (_tickLock)
+            {
+                _lastTick = 0;
+                while (SnapshotBuffer.Count != 0)
+                {
+                    SnapshotBuffer.TryDequeue(out _);
+                }
+            }
         }
     }
 }

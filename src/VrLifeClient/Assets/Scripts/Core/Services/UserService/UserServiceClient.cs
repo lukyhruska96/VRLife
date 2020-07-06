@@ -19,6 +19,9 @@ namespace VrLifeClient.Core.Services.UserService
         private ulong? _userId;
         public ulong? UserId { get => _userId; }
 
+        public delegate void UserLogoutEventHandler();
+        public event UserLogoutEventHandler UserLoggedOut;
+
         public void HandleMessage(MainMessage msg)
         {
             _log.Error("Cannot handle this type of message.");
@@ -28,6 +31,7 @@ namespace VrLifeClient.Core.Services.UserService
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
+            this._api.Services.System.ProviderLost += Reset;
         }
 
         public ServiceCallback<bool> Login(string username, string password)
@@ -78,6 +82,19 @@ namespace VrLifeClient.Core.Services.UserService
                 }
                 return true;
             });
+        }
+
+        public void Reset()
+        {
+            _log.Debug("In Reset method.");
+            _userId = null;
+            OnUserLogout();
+        }
+
+        public void OnUserLogout()
+        {
+            _log.Debug("OnUserLogout");
+            UserLoggedOut?.Invoke();
         }
     }
 }

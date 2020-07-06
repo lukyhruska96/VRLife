@@ -31,6 +31,9 @@ namespace VrLifeClient.API
         public TickAPI TickRate { get => _tick; }
         private TickAPI _tick;
 
+        public SystemAPI System { get => _system; }
+        private SystemAPI _system;
+
         private ServiceProvider _serviceProvider;
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config, ServiceProvider serviceProvider)
@@ -42,6 +45,7 @@ namespace VrLifeClient.API
             this._room = new RoomAPI(serviceProvider.Room);
             this._event = new EventAPI(serviceProvider.Event);
             this._tick = new TickAPI(serviceProvider.TickRate);
+            this._system = new SystemAPI(serviceProvider.System);
         }
 
         public ILogger CreateLogger(string className)

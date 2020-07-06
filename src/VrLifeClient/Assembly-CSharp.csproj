@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\API\OpenAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\EventAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\RoomAPI.cs" />
+    <Compile Include="Assets\Scripts\API\OpenAPI\SystemAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\TickAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\UserAPI.cs" />
     <Compile Include="Assets\Scripts\API\ServiceProvider.cs" />

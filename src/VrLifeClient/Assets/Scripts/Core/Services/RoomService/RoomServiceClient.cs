@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,9 @@ namespace VrLifeClient.Core.Services.RoomService
         public Room CurrentRoom { get => _currentRoom; }
         private Room _currentRoom = null;
 
+        public delegate void RoomExitEventHandler();
+        public event RoomExitEventHandler RoomExited;
+
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
@@ -31,6 +35,8 @@ namespace VrLifeClient.Core.Services.RoomService
         public void Init(ClosedAPI api)
         {
             this._api = api;
+            this._api.Services.System.ForwarderLost += Reset;
+            this._api.Services.User.UserLoggedOut += Reset;
         }
 
         public ServiceCallback<Room> RoomDetail(uint roomId)
@@ -60,7 +66,16 @@ namespace VrLifeClient.Core.Services.RoomService
                 msg.RoomMsg = new RoomMsg();
                 msg.RoomMsg.RoomQuery = new RoomQuery();
                 msg.RoomMsg.RoomQuery.RoomListQuery = query;
-                MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
+                MainMessage response;
+                try
+                {
+                    response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
+                }
+                catch(SocketException)
+                {
+                    _api.Services.System.OnProviderLost();
+                    throw;
+                }
                 ErrorMsgCheck(response);
                 RoomList list = response.RoomMsg.RoomList;
                 return list == null ? new List<Room>() : list.RoomList_.Select(x => new Room(x)).ToList();
@@ -132,8 +147,7 @@ namespace VrLifeClient.Core.Services.RoomService
                 msg.RoomMsg.RoomExit = roomExit;
                 MainMessage response = _api.OpenAPI.Networking.Send(msg, address);
                 ErrorMsgCheck(response);
-                _forwarderAddress = null;
-                _currentRoom = null;
+                Reset();
                 return true;
             });
         }
@@ -145,6 +159,18 @@ namespace VrLifeClient.Core.Services.RoomService
                 ErrorMsg err = msg.SystemMsg.ErrorMsg;
                 throw new RoomServiceException(err.ErrorMsg_);
             }
+        }
+
+        public void Reset()
+        {
+            _currentRoom = null;
+            _forwarderAddress = null;
+            OnRoomExit();
+        }
+
+        public void OnRoomExit()
+        {
+            RoomExited?.Invoke();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace VrLifeClient.Core.Services
         void HandleMessage(MainMessage msg);
 
         void Init(ClosedAPI api);
+
+        void Reset();
     }
 }

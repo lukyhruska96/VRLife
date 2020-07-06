@@ -21,5 +21,10 @@ namespace VrLifeClient.Core.Services.AppService
             this._api = api;
 
         }
+
+        public void Reset()
+        {
+
+        }
     }
 }
