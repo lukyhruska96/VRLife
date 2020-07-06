@@ -9,6 +9,7 @@ namespace VrLifeClient.Core.Services.RoomService
 {
     public class Room
     {
+        private const uint DEFAULT_TICKRATE = 32;
         public uint Id { get; set; }
         public string Name { get; set; }
         public uint Capacity { get; set; }
@@ -16,10 +17,13 @@ namespace VrLifeClient.Core.Services.RoomService
         // list of user IDs
         public List<ulong> Players { get; } = new List<ulong>();
         public IPEndPoint Address { get; set; }
+        public uint TickRate { get; set; }
+        public ulong StartTime { get; set; }
 
         public Room()
         {
-
+            this.TickRate = DEFAULT_TICKRATE;
+            this.StartTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         public bool IsFull()
@@ -39,6 +43,8 @@ namespace VrLifeClient.Core.Services.RoomService
             this.Capacity = roomDetail.Capacity;
             this.Players.AddRange(roomDetail.Players);
             this.Address = new IPEndPoint(roomDetail.ServerAddress, roomDetail.Port);
+            this.TickRate = roomDetail.TickRate;
+            this.StartTime = roomDetail.StartTime;
         }
 
         public RoomDetail ToNetworkModel()

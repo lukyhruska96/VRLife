@@ -14,6 +14,7 @@ namespace VrLifeServer.Core.Services.UserService
         private ClosedAPI _api;
         private ILogger _log;
         private Dictionary<ulong, User> _userCache = new Dictionary<ulong, User>();
+        private Dictionary<ulong, ulong?> _clientId2UserId = new Dictionary<ulong, ulong?>();
 
         public MainMessage HandleMessage(MainMessage msg)
         {
@@ -65,8 +66,12 @@ namespace VrLifeServer.Core.Services.UserService
             return user;
         }
 
-        public ulong? GetUserIdByClientId(ulong clientId)
+        public ulong? GetUserIdByClientId(ulong clientId, bool cached = false)
         {
+            if(cached &&_clientId2UserId.TryGetValue(clientId, out ulong? val))
+            { 
+                return val;
+            }
             UserRequestMsg userRequestMsg = new UserRequestMsg();
             userRequestMsg.UserByClientId = clientId;
             MainMessage msg = new MainMessage();
@@ -81,7 +86,13 @@ namespace VrLifeServer.Core.Services.UserService
             }
             User user = new User(response.UserMngMsg.UserMsg.UserDetailMsg);
             _userCache[user.Id] = user;
+            _clientId2UserId[clientId] = user.Id;
             return user.Id;
+        }
+
+        public bool FastCheckUserId(ulong clientId, ulong userId)
+        {
+            return userId == GetUserIdByClientId(clientId, true) || userId == GetUserIdByClientId(clientId);
         }
     }
 }

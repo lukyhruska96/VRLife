@@ -11,6 +11,7 @@ namespace Assets.Scripts.API.OpenAPI
     class UserAPI
     {
         private UserServiceClient _userService;
+        public ulong? UserId { get => _userService.UserId; }
 
         public UserAPI(UserServiceClient userService)
         {

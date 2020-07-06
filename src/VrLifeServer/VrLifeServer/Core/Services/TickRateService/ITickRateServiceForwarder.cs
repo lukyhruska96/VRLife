@@ -10,5 +10,7 @@ namespace VrLifeServer.Core.Services.TickRateService
         bool IsActive(ulong userId, uint roomId);
         void AddRoom(Room room);
         void DelRoom(Room room);
+        void SetSkeletonState(uint roomId, ulong userId, SkeletonState skeleton);
+        void SetObjectState(uint roomId, ulong objectInstanceId, ObjectState obj);
     }
 }

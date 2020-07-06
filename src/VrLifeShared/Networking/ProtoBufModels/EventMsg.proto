@@ -1,14 +1,32 @@
 ﻿syntax = "proto3";
 package VrLifeShared.Networking.NetworkingModels;
 
-message EventMsg { // Event message from client to server
-	uint32 eventType = 1;
+import "DataTypes.proto";
+
+message EventMsg {
+	oneof EventMsgType {
+		EventDataMsg eventDataMsg = 1;
+		EventResponse eventResponse = 2;
+	}
+}
+
+message EventDataMsg { // Event message from client to server
+	uint64 eventId = 1;
+	uint32 eventType = 2;
 	oneof ValueType {
-		uint32 intValue = 2;
-		float floatValue = 3;
-		bytes customValue = 4;
+		uint32 intValue = 3;
+		float floatValue = 4;
+		Skeleton skeletonValue = 5;
+		GameObject objectValue = 6;
+		bytes customValue = 7;
 	}
 	oneof AppType {
-		uint32 instanceId = 5; // Nullable<uint>
+		uint32 instanceId = 8; // Nullable<uint>
 	}
+}
+
+message EventResponse {
+	uint32 processTime = 1;
+	uint32 eventMask = 2;
+	uint64 highestEventId = 3;
 }

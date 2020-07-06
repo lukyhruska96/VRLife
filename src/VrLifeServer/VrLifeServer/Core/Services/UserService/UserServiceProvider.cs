@@ -85,7 +85,11 @@ namespace VrLifeServer.Core.Services.UserService
                 return ISystemService.CreateErrorMessage(0, 0, 0,
                     "Invalid password.");
             }
-            MainMessage response = ISystemService.CreateOkMessage(msg.MsgId);
+            MainMessage response = new MainMessage();
+            response.UserMngMsg = new UserMngMsg();
+            response.UserMngMsg.UserMsg = new UserMsg();
+            response.UserMngMsg.UserMsg.UserDetailMsg = user.ToMessage();
+            response.UserMngMsg.UserMsg.UserDetailMsg.Password = "";
 
             // clientId == 0 --> unsassigned ID
             if(msg.ClientId != 0 && msg.ClientId < (ulong)_clientMachines.Count)

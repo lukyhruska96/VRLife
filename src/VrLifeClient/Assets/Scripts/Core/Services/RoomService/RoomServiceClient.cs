@@ -3,7 +3,10 @@ using Assets.Scripts.Core.Services.RoomService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using TMPro;
+using UnityEngine;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Networking.NetworkingModels;
@@ -13,6 +16,12 @@ namespace VrLifeClient.Core.Services.RoomService
     class RoomServiceClient : IServiceClient
     {
         private ClosedAPI _api;
+
+        private IPEndPoint _forwarderAddress = null;
+        public IPEndPoint ForwarderAddress { get => _forwarderAddress; }
+
+        public Room CurrentRoom { get => _currentRoom; }
+        private Room _currentRoom = null;
 
         public void HandleMessage(MainMessage msg)
         {
@@ -75,32 +84,56 @@ namespace VrLifeClient.Core.Services.RoomService
             });
         }
 
-        public ServiceCallback<bool> RoomEnter(uint roomId)
+        public ServiceCallback<Room> RoomEnter(uint roomId)
         {
-            return new ServiceCallback<bool>(() =>
+            return RoomEnter(roomId, _api.OpenAPI.Config.MainServer);
+        }
+
+        public ServiceCallback<Room> RoomEnter(uint roomId, IPEndPoint address)
+        {
+            return new ServiceCallback<Room>(() =>
             {
                 RoomEnter roomEnter = new RoomEnter();
                 roomEnter.RoomId = roomId;
                 MainMessage msg = new MainMessage();
                 msg.RoomMsg = new RoomMsg();
                 msg.RoomMsg.RoomEnter = roomEnter;
-                MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
+                MainMessage response = _api.OpenAPI.Networking.Send(msg, address);
                 ErrorMsgCheck(response);
-                return true;
+                RoomDetail roomDetail = response.RoomMsg.RoomDetail;
+                if (roomDetail == null)
+                {
+                    return null;
+                }
+                Room room = new Room(roomDetail);
+                _forwarderAddress = room.Address;
+                _currentRoom = room;
+                return room;
             });
         }
 
         public ServiceCallback<bool> RoomExit(uint roomId)
         {
+            return RoomExit(roomId, _api.OpenAPI.Config.MainServer);
+        }
+
+        public ServiceCallback<bool> RoomExit(uint roomId, IPEndPoint address)
+        {
             return new ServiceCallback<bool>(() =>
             {
+                if (address == null)
+                {
+                    address = _api.OpenAPI.Config.MainServer;
+                }
                 RoomExit roomExit = new RoomExit();
                 roomExit.RoomId = roomId;
                 MainMessage msg = new MainMessage();
                 msg.RoomMsg = new RoomMsg();
                 msg.RoomMsg.RoomExit = roomExit;
-                MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
+                MainMessage response = _api.OpenAPI.Networking.Send(msg, address);
                 ErrorMsgCheck(response);
+                _forwarderAddress = null;
+                _currentRoom = null;
                 return true;
             });
         }

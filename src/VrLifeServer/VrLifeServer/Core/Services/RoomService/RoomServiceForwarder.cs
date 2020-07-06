@@ -20,8 +20,10 @@ namespace VrLifeServer.Core.Services.RoomService
         private const int ROOM_INFO_INTERVAL = 10000;
         private const int ACTIVITY_WATCH_INTERVAL = 5000;
 
+        public event IRoomServiceForwarder.UserDisconnectEventHandler UserDisconnected;
+
         private List<Room> _roomList = new List<Room>();
-        private Dictionary<uint, uint?> _client2Room = new Dictionary<uint, uint?>();
+        private Dictionary<ulong, uint?> _user2Room = new Dictionary<ulong, uint?>();
         private ClosedAPI _api = null;
         private ILogger _log;
 
@@ -77,6 +79,7 @@ namespace VrLifeServer.Core.Services.RoomService
         {
             _log.Debug("In RoomDetail method.");
             MainMessage msg = PrepareMsg();
+            msg.RoomMsg = new RoomMsg();
             msg.RoomMsg.RoomDetail = _roomList[(int)roomId].ToNetworkModel();
             return msg;
         }
@@ -111,6 +114,7 @@ namespace VrLifeServer.Core.Services.RoomService
             {
                 room.Id = (uint) _roomList.Count;
                 _roomList.Add(room);
+                _api.Services.TickRate.AddRoom(room);
                 _log.Info($"Created new Room with ID {room.Id}.");
                 return RoomDetail(room.Id);
             }
@@ -137,9 +141,13 @@ namespace VrLifeServer.Core.Services.RoomService
                     return ISystemService.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
                 }
                 room.Players.Add(userId.Value);
+                _user2Room[userId.Value] = (uint?)roomId;
                 _log.Info($"User with id '{userId.Value}' entered room '{room.Name}'.");
+                MainMessage response = new MainMessage();
+                response.RoomMsg = new RoomMsg();
+                response.RoomMsg.RoomDetail = room.ToNetworkModel();
+                return response;
             }
-            return ISystemService.CreateOkMessage(msgId);
         }
 
         private MainMessage RoomExit(ulong msgId, ulong clientId, RoomExit roomExit)
@@ -160,6 +168,8 @@ namespace VrLifeServer.Core.Services.RoomService
                 }
                 Room room = _roomList[roomId];
                 room.Players.RemoveAt(idx);
+                OnUserDisconnected(userId.Value, room.Id, "Disconnected");
+                _user2Room[userId.Value] = null;
                 _log.Info($"User with id '{userId.Value}' exited room '{room.Name}'.");
             }
             return ISystemService.CreateOkMessage(msgId);
@@ -217,9 +227,14 @@ namespace VrLifeServer.Core.Services.RoomService
                             room.Players.Clear();
                             foreach(ulong userId in tempList)
                             {
-                                if(_api.Services.TickRate.IsActive(userId, room.Id))
+                                if (_api.Services.TickRate.IsActive(userId, room.Id))
                                 {
                                     room.Players.Add(userId);
+                                }
+                                else
+                                {
+                                    OnUserDisconnected(userId, room.Id, "Inactive");
+                                    _user2Room[userId] = null;
                                 }
                             }
                         }
@@ -244,13 +259,21 @@ namespace VrLifeServer.Core.Services.RoomService
             return ISystemService.CreateErrorMessage(msgId, 0, 0, "Not supported yet.");
         }
 
-        public uint? RoomByClientId(uint clientId)
+        public uint? RoomByUserId(ulong userId)
         {
-            if(!_client2Room.TryGetValue(clientId, out uint? roomId))
+            if (!_user2Room.TryGetValue(userId, out uint? roomId))
             {
                 return null;
             }
             return roomId;
+        }
+
+        protected virtual void OnUserDisconnected(ulong userId, uint roomId, string reason)
+        {
+            if(UserDisconnected != null)
+            {
+                UserDisconnected(userId, roomId, reason);
+            }
         }
     }
 }

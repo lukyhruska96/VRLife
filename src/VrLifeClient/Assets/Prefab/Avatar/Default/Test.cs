@@ -13,7 +13,7 @@ public class Test : MonoBehaviour
 
     private void Awake()
     {
-        avatar = new DefaultAvatar("test", Vector3.zero, Quaternion.identity);
+        avatar = new DefaultAvatar(0, "test", Vector3.zero, Quaternion.identity);
     }
 
     void Start()
@@ -25,7 +25,7 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Skeleton skel = thisController.GetSkeleton();
+        SkeletonState skel = thisController.GetSkeleton();
         skel.BodyLocation = new System.Numerics.Vector3(skel.BodyLocation.X - 4, skel.BodyLocation.Y, skel.BodyLocation.Z);
         controller.SetSkeleton(skel);
     }

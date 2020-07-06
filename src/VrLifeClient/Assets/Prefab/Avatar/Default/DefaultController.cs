@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditorInternal;
 using UnityEngine;
+using VrLifeClient;
+using VrLifeClient.Core.Services.RoomService;
 
 namespace Assets.Prefab.Avatar.Default
 {
@@ -13,10 +16,10 @@ namespace Assets.Prefab.Avatar.Default
 
     class DefaultController : MonoBehaviour
     {
-        private GameObject[] SkeletonParts = new GameObject[Skeleton.PartCount];
-        private static float hipsHeight;
+        private GameObject[] SkeletonParts = new GameObject[SkeletonState.PartCount];
 
-        public void Start()
+
+        public void Awake()
         {
             SkeletonParts[(int)SkeletonEnum.BODY_LOCATION] = gameObject;
             SkeletonParts[(int)SkeletonEnum.HEAD] = gameObject.GetChildGameObject("Head");
@@ -33,14 +36,13 @@ namespace Assets.Prefab.Avatar.Default
             SkeletonParts[(int)SkeletonEnum.L_FOOT] = gameObject.GetChildGameObject("Left_Knee_Joint_01");
             SkeletonParts[(int)SkeletonEnum.R_KNEE] = gameObject.GetChildGameObject("Right_Thigh_Joint_01");
             SkeletonParts[(int)SkeletonEnum.R_FOOT] = gameObject.GetChildGameObject("Right_Knee_Joint_01");
-            hipsHeight = SkeletonParts[(int)SkeletonEnum.HIPS].transform.localPosition.y;
         }
 
-        public Skeleton GetSkeleton()
+        public SkeletonState GetSkeleton()
         {
-            return new Skeleton
+            return new SkeletonState
             {
-                BodyLocation = SkeletonParts[(int)SkeletonEnum.HIPS].transform.position.ToNumeric() - new System.Numerics.Vector3(0, hipsHeight, 0),
+                BodyLocation = SkeletonParts[(int)SkeletonEnum.BODY_LOCATION].transform.position.ToNumeric(),
                 Head = SkeletonParts[(int)SkeletonEnum.HEAD].transform.rotation.eulerAngles.ToNumeric(),
                 Spine = SkeletonParts[(int)SkeletonEnum.SPINE].transform.eulerAngles.ToNumeric(),
                 Hips = SkeletonParts[(int)SkeletonEnum.HIPS].transform.eulerAngles.ToNumeric(),
@@ -58,7 +60,7 @@ namespace Assets.Prefab.Avatar.Default
             };
         }
 
-        public void SetSkeleton(Skeleton skeleton)
+        public void SetSkeleton(SkeletonState skeleton)
         {
             SkeletonParts[(int)SkeletonEnum.BODY_LOCATION].transform.position = skeleton.BodyLocation.ToUnity();
             SkeletonParts[(int)SkeletonEnum.HEAD].transform.eulerAngles = skeleton.Head.ToUnity();

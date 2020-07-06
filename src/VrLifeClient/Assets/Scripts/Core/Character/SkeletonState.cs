@@ -1,13 +1,34 @@
-﻿using System;
+﻿using Assets.Scripts.Core.Utils;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text;
-using VrLifeServer.Core.Utils;
+using System.Threading.Tasks;
 using VrLifeShared.Networking.NetworkingModels;
 
-namespace VrLifeServer.Core.Services.TickRateService
+namespace Assets.Scripts.Core.Character
 {
-    struct SkeletonState
+    enum SkeletonEnum
+    {
+        BODY_LOCATION,
+        HEAD,
+        NECK,
+        SPINE,
+        HIPS,
+        L_SHOULDER,
+        L_ARM,
+        L_HAND,
+        R_SHOULDER,
+        R_ARM,
+        R_HAND,
+        L_KNEE,
+        L_FOOT,
+        R_KNEE,
+        R_FOOT
+    }
+
+    public struct SkeletonState
     {
         public ulong UserId { get; set; }
         public Vector3 BodyLocation { get; set; }
@@ -25,6 +46,8 @@ namespace VrLifeServer.Core.Services.TickRateService
         public Vector3 LeftFoot { get; set; }
         public Vector3 RightKnee { get; set; }
         public Vector3 RightFoot { get; set; }
+
+        public static int PartCount = Enum.GetNames(typeof(SkeletonEnum)).Length;
 
         public SkeletonState(Skeleton skeleton)
         {
@@ -65,6 +88,28 @@ namespace VrLifeServer.Core.Services.TickRateService
             s.LeftFoot = LeftFoot.ToCoord();
             s.RightKnee = RightKnee.ToCoord();
             s.RightFoot = RightFoot.ToCoord();
+            return s;
+        }
+
+        public static SkeletonState Interpolate(SkeletonState from, SkeletonState to, float percent)
+        {
+            SkeletonState s = new SkeletonState();
+            s.UserId = from.UserId;
+            s.BodyLocation = Vector3.Lerp(from.BodyLocation, to.BodyLocation, percent);
+            s.Head = Vector3.Lerp(from.Head, to.Head, percent);
+            s.Neck = Vector3.Lerp(from.Neck, to.Neck, percent);
+            s.Spine = Vector3.Lerp(from.Spine, to.Spine, percent);
+            s.Hips = Vector3.Lerp(from.Hips, to.Hips, percent);
+            s.LeftShoulder = Vector3.Lerp(from.LeftShoulder, to.LeftShoulder, percent);
+            s.LeftArm = Vector3.Lerp(from.LeftArm, to.LeftArm, percent);
+            s.LeftHand = Vector3.Lerp(from.LeftHand, to.LeftHand, percent);
+            s.RightShoulder = Vector3.Lerp(from.RightShoulder, to.RightShoulder, percent);
+            s.RightArm = Vector3.Lerp(from.RightArm, to.RightArm, percent);
+            s.RightHand = Vector3.Lerp(from.RightHand, to.RightHand, percent);
+            s.LeftKnee = Vector3.Lerp(from.LeftKnee, to.LeftKnee, percent);
+            s.LeftFoot = Vector3.Lerp(from.LeftFoot, to.LeftFoot, percent);
+            s.RightKnee = Vector3.Lerp(from.RightKnee, to.RightKnee, percent);
+            s.RightFoot = Vector3.Lerp(from.RightFoot, to.RightFoot, percent);
             return s;
         }
     }

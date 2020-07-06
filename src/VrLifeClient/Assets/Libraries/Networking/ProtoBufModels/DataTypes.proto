@@ -1,0 +1,33 @@
+﻿syntax = "proto3";
+package VrLifeShared.Networking.NetworkingModels;
+
+message Skeleton {
+	uint64 userId = 1;
+	Coord bodyLocation = 2;
+    Coord head = 3;
+    Coord neck = 4;
+    Coord spine = 5;
+    Coord hips = 6;
+    Coord leftShoulder = 7;
+    Coord leftArm = 8;
+    Coord leftHand = 9;
+    Coord rightShoulder = 10;
+    Coord rightArm = 11;
+    Coord rightHand = 12;
+    Coord leftKnee = 13;
+    Coord leftFoot = 14;
+    Coord rightKnee = 15;
+    Coord rightFoot = 16;
+}
+
+message GameObject {
+	uint64 objectInstanceId = 1;
+	Coord center = 2;
+	bytes objectData = 3;
+}
+
+message Coord {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}

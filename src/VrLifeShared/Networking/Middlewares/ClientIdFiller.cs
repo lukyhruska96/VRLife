@@ -7,18 +7,18 @@ namespace VrLifeShared.Networking.Middlewares
 {
     public class ClientIdFiller : IMiddleware<MainMessage>
     {
-        uint _id;
+        ulong _id;
         public ClientIdFiller()
         {
             this._id = 0;
         }
 
-        public ClientIdFiller(uint id)
+        public ClientIdFiller(ulong id)
         {
             this._id = id;
         }
 
-        public void SetId(uint id)
+        public void SetId(ulong id)
         {
             this._id = id;
         }

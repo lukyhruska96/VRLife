@@ -23,6 +23,8 @@ message RoomDetail {
 	int32 port = 4;
 	uint32 capacity = 5;
 	repeated uint64 players = 6;
+	uint32 tickRate = 7;
+	fixed64 startTime = 8;
 }
 
 message RoomListQuery {

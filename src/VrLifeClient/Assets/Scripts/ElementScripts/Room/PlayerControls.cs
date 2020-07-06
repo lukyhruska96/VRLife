@@ -7,7 +7,27 @@ using UnityEngine;
 
 namespace Assets.Scripts.ElementScripts.Room
 {
-    class PlayerControls : MonoBehaviour
+    public class PlayerControls : MonoBehaviour
     {
+        private static PlayerControls current;
+        public void Start()
+        {
+            current = this;
+        }
+
+        public void OnEnable()
+        {
+            
+        }
+
+        public void OnDisable()
+        {
+
+        }
+
+        public void Update()
+        {
+            
+        }
     }
 }

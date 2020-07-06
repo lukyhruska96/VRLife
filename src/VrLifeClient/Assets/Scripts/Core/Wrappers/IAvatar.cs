@@ -8,12 +8,17 @@ using UnityEngine;
 
 namespace Assets.Scripts.Core.Wrappers
 {
-    interface IAvatar
+    public interface IAvatar
     {
-        Skeleton GetCurrentSkeleton();
+        ulong GetUserId();
+        SkeletonState GetCurrentSkeleton();
 
-        void SetSkeleton(Skeleton skeleton);
+        void SetSkeleton(SkeletonState skeleton);
 
         GameObject GetGameObject();
+
+        void SetControls(bool enabled);
+
+        void Destroy();
     }
 }

@@ -22,7 +22,7 @@ public class Login : MonoBehaviour
 
     void Start()
     {
-        _errorEvent.AddListener(SignInError);
+        _errorEvent.AddListener(LogError);
         MenuEventSystem.current.SignedIn.AddListener(_ => LoggedIn());
         MenuEventSystem.current.RoomFound.AddListener(RoomFound);
         _usernameField = GameObject.Find("LoginGroup/Username")?.GetComponent<InputField>();
@@ -51,15 +51,11 @@ public class Login : MonoBehaviour
             .Exec();
     }
 
-    private void SignInError(Exception ex)
-    {
-        Debug.LogError(ex);
-    }
-
     private void LoggedIn()
     {
         Debug.Log("Succesfuly logged in.");
-        VrLifeCore.API.Room.QuickJoin().SetSucc(MenuEventSystem.current.RoomFound).Exec();
+        VrLifeCore.API.Room.QuickJoin().SetSucc(MenuEventSystem.current.RoomFound)
+            .SetErr(_errorEvent).Exec();
     }
 
     private void RoomFound(Room room)
@@ -69,5 +65,10 @@ public class Login : MonoBehaviour
         Debug.Log($"{room.Name}[{room.Id}] with capacity {room.Capacity}");
 
         MenuEventSystem.current.AddMainThreadCallback(SceneController.current.ToRoom);
+    }
+
+    private void LogError(Exception e)
+    {
+        Debug.Log(e);
     }
 }

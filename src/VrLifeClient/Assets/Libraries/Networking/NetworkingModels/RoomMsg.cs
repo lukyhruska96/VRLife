@@ -35,23 +35,23 @@ namespace VrLifeShared.Networking.NetworkingModels {
             "cnkYBiABKAsyMy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5n",
             "TW9kZWxzLlJvb21RdWVyeUgAQg0KC01lc3NhZ2VUeXBlIlIKCFJvb21MaXN0",
             "EkYKCHJvb21MaXN0GAEgAygLMjQuVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcu",
-            "TmV0d29ya2luZ01vZGVscy5Sb29tRGV0YWlsInIKClJvb21EZXRhaWwSDgoG",
-            "cm9vbUlkGAEgASgNEgwKBG5hbWUYAiABKAkSFQoNc2VydmVyQWRkcmVzcxgD",
-            "IAEoBxIMCgRwb3J0GAQgASgFEhAKCGNhcGFjaXR5GAUgASgNEg8KB3BsYXll",
-            "cnMYBiADKAQiQgoNUm9vbUxpc3RRdWVyeRIOCgZzZWFyY2gYASABKAkSEAoI",
-            "bm90RW1wdHkYAiABKAgSDwoHbm90RnVsbBgDIAEoCCKCAQoJUm9vbVF1ZXJ5",
-            "ElAKDXJvb21MaXN0UXVlcnkYASABKAsyNy5WckxpZmVTaGFyZWQuTmV0d29y",
-            "a2luZy5OZXR3b3JraW5nTW9kZWxzLlJvb21MaXN0UXVlcnlIABIWCgxyb29t",
-            "RGV0YWlsSWQYAiABKA1IAEILCglyb29tUXVlcnkiLAoKUm9vbUNyZWF0ZRIM",
-            "CgRuYW1lGAEgASgJEhAKCGNhcGFjaXR5GAIgASgNIhsKCVJvb21FbnRlchIO",
-            "CgZyb29tSWQYASABKA0iGgoIUm9vbUV4aXQSDgoGcm9vbUlkGAEgASgNYgZw",
-            "cm90bzM="));
+            "TmV0d29ya2luZ01vZGVscy5Sb29tRGV0YWlsIpcBCgpSb29tRGV0YWlsEg4K",
+            "BnJvb21JZBgBIAEoDRIMCgRuYW1lGAIgASgJEhUKDXNlcnZlckFkZHJlc3MY",
+            "AyABKAcSDAoEcG9ydBgEIAEoBRIQCghjYXBhY2l0eRgFIAEoDRIPCgdwbGF5",
+            "ZXJzGAYgAygEEhAKCHRpY2tSYXRlGAcgASgNEhEKCXN0YXJ0VGltZRgIIAEo",
+            "BiJCCg1Sb29tTGlzdFF1ZXJ5Eg4KBnNlYXJjaBgBIAEoCRIQCghub3RFbXB0",
+            "eRgCIAEoCBIPCgdub3RGdWxsGAMgASgIIoIBCglSb29tUXVlcnkSUAoNcm9v",
+            "bUxpc3RRdWVyeRgBIAEoCzI3LlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5l",
+            "dHdvcmtpbmdNb2RlbHMuUm9vbUxpc3RRdWVyeUgAEhYKDHJvb21EZXRhaWxJ",
+            "ZBgCIAEoDUgAQgsKCXJvb21RdWVyeSIsCgpSb29tQ3JlYXRlEgwKBG5hbWUY",
+            "ASABKAkSEAoIY2FwYWNpdHkYAiABKA0iGwoJUm9vbUVudGVyEg4KBnJvb21J",
+            "ZBgBIAEoDSIaCghSb29tRXhpdBIOCgZyb29tSWQYASABKA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomMsg), global::VrLifeShared.Networking.NetworkingModels.RoomMsg.Parser, new[]{ "RoomDetail", "RoomCreate", "RoomEnter", "RoomExit", "RoomList", "RoomQuery" }, new[]{ "MessageType" }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomList), global::VrLifeShared.Networking.NetworkingModels.RoomList.Parser, new[]{ "RoomList_" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomDetail), global::VrLifeShared.Networking.NetworkingModels.RoomDetail.Parser, new[]{ "RoomId", "Name", "ServerAddress", "Port", "Capacity", "Players" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomDetail), global::VrLifeShared.Networking.NetworkingModels.RoomDetail.Parser, new[]{ "RoomId", "Name", "ServerAddress", "Port", "Capacity", "Players", "TickRate", "StartTime" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomListQuery), global::VrLifeShared.Networking.NetworkingModels.RoomListQuery.Parser, new[]{ "Search", "NotEmpty", "NotFull" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomQuery), global::VrLifeShared.Networking.NetworkingModels.RoomQuery.Parser, new[]{ "RoomListQuery", "RoomDetailId" }, new[]{ "RoomQuery" }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.RoomCreate), global::VrLifeShared.Networking.NetworkingModels.RoomCreate.Parser, new[]{ "Name", "Capacity" }, null, null, null),
@@ -532,6 +532,8 @@ namespace VrLifeShared.Networking.NetworkingModels {
       port_ = other.port_;
       capacity_ = other.capacity_;
       players_ = other.players_.Clone();
+      tickRate_ = other.tickRate_;
+      startTime_ = other.startTime_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -604,6 +606,28 @@ namespace VrLifeShared.Networking.NetworkingModels {
       get { return players_; }
     }
 
+    /// <summary>Field number for the "tickRate" field.</summary>
+    public const int TickRateFieldNumber = 7;
+    private uint tickRate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint TickRate {
+      get { return tickRate_; }
+      set {
+        tickRate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "startTime" field.</summary>
+    public const int StartTimeFieldNumber = 8;
+    private ulong startTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong StartTime {
+      get { return startTime_; }
+      set {
+        startTime_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RoomDetail);
@@ -623,6 +647,8 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (Port != other.Port) return false;
       if (Capacity != other.Capacity) return false;
       if(!players_.Equals(other.players_)) return false;
+      if (TickRate != other.TickRate) return false;
+      if (StartTime != other.StartTime) return false;
       return true;
     }
 
@@ -635,6 +661,8 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (Port != 0) hash ^= Port.GetHashCode();
       if (Capacity != 0) hash ^= Capacity.GetHashCode();
       hash ^= players_.GetHashCode();
+      if (TickRate != 0) hash ^= TickRate.GetHashCode();
+      if (StartTime != 0UL) hash ^= StartTime.GetHashCode();
       return hash;
     }
 
@@ -666,6 +694,14 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteUInt32(Capacity);
       }
       players_.WriteTo(output, _repeated_players_codec);
+      if (TickRate != 0) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(TickRate);
+      }
+      if (StartTime != 0UL) {
+        output.WriteRawTag(65);
+        output.WriteFixed64(StartTime);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -687,6 +723,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Capacity);
       }
       size += players_.CalculateSize(_repeated_players_codec);
+      if (TickRate != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TickRate);
+      }
+      if (StartTime != 0UL) {
+        size += 1 + 8;
+      }
       return size;
     }
 
@@ -711,6 +753,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
         Capacity = other.Capacity;
       }
       players_.Add(other.players_);
+      if (other.TickRate != 0) {
+        TickRate = other.TickRate;
+      }
+      if (other.StartTime != 0UL) {
+        StartTime = other.StartTime;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -744,6 +792,14 @@ namespace VrLifeShared.Networking.NetworkingModels {
           case 50:
           case 48: {
             players_.AddEntriesFrom(input, _repeated_players_codec);
+            break;
+          }
+          case 56: {
+            TickRate = input.ReadUInt32();
+            break;
+          }
+          case 65: {
+            StartTime = input.ReadFixed64();
             break;
           }
         }

@@ -77,6 +77,7 @@
     <Compile Include="Assets\Libraries\Networking\Middlewares\RedirectMsgHandler.cs" />
     <Compile Include="Assets\Libraries\Networking\Middlewares\ServerIdFiller.cs" />
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\AppMsg.cs" />
+    <Compile Include="Assets\Libraries\Networking\NetworkingModels\DataTypes.cs" />
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\EventMsg.cs" />
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\MainMessage.cs" />
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\RoomMsg.cs" />
@@ -91,15 +92,18 @@
     <Compile Include="Assets\Scripts\API\ClosedAPI.cs" />
     <Compile Include="Assets\Scripts\API\MiddlewareProvider.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI.cs" />
+    <Compile Include="Assets\Scripts\API\OpenAPI\EventAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\RoomAPI.cs" />
+    <Compile Include="Assets\Scripts\API\OpenAPI\TickAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\UserAPI.cs" />
     <Compile Include="Assets\Scripts\API\ServiceProvider.cs" />
     <Compile Include="Assets\Scripts\Config.cs" />
     <Compile Include="Assets\Scripts\Core\Character\CharacterLoadingException.cs" />
     <Compile Include="Assets\Scripts\Core\Character\DefaultAvatar.cs" />
-    <Compile Include="Assets\Scripts\Core\Character\Skeleton.cs" />
+    <Compile Include="Assets\Scripts\Core\Character\SkeletonState.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceClient.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\IServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\RoomService\Room.cs" />
     <Compile Include="Assets\Scripts\Core\Services\RoomService\RoomServiceClient.cs" />
@@ -108,6 +112,7 @@
     <Compile Include="Assets\Scripts\Core\Services\ServiceEvent.cs" />
     <Compile Include="Assets\Scripts\Core\Services\SystemService\SystemServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\TickRateService\TickRateServiceClient.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\TickRateService\TickRateServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\UserService\UserException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\UserService\UserServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Utils\Convert.cs" />

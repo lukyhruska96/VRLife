@@ -148,10 +148,5 @@ namespace VrLifeServer.Core.Services.RoomService
             IPEndPoint redirect = _api.Services.System.GetAddressById((uint)serverId);
             return ISystemService.CreateRedirectMessage(msg, redirect);
         }
-
-        public uint? RoomByClientId(uint clientId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

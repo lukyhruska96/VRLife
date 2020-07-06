@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Core.Wrappers;
+﻿using Assets.Prefab.Avatar.Default;
+using Assets.Scripts.Core.Utils;
+using Assets.Scripts.Core.Wrappers;
+using Assets.Scripts.ElementScripts.Room;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,31 +16,51 @@ namespace Assets.Scripts.Core.Character
     {
         private const string _prefabPath = "Assets/Prefab/Avatar/Default/Default.prefab";
         private GameObject _avatarInstance = null;
+        private ulong _userId;
 
-        public DefaultAvatar(String name, Vector3 position, Quaternion rotation)
+        public DefaultAvatar(ulong userId, string name, Vector3 position, Quaternion rotation)
         {
+            this._userId = userId;
             UnityEngine.Object prefab = AssetDatabase.LoadAssetAtPath(_prefabPath, typeof(GameObject));
-            if(prefab == null)
+            if (prefab == null)
             {
                 throw new CharacterLoadingException("Character's prefab could not be found.");
             }
             _avatarInstance = (GameObject) GameObject.Instantiate(prefab, position, rotation);
             _avatarInstance.name = name;
+            _avatarInstance.GetComponent<PlayerState>().avatar = this;
         }
 
-        public Skeleton GetCurrentSkeleton()
+        public SkeletonState GetCurrentSkeleton()
         {
-            throw new NotImplementedException();
+            return _avatarInstance.GetComponent<DefaultController>().GetSkeleton();
         }
 
-        public void SetSkeleton(Skeleton skeleton)
+        public void SetSkeleton(SkeletonState skeleton)
         {
-            throw new NotImplementedException();
+            _avatarInstance.GetComponent<DefaultController>().SetSkeleton(skeleton);
         }
 
         public GameObject GetGameObject()
         {
             return _avatarInstance;
+        }
+
+        public void SetControls(bool enabled)
+        {
+            _avatarInstance.GetComponent<PlayerControls>().enabled = enabled;
+            _avatarInstance.GetComponent<PlayerState>().enabled = enabled;
+            _avatarInstance.GetComponent<Animator>().enabled = enabled;
+        }
+
+        public ulong GetUserId()
+        {
+            return _userId;
+        }
+
+        public void Destroy()
+        {
+            GameObject.Destroy(_avatarInstance);
         }
     }
 }

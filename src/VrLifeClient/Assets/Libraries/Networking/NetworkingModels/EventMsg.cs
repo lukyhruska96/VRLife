@@ -23,23 +23,32 @@ namespace VrLifeShared.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg5FdmVudE1zZy5wcm90bxIoVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0",
-            "d29ya2luZ01vZGVscyKcAQoIRXZlbnRNc2cSDgoGcm9vbUlkGAEgASgNEhEK",
-            "CWV2ZW50VHlwZRgCIAEoDRISCghpbnRWYWx1ZRgDIAEoDUgAEhQKCmZsb2F0",
-            "VmFsdWUYBCABKAJIABIVCgtjdXN0b21WYWx1ZRgFIAEoDEgAEhQKCmluc3Rh",
-            "bmNlSWQYBiABKA1IAUILCglWYWx1ZVR5cGVCCQoHQXBwVHlwZWIGcHJvdG8z"));
+            "d29ya2luZ01vZGVscxoPRGF0YVR5cGVzLnByb3RvIrwBCghFdmVudE1zZxJO",
+            "CgxldmVudERhdGFNc2cYASABKAsyNi5WckxpZmVTaGFyZWQuTmV0d29ya2lu",
+            "Zy5OZXR3b3JraW5nTW9kZWxzLkV2ZW50RGF0YU1zZ0gAElAKDWV2ZW50UmVz",
+            "cG9uc2UYAiABKAsyNy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
+            "aW5nTW9kZWxzLkV2ZW50UmVzcG9uc2VIAEIOCgxFdmVudE1zZ1R5cGUiuwIK",
+            "DEV2ZW50RGF0YU1zZxIPCgdldmVudElkGAEgASgEEhEKCWV2ZW50VHlwZRgC",
+            "IAEoDRISCghpbnRWYWx1ZRgDIAEoDUgAEhQKCmZsb2F0VmFsdWUYBCABKAJI",
+            "ABJLCg1za2VsZXRvblZhbHVlGAUgASgLMjIuVnJMaWZlU2hhcmVkLk5ldHdv",
+            "cmtpbmcuTmV0d29ya2luZ01vZGVscy5Ta2VsZXRvbkgAEksKC29iamVjdFZh",
+            "bHVlGAYgASgLMjQuVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2lu",
+            "Z01vZGVscy5HYW1lT2JqZWN0SAASFQoLY3VzdG9tVmFsdWUYByABKAxIABIU",
+            "CgppbnN0YW5jZUlkGAggASgNSAFCCwoJVmFsdWVUeXBlQgkKB0FwcFR5cGUi",
+            "TwoNRXZlbnRSZXNwb25zZRITCgtwcm9jZXNzVGltZRgBIAEoDRIRCglldmVu",
+            "dE1hc2sYAiABKA0SFgoOaGlnaGVzdEV2ZW50SWQYAyABKARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::VrLifeShared.Networking.NetworkingModels.DataTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventMsg), global::VrLifeShared.Networking.NetworkingModels.EventMsg.Parser, new[]{ "RoomId", "EventType", "IntValue", "FloatValue", "CustomValue", "InstanceId" }, new[]{ "ValueType", "AppType" }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventMsg), global::VrLifeShared.Networking.NetworkingModels.EventMsg.Parser, new[]{ "EventDataMsg", "EventResponse" }, new[]{ "EventMsgType" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventDataMsg), global::VrLifeShared.Networking.NetworkingModels.EventDataMsg.Parser, new[]{ "EventId", "EventType", "IntValue", "FloatValue", "SkeletonValue", "ObjectValue", "CustomValue", "InstanceId" }, new[]{ "ValueType", "AppType" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventResponse), global::VrLifeShared.Networking.NetworkingModels.EventResponse.Parser, new[]{ "ProcessTime", "EventMask", "HighestEventId" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  /// <summary>
-  ///  Event message from client to server
-  /// </summary>
   public sealed partial class EventMsg : pb::IMessage<EventMsg> {
     private static readonly pb::MessageParser<EventMsg> _parser = new pb::MessageParser<EventMsg>(() => new EventMsg());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -64,7 +73,196 @@ namespace VrLifeShared.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public EventMsg(EventMsg other) : this() {
-      roomId_ = other.roomId_;
+      switch (other.EventMsgTypeCase) {
+        case EventMsgTypeOneofCase.EventDataMsg:
+          EventDataMsg = other.EventDataMsg.Clone();
+          break;
+        case EventMsgTypeOneofCase.EventResponse:
+          EventResponse = other.EventResponse.Clone();
+          break;
+      }
+
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventMsg Clone() {
+      return new EventMsg(this);
+    }
+
+    /// <summary>Field number for the "eventDataMsg" field.</summary>
+    public const int EventDataMsgFieldNumber = 1;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.EventDataMsg EventDataMsg {
+      get { return eventMsgTypeCase_ == EventMsgTypeOneofCase.EventDataMsg ? (global::VrLifeShared.Networking.NetworkingModels.EventDataMsg) eventMsgType_ : null; }
+      set {
+        eventMsgType_ = value;
+        eventMsgTypeCase_ = value == null ? EventMsgTypeOneofCase.None : EventMsgTypeOneofCase.EventDataMsg;
+      }
+    }
+
+    /// <summary>Field number for the "eventResponse" field.</summary>
+    public const int EventResponseFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.EventResponse EventResponse {
+      get { return eventMsgTypeCase_ == EventMsgTypeOneofCase.EventResponse ? (global::VrLifeShared.Networking.NetworkingModels.EventResponse) eventMsgType_ : null; }
+      set {
+        eventMsgType_ = value;
+        eventMsgTypeCase_ = value == null ? EventMsgTypeOneofCase.None : EventMsgTypeOneofCase.EventResponse;
+      }
+    }
+
+    private object eventMsgType_;
+    /// <summary>Enum of possible cases for the "EventMsgType" oneof.</summary>
+    public enum EventMsgTypeOneofCase {
+      None = 0,
+      EventDataMsg = 1,
+      EventResponse = 2,
+    }
+    private EventMsgTypeOneofCase eventMsgTypeCase_ = EventMsgTypeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventMsgTypeOneofCase EventMsgTypeCase {
+      get { return eventMsgTypeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearEventMsgType() {
+      eventMsgTypeCase_ = EventMsgTypeOneofCase.None;
+      eventMsgType_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventMsg);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventMsg other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(EventDataMsg, other.EventDataMsg)) return false;
+      if (!object.Equals(EventResponse, other.EventResponse)) return false;
+      if (EventMsgTypeCase != other.EventMsgTypeCase) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventDataMsg) hash ^= EventDataMsg.GetHashCode();
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventResponse) hash ^= EventResponse.GetHashCode();
+      hash ^= (int) eventMsgTypeCase_;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventDataMsg) {
+        output.WriteRawTag(10);
+        output.WriteMessage(EventDataMsg);
+      }
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventResponse) {
+        output.WriteRawTag(18);
+        output.WriteMessage(EventResponse);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventDataMsg) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventDataMsg);
+      }
+      if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventResponse) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventResponse);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventMsg other) {
+      if (other == null) {
+        return;
+      }
+      switch (other.EventMsgTypeCase) {
+        case EventMsgTypeOneofCase.EventDataMsg:
+          EventDataMsg = other.EventDataMsg;
+          break;
+        case EventMsgTypeOneofCase.EventResponse:
+          EventResponse = other.EventResponse;
+          break;
+      }
+
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            global::VrLifeShared.Networking.NetworkingModels.EventDataMsg subBuilder = new global::VrLifeShared.Networking.NetworkingModels.EventDataMsg();
+            if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventDataMsg) {
+              subBuilder.MergeFrom(EventDataMsg);
+            }
+            input.ReadMessage(subBuilder);
+            EventDataMsg = subBuilder;
+            break;
+          }
+          case 18: {
+            global::VrLifeShared.Networking.NetworkingModels.EventResponse subBuilder = new global::VrLifeShared.Networking.NetworkingModels.EventResponse();
+            if (eventMsgTypeCase_ == EventMsgTypeOneofCase.EventResponse) {
+              subBuilder.MergeFrom(EventResponse);
+            }
+            input.ReadMessage(subBuilder);
+            EventResponse = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Event message from client to server
+  /// </summary>
+  public sealed partial class EventDataMsg : pb::IMessage<EventDataMsg> {
+    private static readonly pb::MessageParser<EventDataMsg> _parser = new pb::MessageParser<EventDataMsg>(() => new EventDataMsg());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventDataMsg> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.EventMsgReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventDataMsg() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventDataMsg(EventDataMsg other) : this() {
+      eventId_ = other.eventId_;
       eventType_ = other.eventType_;
       switch (other.ValueTypeCase) {
         case ValueTypeOneofCase.IntValue:
@@ -72,6 +270,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
           break;
         case ValueTypeOneofCase.FloatValue:
           FloatValue = other.FloatValue;
+          break;
+        case ValueTypeOneofCase.SkeletonValue:
+          SkeletonValue = other.SkeletonValue.Clone();
+          break;
+        case ValueTypeOneofCase.ObjectValue:
+          ObjectValue = other.ObjectValue.Clone();
           break;
         case ValueTypeOneofCase.CustomValue:
           CustomValue = other.CustomValue;
@@ -87,18 +291,18 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public EventMsg Clone() {
-      return new EventMsg(this);
+    public EventDataMsg Clone() {
+      return new EventDataMsg(this);
     }
 
-    /// <summary>Field number for the "roomId" field.</summary>
-    public const int RoomIdFieldNumber = 1;
-    private uint roomId_;
+    /// <summary>Field number for the "eventId" field.</summary>
+    public const int EventIdFieldNumber = 1;
+    private ulong eventId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public uint RoomId {
-      get { return roomId_; }
+    public ulong EventId {
+      get { return eventId_; }
       set {
-        roomId_ = value;
+        eventId_ = value;
       }
     }
 
@@ -135,8 +339,30 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
+    /// <summary>Field number for the "skeletonValue" field.</summary>
+    public const int SkeletonValueFieldNumber = 5;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.Skeleton SkeletonValue {
+      get { return valueTypeCase_ == ValueTypeOneofCase.SkeletonValue ? (global::VrLifeShared.Networking.NetworkingModels.Skeleton) valueType_ : null; }
+      set {
+        valueType_ = value;
+        valueTypeCase_ = value == null ? ValueTypeOneofCase.None : ValueTypeOneofCase.SkeletonValue;
+      }
+    }
+
+    /// <summary>Field number for the "objectValue" field.</summary>
+    public const int ObjectValueFieldNumber = 6;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.GameObject ObjectValue {
+      get { return valueTypeCase_ == ValueTypeOneofCase.ObjectValue ? (global::VrLifeShared.Networking.NetworkingModels.GameObject) valueType_ : null; }
+      set {
+        valueType_ = value;
+        valueTypeCase_ = value == null ? ValueTypeOneofCase.None : ValueTypeOneofCase.ObjectValue;
+      }
+    }
+
     /// <summary>Field number for the "customValue" field.</summary>
-    public const int CustomValueFieldNumber = 5;
+    public const int CustomValueFieldNumber = 7;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString CustomValue {
       get { return valueTypeCase_ == ValueTypeOneofCase.CustomValue ? (pb::ByteString) valueType_ : pb::ByteString.Empty; }
@@ -147,7 +373,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "instanceId" field.</summary>
-    public const int InstanceIdFieldNumber = 6;
+    public const int InstanceIdFieldNumber = 8;
     /// <summary>
     ///  Nullable&lt;uint>
     /// </summary>
@@ -166,7 +392,9 @@ namespace VrLifeShared.Networking.NetworkingModels {
       None = 0,
       IntValue = 3,
       FloatValue = 4,
-      CustomValue = 5,
+      SkeletonValue = 5,
+      ObjectValue = 6,
+      CustomValue = 7,
     }
     private ValueTypeOneofCase valueTypeCase_ = ValueTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -184,7 +412,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     /// <summary>Enum of possible cases for the "AppType" oneof.</summary>
     public enum AppTypeOneofCase {
       None = 0,
-      InstanceId = 6,
+      InstanceId = 8,
     }
     private AppTypeOneofCase appTypeCase_ = AppTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -200,21 +428,23 @@ namespace VrLifeShared.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as EventMsg);
+      return Equals(other as EventDataMsg);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(EventMsg other) {
+    public bool Equals(EventDataMsg other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RoomId != other.RoomId) return false;
+      if (EventId != other.EventId) return false;
       if (EventType != other.EventType) return false;
       if (IntValue != other.IntValue) return false;
       if (FloatValue != other.FloatValue) return false;
+      if (!object.Equals(SkeletonValue, other.SkeletonValue)) return false;
+      if (!object.Equals(ObjectValue, other.ObjectValue)) return false;
       if (CustomValue != other.CustomValue) return false;
       if (InstanceId != other.InstanceId) return false;
       if (ValueTypeCase != other.ValueTypeCase) return false;
@@ -225,10 +455,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      if (EventId != 0UL) hash ^= EventId.GetHashCode();
       if (EventType != 0) hash ^= EventType.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.IntValue) hash ^= IntValue.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.FloatValue) hash ^= FloatValue.GetHashCode();
+      if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) hash ^= SkeletonValue.GetHashCode();
+      if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) hash ^= ObjectValue.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) hash ^= CustomValue.GetHashCode();
       if (appTypeCase_ == AppTypeOneofCase.InstanceId) hash ^= InstanceId.GetHashCode();
       hash ^= (int) valueTypeCase_;
@@ -243,9 +475,9 @@ namespace VrLifeShared.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RoomId != 0) {
+      if (EventId != 0UL) {
         output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
+        output.WriteUInt64(EventId);
       }
       if (EventType != 0) {
         output.WriteRawTag(16);
@@ -259,12 +491,20 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteRawTag(37);
         output.WriteFloat(FloatValue);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
+      if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) {
         output.WriteRawTag(42);
+        output.WriteMessage(SkeletonValue);
+      }
+      if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) {
+        output.WriteRawTag(50);
+        output.WriteMessage(ObjectValue);
+      }
+      if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
+        output.WriteRawTag(58);
         output.WriteBytes(CustomValue);
       }
       if (appTypeCase_ == AppTypeOneofCase.InstanceId) {
-        output.WriteRawTag(48);
+        output.WriteRawTag(64);
         output.WriteUInt32(InstanceId);
       }
     }
@@ -272,8 +512,8 @@ namespace VrLifeShared.Networking.NetworkingModels {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
+      if (EventId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(EventId);
       }
       if (EventType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EventType);
@@ -283,6 +523,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
       if (valueTypeCase_ == ValueTypeOneofCase.FloatValue) {
         size += 1 + 4;
+      }
+      if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SkeletonValue);
+      }
+      if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ObjectValue);
       }
       if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(CustomValue);
@@ -294,12 +540,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(EventMsg other) {
+    public void MergeFrom(EventDataMsg other) {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0) {
-        RoomId = other.RoomId;
+      if (other.EventId != 0UL) {
+        EventId = other.EventId;
       }
       if (other.EventType != 0) {
         EventType = other.EventType;
@@ -310,6 +556,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
           break;
         case ValueTypeOneofCase.FloatValue:
           FloatValue = other.FloatValue;
+          break;
+        case ValueTypeOneofCase.SkeletonValue:
+          SkeletonValue = other.SkeletonValue;
+          break;
+        case ValueTypeOneofCase.ObjectValue:
+          ObjectValue = other.ObjectValue;
           break;
         case ValueTypeOneofCase.CustomValue:
           CustomValue = other.CustomValue;
@@ -333,7 +585,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
             input.SkipLastField();
             break;
           case 8: {
-            RoomId = input.ReadUInt32();
+            EventId = input.ReadUInt64();
             break;
           }
           case 16: {
@@ -349,11 +601,202 @@ namespace VrLifeShared.Networking.NetworkingModels {
             break;
           }
           case 42: {
+            global::VrLifeShared.Networking.NetworkingModels.Skeleton subBuilder = new global::VrLifeShared.Networking.NetworkingModels.Skeleton();
+            if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) {
+              subBuilder.MergeFrom(SkeletonValue);
+            }
+            input.ReadMessage(subBuilder);
+            SkeletonValue = subBuilder;
+            break;
+          }
+          case 50: {
+            global::VrLifeShared.Networking.NetworkingModels.GameObject subBuilder = new global::VrLifeShared.Networking.NetworkingModels.GameObject();
+            if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) {
+              subBuilder.MergeFrom(ObjectValue);
+            }
+            input.ReadMessage(subBuilder);
+            ObjectValue = subBuilder;
+            break;
+          }
+          case 58: {
             CustomValue = input.ReadBytes();
             break;
           }
-          case 48: {
+          case 64: {
             InstanceId = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class EventResponse : pb::IMessage<EventResponse> {
+    private static readonly pb::MessageParser<EventResponse> _parser = new pb::MessageParser<EventResponse>(() => new EventResponse());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<EventResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::VrLifeShared.Networking.NetworkingModels.EventMsgReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventResponse(EventResponse other) : this() {
+      processTime_ = other.processTime_;
+      eventMask_ = other.eventMask_;
+      highestEventId_ = other.highestEventId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public EventResponse Clone() {
+      return new EventResponse(this);
+    }
+
+    /// <summary>Field number for the "processTime" field.</summary>
+    public const int ProcessTimeFieldNumber = 1;
+    private uint processTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint ProcessTime {
+      get { return processTime_; }
+      set {
+        processTime_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "eventMask" field.</summary>
+    public const int EventMaskFieldNumber = 2;
+    private uint eventMask_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint EventMask {
+      get { return eventMask_; }
+      set {
+        eventMask_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "highestEventId" field.</summary>
+    public const int HighestEventIdFieldNumber = 3;
+    private ulong highestEventId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong HighestEventId {
+      get { return highestEventId_; }
+      set {
+        highestEventId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as EventResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(EventResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ProcessTime != other.ProcessTime) return false;
+      if (EventMask != other.EventMask) return false;
+      if (HighestEventId != other.HighestEventId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ProcessTime != 0) hash ^= ProcessTime.GetHashCode();
+      if (EventMask != 0) hash ^= EventMask.GetHashCode();
+      if (HighestEventId != 0UL) hash ^= HighestEventId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ProcessTime != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(ProcessTime);
+      }
+      if (EventMask != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(EventMask);
+      }
+      if (HighestEventId != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(HighestEventId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ProcessTime != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ProcessTime);
+      }
+      if (EventMask != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EventMask);
+      }
+      if (HighestEventId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(HighestEventId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(EventResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ProcessTime != 0) {
+        ProcessTime = other.ProcessTime;
+      }
+      if (other.EventMask != 0) {
+        EventMask = other.EventMask;
+      }
+      if (other.HighestEventId != 0UL) {
+        HighestEventId = other.HighestEventId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ProcessTime = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            EventMask = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            HighestEventId = input.ReadUInt64();
             break;
           }
         }
