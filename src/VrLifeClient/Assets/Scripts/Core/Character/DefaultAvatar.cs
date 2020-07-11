@@ -14,31 +14,33 @@ namespace Assets.Scripts.Core.Character
 {
     class DefaultAvatar : IAvatar
     {
-        private const string _prefabPath = "Assets/Prefab/Avatar/Default/Default.prefab";
-        private GameObject _avatarInstance = null;
+        private const string PREFAB_PATH = "Avatar/Default/Default";
+        private UnityEngine.GameObject _avatarInstance = null;
         private ulong _userId;
+        private DefaultController _defaultController;
 
         public DefaultAvatar(ulong userId, string name, Vector3 position, Quaternion rotation)
         {
             this._userId = userId;
-            UnityEngine.Object prefab = AssetDatabase.LoadAssetAtPath(_prefabPath, typeof(GameObject));
+            GameObject prefab = Resources.Load<GameObject>(PREFAB_PATH);
             if (prefab == null)
             {
                 throw new CharacterLoadingException("Character's prefab could not be found.");
             }
-            _avatarInstance = (GameObject) GameObject.Instantiate(prefab, position, rotation);
+            _avatarInstance = (UnityEngine.GameObject)UnityEngine.GameObject.Instantiate(prefab, position, rotation);
             _avatarInstance.name = name;
-            _avatarInstance.GetComponent<PlayerState>().avatar = this;
+            _defaultController = _avatarInstance.GetComponent<DefaultController>();
+            _avatarInstance.GetComponent<PlayerState>().Avatar = this;
         }
 
         public SkeletonState GetCurrentSkeleton()
         {
-            return _avatarInstance.GetComponent<DefaultController>().GetSkeleton();
+            return _defaultController.GetSkeleton();
         }
 
         public void SetSkeleton(SkeletonState skeleton)
         {
-            _avatarInstance.GetComponent<DefaultController>().SetSkeleton(skeleton);
+            _defaultController.SetSkeleton(skeleton);
         }
 
         public GameObject GetGameObject()
@@ -60,7 +62,12 @@ namespace Assets.Scripts.Core.Character
 
         public void Destroy()
         {
-            GameObject.Destroy(_avatarInstance);
+            UnityEngine.GameObject.Destroy(_avatarInstance);
+        }
+
+        public GameObject GetHead()
+        {
+            return _defaultController.SkeletonParts[(int)SkeletonEnum.HEAD];
         }
     }
 }

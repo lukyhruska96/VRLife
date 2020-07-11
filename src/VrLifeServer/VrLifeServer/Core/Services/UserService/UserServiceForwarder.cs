@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using VrLifeServer.API.Forwarder;
@@ -22,7 +23,37 @@ namespace VrLifeServer.Core.Services.UserService
             {
                 return HandleServerMessage(msg);
             }
+            else if(msg.UserMngMsg.UserMsg.UserRequestMsg.ListQuery != null)
+            {
+                return HandleListRoomUsers(msg);
+            }
             return ISystemService.CreateRedirectMessage(msg, _api.OpenAPI.Config.MainServer);
+        }
+
+        private MainMessage HandleListRoomUsers(MainMessage msg)
+        {
+            ulong? userId = _clientId2UserId[msg.ClientId];
+            if (!userId.HasValue)
+            {
+                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unauthorized request.");
+            }
+            uint? roomId = _api.Services.Room.RoomByUserId(userId.Value);
+            if (!roomId.HasValue)
+            {
+                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "User must be connected to some Room.");
+            }
+            ulong[] users = _api.Services.Room.GetConnectedUsers(roomId.Value);
+            if(users == null)
+            {
+                users = new ulong[0];
+            }
+            UserListMsg userListMsg = new UserListMsg();
+            userListMsg.Users.AddRange(users.Select(x => User.Get(x)).Where(x => x != null).Select(x => x.ToMessage()));
+            MainMessage response = new MainMessage();
+            response.UserMngMsg = new UserMngMsg();
+            response.UserMngMsg.UserMsg = new UserMsg();
+            response.UserMngMsg.UserMsg.UserListMsg = userListMsg;
+            return response;
         }
 
         private MainMessage HandleServerMessage(MainMessage msg)

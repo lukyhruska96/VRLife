@@ -14,12 +14,16 @@ namespace VrLifeServer.Core.Services.SystemService
 {
     class ComputingServer
     {
+        private const long MAX_MS_TOLERANCE = 5000;
         public uint id;
         public uint cores;
         public ulong memory;
         public float cpuUsage;
         public float ramUsage;
         public IPEndPoint address;
+        public long lastResponse;
+
+        public bool IsAlive { get => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - lastResponse < MAX_MS_TOLERANCE; }
     }
 
     class SystemServiceProvider : ISystemServiceProvider
@@ -67,7 +71,8 @@ namespace VrLifeServer.Core.Services.SystemService
             this._log.Debug($"Sending {response.ServerId} as a new ServerID.");
             computingServers.Add(
                 new ComputingServer { id = response.ServerId, cores = msg.Threads, 
-                memory = msg.Memory, address = new IPEndPoint(msg.Address, msg.Port) });
+                memory = msg.Memory, address = new IPEndPoint(msg.Address, msg.Port),
+                lastResponse = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()});
             return response;
         }
 
@@ -83,6 +88,7 @@ namespace VrLifeServer.Core.Services.SystemService
             StatMsg statMsg = msg.SystemMsg.StatMsg;
             computingServers[(int)serverId].cpuUsage = statMsg.CpuUsage;
             computingServers[(int)serverId].ramUsage = statMsg.MemoryUsed;
+            computingServers[(int)serverId].lastResponse = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             _log.Debug($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
             return ISystemService.CreateOkMessage((uint)msg.MsgId);
         }
@@ -99,6 +105,15 @@ namespace VrLifeServer.Core.Services.SystemService
                 return null;
             }
             return computingServers[(int)serverId].address;
+        }
+
+        public bool IsAlive(ulong serverId)
+        {
+            if(serverId >= (ulong)computingServers.Count)
+            {
+                return false;
+            }
+            return computingServers[(int)serverId].IsAlive;
         }
     }
 }

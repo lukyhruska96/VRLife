@@ -33,6 +33,22 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Free look"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbcd7b0c-37c2-4f23-89bb-8714b48b85c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""18b0eb92-d2c8-41ad-859d-19f5c571edaf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -202,57 +218,57 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Mouse"",
-                    ""id"": ""2acc18f1-6242-4643-bf49-3ce11b4dfdc0"",
+                    ""name"": ""Left Oculus Controller"",
+                    ""id"": ""1cda06da-1190-419b-90a6-27aae1541a2c"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""baa36056-2ded-42b9-9c81-80721b9d4d11"",
-                    ""path"": ""<Mouse>/delta/y"",
+                    ""id"": ""18da8005-9d4a-415c-b1fd-934c149f204c"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick/y"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Look"",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""b4df6763-97f4-4795-ac33-7e802c4c5a0c"",
-                    ""path"": ""<Mouse>/delta/y"",
+                    ""id"": ""38e37eb7-e27c-46bd-859f-df148a1654c5"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick/y"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Look"",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""a963eb81-489c-4b40-bb45-547a6ba75c3e"",
-                    ""path"": ""<Mouse>/delta/x"",
+                    ""id"": ""ff0ce71d-b12f-4c9a-927a-fc83efa71af7"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick/x"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Look"",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""bc4a97af-f1e0-42f4-8dc3-d56c450d0b17"",
-                    ""path"": ""<Mouse>/delta/x"",
+                    ""id"": ""a9a0246c-0f36-4c43-9dbd-f4104d6b8204"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick/x"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Look"",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -310,6 +326,176 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""263c0936-bb82-4862-8a76-0f0052af1140"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Oculus Headset"",
+                    ""id"": ""79a11143-e96d-4d5b-bef4-533360f77af6"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""21d93a90-eea1-49c5-aeb2-31d669beec8e"",
+                    ""path"": ""<XRController>/deviceRotation/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""99f8ac4a-c6cf-4885-9f10-b4d3e4a2825a"",
+                    ""path"": ""<XRController>/deviceRotation/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a14effaa-d111-4ebd-b683-142636847c2b"",
+                    ""path"": ""<XRController>/deviceRotation/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""b3c6be88-0750-4dda-bcd5-946692dfa38b"",
+                    ""path"": ""<XRController>/deviceRotation/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""711c0bbb-b743-44e5-9cab-5826fa81204f"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""Free look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80adaf3a-054c-4d03-ab15-fa0d9b66ca9f"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d341f3a6-3d39-44c6-81f5-e639fcb82600"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f972a3fb-661a-48ad-b089-25dbdeb72f7c"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstickClicked"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""HUD"",
+            ""id"": ""2769241e-a3a0-43e9-aece-9ec667283d68"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f712a28-fbd2-44cb-a173-9e2ae1b7f9a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""656a69d7-7ab5-4fd9-988d-6d8dddda7bc6"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8591383-0cd8-4adc-b737-5e59c7ae1431"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""867c2690-cd5f-4687-8a1c-822035f45497"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ad38b6d-2b13-4184-a542-2ac35b3964a5"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Oculus VR"",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -341,6 +527,11 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Oculus VR"",
+            ""bindingGroup"": ""Oculus VR"",
+            ""devices"": []
         }
     ]
 }");
@@ -348,6 +539,11 @@ public class @InputController : IInputActionCollection, IDisposable
         m_BasicMovements = asset.FindActionMap("BasicMovements", throwIfNotFound: true);
         m_BasicMovements_Movement = m_BasicMovements.FindAction("Movement", throwIfNotFound: true);
         m_BasicMovements_Look = m_BasicMovements.FindAction("Look", throwIfNotFound: true);
+        m_BasicMovements_Freelook = m_BasicMovements.FindAction("Free look", throwIfNotFound: true);
+        m_BasicMovements_Sprint = m_BasicMovements.FindAction("Sprint", throwIfNotFound: true);
+        // HUD
+        m_HUD = asset.FindActionMap("HUD", throwIfNotFound: true);
+        m_HUD_OpenMenu = m_HUD.FindAction("OpenMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -399,12 +595,16 @@ public class @InputController : IInputActionCollection, IDisposable
     private IBasicMovementsActions m_BasicMovementsActionsCallbackInterface;
     private readonly InputAction m_BasicMovements_Movement;
     private readonly InputAction m_BasicMovements_Look;
+    private readonly InputAction m_BasicMovements_Freelook;
+    private readonly InputAction m_BasicMovements_Sprint;
     public struct BasicMovementsActions
     {
         private @InputController m_Wrapper;
         public BasicMovementsActions(@InputController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_BasicMovements_Movement;
         public InputAction @Look => m_Wrapper.m_BasicMovements_Look;
+        public InputAction @Freelook => m_Wrapper.m_BasicMovements_Freelook;
+        public InputAction @Sprint => m_Wrapper.m_BasicMovements_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_BasicMovements; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -420,6 +620,12 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnLook;
+                @Freelook.started -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnFreelook;
+                @Freelook.performed -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnFreelook;
+                @Freelook.canceled -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnFreelook;
+                @Sprint.started -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_BasicMovementsActionsCallbackInterface = instance;
             if (instance != null)
@@ -430,10 +636,49 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Freelook.started += instance.OnFreelook;
+                @Freelook.performed += instance.OnFreelook;
+                @Freelook.canceled += instance.OnFreelook;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
     public BasicMovementsActions @BasicMovements => new BasicMovementsActions(this);
+
+    // HUD
+    private readonly InputActionMap m_HUD;
+    private IHUDActions m_HUDActionsCallbackInterface;
+    private readonly InputAction m_HUD_OpenMenu;
+    public struct HUDActions
+    {
+        private @InputController m_Wrapper;
+        public HUDActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @OpenMenu => m_Wrapper.m_HUD_OpenMenu;
+        public InputActionMap Get() { return m_Wrapper.m_HUD; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(HUDActions set) { return set.Get(); }
+        public void SetCallbacks(IHUDActions instance)
+        {
+            if (m_Wrapper.m_HUDActionsCallbackInterface != null)
+            {
+                @OpenMenu.started -= m_Wrapper.m_HUDActionsCallbackInterface.OnOpenMenu;
+                @OpenMenu.performed -= m_Wrapper.m_HUDActionsCallbackInterface.OnOpenMenu;
+                @OpenMenu.canceled -= m_Wrapper.m_HUDActionsCallbackInterface.OnOpenMenu;
+            }
+            m_Wrapper.m_HUDActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @OpenMenu.started += instance.OnOpenMenu;
+                @OpenMenu.performed += instance.OnOpenMenu;
+                @OpenMenu.canceled += instance.OnOpenMenu;
+            }
+        }
+    }
+    public HUDActions @HUD => new HUDActions(this);
     private int m_KeyboardandmouseSchemeIndex = -1;
     public InputControlScheme KeyboardandmouseScheme
     {
@@ -452,9 +697,24 @@ public class @InputController : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
+    private int m_OculusVRSchemeIndex = -1;
+    public InputControlScheme OculusVRScheme
+    {
+        get
+        {
+            if (m_OculusVRSchemeIndex == -1) m_OculusVRSchemeIndex = asset.FindControlSchemeIndex("Oculus VR");
+            return asset.controlSchemes[m_OculusVRSchemeIndex];
+        }
+    }
     public interface IBasicMovementsActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnFreelook(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+    }
+    public interface IHUDActions
+    {
+        void OnOpenMenu(InputAction.CallbackContext context);
     }
 }

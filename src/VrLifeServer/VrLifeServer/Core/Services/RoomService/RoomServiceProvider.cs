@@ -15,7 +15,7 @@ namespace VrLifeServer.Core.Services.RoomService
     class RoomServiceProvider : IRoomServiceProvider
     {
         private Dictionary<int, List<Room>> _roomsPerServer = new Dictionary<int, List<Room>>();
-        private Dictionary<uint, uint?> _user2Room = new Dictionary<uint, uint?>();
+        private Dictionary<ulong, uint?> _user2Room = new Dictionary<ulong, uint?>();
         private ClosedAPI _api;
 
         public MainMessage HandleMessage(MainMessage msg)
@@ -100,7 +100,7 @@ namespace VrLifeServer.Core.Services.RoomService
                 _roomsPerServer[serverId].Clear();
                 _roomsPerServer[serverId].AddRange(roomList.RoomList_.Select(x => new Room(x)));
             }
-            roomList.RoomList_.AsParallel().ForAll(x => x.Players.AsParallel().ForAll(y => _user2Room[(uint)y] = x.RoomId));
+            roomList.RoomList_.AsParallel().ForAll(x => x.Players.AsParallel().ForAll(y => _user2Room[y] = x.RoomId));
             return ISystemService.CreateOkMessage(msgId);
         }
 
@@ -138,7 +138,7 @@ namespace VrLifeServer.Core.Services.RoomService
             {
                 lock(_roomsPerServer[pair.Key])
                 {
-                    if (pair.Value.Count < _roomsPerServer[serverId].Count)
+                    if (_api.Services.System.IsAlive((ulong)pair.Key) && pair.Value.Count < _roomsPerServer[serverId].Count)
                     {
                         serverId = pair.Key;
                     }
@@ -147,6 +147,15 @@ namespace VrLifeServer.Core.Services.RoomService
 
             IPEndPoint redirect = _api.Services.System.GetAddressById((uint)serverId);
             return ISystemService.CreateRedirectMessage(msg, redirect);
+        }
+
+        public uint? RoomIdByUserId(ulong userId)
+        {
+            if(!_user2Room.TryGetValue(userId, out uint? room))
+            {
+                return null;
+            }
+            return room;
         }
     }
 }

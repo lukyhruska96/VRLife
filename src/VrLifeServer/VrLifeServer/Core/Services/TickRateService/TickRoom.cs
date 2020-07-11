@@ -59,7 +59,7 @@ namespace VrLifeServer.Core.Services.TickRateService
                     Snapshot state = CurrentTick;
                     CurrentTick = new Snapshot(state);
                     TickBuffer.Enqueue(state);
-                    if(TickBuffer.Count >= _buffSize)
+                    if(TickBuffer.Count > _buffSize)
                     {
                         while (!TickBuffer.TryDequeue(out _)) { }
                     }
@@ -75,7 +75,16 @@ namespace VrLifeServer.Core.Services.TickRateService
         {
             Snapshot[] snapshots = TickBuffer.ToArray();
             Snapshot snapshot = snapshots.Last();
-            return snapshot.ToNetworkModel();
+            int tickDiff = (int)(snapshot.Tick - lastTick);
+            if (lastTick == 0 || tickDiff >= Room.TickRate)
+            {
+                return snapshot.ToNetworkModel();
+            }
+            else
+            {
+                Snapshot lastTickSnapshot = snapshots[snapshots.Length - tickDiff - 1];
+                return Snapshot.MakeDiff(lastTickSnapshot, snapshot).ToNetworkModel();
+            }
         }
     }
 }

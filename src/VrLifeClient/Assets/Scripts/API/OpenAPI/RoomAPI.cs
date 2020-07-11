@@ -12,6 +12,23 @@ namespace Assets.Scripts.API.OpenAPI
     class RoomAPI
     {
         private RoomServiceClient _roomService;
+        public event RoomServiceClient.RoomExitEventHandler RoomExited
+        {
+            add { _roomService.RoomExited += value; }
+            remove { _roomService.RoomExited -= value; }
+        }
+        public event RoomServiceClient.RoomEnterEventHandler RoomEntered
+        {
+            add { _roomService.RoomEntered += value; }
+            remove { _roomService.RoomEntered -= value; }
+        }
+        public Room CurrentRoom { get => _roomService.CurrentRoom; }
+
+        public void OnRoomEnter()
+        {
+            _roomService.OnRoomEnter();
+        }
+
         public RoomAPI(RoomServiceClient roomService)
         {
             this._roomService = roomService;

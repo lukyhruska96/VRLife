@@ -1,0 +1,48 @@
+﻿using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
+using Assets.Scripts.Core.Utils;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.InputSystem.Composites;
+using UnityEngine.UI;
+
+public class MenuAppContainer : MonoBehaviour
+{
+
+    public static MenuAppContainer current;
+    private IMenuItem _item = null;
+    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        current = this;
+    }
+
+    public void SetView(IMenuItem item)
+    {
+        if(_item != null && _item != item)
+        {
+            ((IGOReadable)_item).GetGameObject().transform.SetParent(null);
+            ((IGOReadable)_item).GetGameObject().SetActive(false);
+        }
+        ((IGOReadable)item).GetGameObject().transform.SetParent(gameObject.transform);
+        item.SetRectTransform(Vector2.zero, Vector2.one, Vector2.zero);
+        ((IGOReadable)item).GetGameObject().SetActive(true);
+        _item = item;
+    }
+
+    public void OnOpenMenu()
+    {
+        if(_item != null)
+        {
+            ((IGOReadable)_item).GetGameObject().transform.localRotation = Quaternion.identity;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

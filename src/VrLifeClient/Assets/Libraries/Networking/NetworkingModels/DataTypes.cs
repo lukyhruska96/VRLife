@@ -3,8 +3,6 @@
 #pragma warning disable 1591, 0612, 3021
 #region Designer generated code
 
-using System;
-using System.Numerics;
 using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
@@ -25,38 +23,39 @@ namespace VrLifeShared.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg9EYXRhVHlwZXMucHJvdG8SKFZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5l",
-            "dHdvcmtpbmdNb2RlbHMihwgKCFNrZWxldG9uEg4KBnVzZXJJZBgBIAEoBBJF",
+            "dHdvcmtpbmdNb2RlbHMizggKCFNrZWxldG9uEg4KBnVzZXJJZBgBIAEoBBJF",
             "Cgxib2R5TG9jYXRpb24YAiABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2lu",
-            "Zy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEj0KBGhlYWQYAyABKAsyLy5Wckxp",
-            "ZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEj0K",
-            "BG5lY2sYBCABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
-            "aW5nTW9kZWxzLkNvb3JkEj4KBXNwaW5lGAUgASgLMi8uVnJMaWZlU2hhcmVk",
-            "Lk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5Db29yZBI9CgRoaXBzGAYg",
-            "ASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2luZ01vZGVs",
-            "cy5Db29yZBJFCgxsZWZ0U2hvdWxkZXIYByABKAsyLy5WckxpZmVTaGFyZWQu",
-            "TmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEkAKB2xlZnRBcm0Y",
-            "CCABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9k",
-            "ZWxzLkNvb3JkEkEKCGxlZnRIYW5kGAkgASgLMi8uVnJMaWZlU2hhcmVkLk5l",
-            "dHdvcmtpbmcuTmV0d29ya2luZ01vZGVscy5Db29yZBJGCg1yaWdodFNob3Vs",
-            "ZGVyGAogASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2lu",
-            "Z01vZGVscy5Db29yZBJBCghyaWdodEFybRgLIAEoCzIvLlZyTGlmZVNoYXJl",
-            "ZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSQgoJcmlnaHRI",
-            "YW5kGAwgASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2lu",
-            "Z01vZGVscy5Db29yZBJBCghsZWZ0S25lZRgNIAEoCzIvLlZyTGlmZVNoYXJl",
-            "ZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSQQoIbGVmdEZv",
-            "b3QYDiABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5n",
-            "TW9kZWxzLkNvb3JkEkIKCXJpZ2h0S25lZRgPIAEoCzIvLlZyTGlmZVNoYXJl",
-            "ZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSQgoJcmlnaHRG",
-            "b290GBAgASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2lu",
-            "Z01vZGVscy5Db29yZCJ7CgpHYW1lT2JqZWN0EhgKEG9iamVjdEluc3RhbmNl",
-            "SWQYASABKAQSPwoGY2VudGVyGAIgASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdv",
-            "cmtpbmcuTmV0d29ya2luZ01vZGVscy5Db29yZBISCgpvYmplY3REYXRhGAMg",
-            "ASgMIigKBUNvb3JkEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgC",
-            "YgZwcm90bzM="));
+            "Zy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEkUKDGJvZHlSb3RhdGlvbhgDIAEo",
+            "CzIvLlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMu",
+            "Q29vcmQSPQoEaGVhZBgEIAEoCzIvLlZyTGlmZVNoYXJlZC5OZXR3b3JraW5n",
+            "Lk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSPQoEbmVjaxgFIAEoCzIvLlZyTGlm",
+            "ZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSPgoF",
+            "c3BpbmUYBiABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
+            "aW5nTW9kZWxzLkNvb3JkEj0KBGhpcHMYByABKAsyLy5WckxpZmVTaGFyZWQu",
+            "TmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEkUKDGxlZnRTaG91",
+            "bGRlchgIIAEoCzIvLlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtp",
+            "bmdNb2RlbHMuQ29vcmQSQAoHbGVmdEFybRgJIAEoCzIvLlZyTGlmZVNoYXJl",
+            "ZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSQQoIbGVmdEhh",
+            "bmQYCiABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5n",
+            "TW9kZWxzLkNvb3JkEkYKDXJpZ2h0U2hvdWxkZXIYCyABKAsyLy5WckxpZmVT",
+            "aGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEkEKCHJp",
+            "Z2h0QXJtGAwgASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29y",
+            "a2luZ01vZGVscy5Db29yZBJCCglyaWdodEhhbmQYDSABKAsyLy5WckxpZmVT",
+            "aGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkEkEKCGxl",
+            "ZnRLbmVlGA4gASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29y",
+            "a2luZ01vZGVscy5Db29yZBJBCghsZWZ0Rm9vdBgPIAEoCzIvLlZyTGlmZVNo",
+            "YXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSQgoJcmln",
+            "aHRLbmVlGBAgASgLMi8uVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29y",
+            "a2luZ01vZGVscy5Db29yZBJCCglyaWdodEZvb3QYESABKAsyLy5WckxpZmVT",
+            "aGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkInsKCkdh",
+            "bWVPYmplY3QSGAoQb2JqZWN0SW5zdGFuY2VJZBgBIAEoBBI/CgZjZW50ZXIY",
+            "AiABKAsyLy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3JraW5nTW9k",
+            "ZWxzLkNvb3JkEhIKCm9iamVjdERhdGEYAyABKAwiKAoFQ29vcmQSCQoBeBgB",
+            "IAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.Skeleton), global::VrLifeShared.Networking.NetworkingModels.Skeleton.Parser, new[]{ "UserId", "BodyLocation", "Head", "Neck", "Spine", "Hips", "LeftShoulder", "LeftArm", "LeftHand", "RightShoulder", "RightArm", "RightHand", "LeftKnee", "LeftFoot", "RightKnee", "RightFoot" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.Skeleton), global::VrLifeShared.Networking.NetworkingModels.Skeleton.Parser, new[]{ "UserId", "BodyLocation", "BodyRotation", "Head", "Neck", "Spine", "Hips", "LeftShoulder", "LeftArm", "LeftHand", "RightShoulder", "RightArm", "RightHand", "LeftKnee", "LeftFoot", "RightKnee", "RightFoot" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.GameObject), global::VrLifeShared.Networking.NetworkingModels.GameObject.Parser, new[]{ "ObjectInstanceId", "Center", "ObjectData" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.Coord), global::VrLifeShared.Networking.NetworkingModels.Coord.Parser, new[]{ "X", "Y", "Z" }, null, null, null)
           }));
@@ -91,6 +90,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     public Skeleton(Skeleton other) : this() {
       userId_ = other.userId_;
       BodyLocation = other.bodyLocation_ != null ? other.BodyLocation.Clone() : null;
+      BodyRotation = other.bodyRotation_ != null ? other.BodyRotation.Clone() : null;
       Head = other.head_ != null ? other.Head.Clone() : null;
       Neck = other.neck_ != null ? other.Neck.Clone() : null;
       Spine = other.spine_ != null ? other.Spine.Clone() : null;
@@ -134,8 +134,19 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
+    /// <summary>Field number for the "bodyRotation" field.</summary>
+    public const int BodyRotationFieldNumber = 3;
+    private global::VrLifeShared.Networking.NetworkingModels.Coord bodyRotation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.Coord BodyRotation {
+      get { return bodyRotation_; }
+      set {
+        bodyRotation_ = value;
+      }
+    }
+
     /// <summary>Field number for the "head" field.</summary>
-    public const int HeadFieldNumber = 3;
+    public const int HeadFieldNumber = 4;
     private global::VrLifeShared.Networking.NetworkingModels.Coord head_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord Head {
@@ -146,7 +157,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "neck" field.</summary>
-    public const int NeckFieldNumber = 4;
+    public const int NeckFieldNumber = 5;
     private global::VrLifeShared.Networking.NetworkingModels.Coord neck_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord Neck {
@@ -157,7 +168,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "spine" field.</summary>
-    public const int SpineFieldNumber = 5;
+    public const int SpineFieldNumber = 6;
     private global::VrLifeShared.Networking.NetworkingModels.Coord spine_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord Spine {
@@ -168,7 +179,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "hips" field.</summary>
-    public const int HipsFieldNumber = 6;
+    public const int HipsFieldNumber = 7;
     private global::VrLifeShared.Networking.NetworkingModels.Coord hips_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord Hips {
@@ -179,7 +190,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "leftShoulder" field.</summary>
-    public const int LeftShoulderFieldNumber = 7;
+    public const int LeftShoulderFieldNumber = 8;
     private global::VrLifeShared.Networking.NetworkingModels.Coord leftShoulder_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord LeftShoulder {
@@ -190,7 +201,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "leftArm" field.</summary>
-    public const int LeftArmFieldNumber = 8;
+    public const int LeftArmFieldNumber = 9;
     private global::VrLifeShared.Networking.NetworkingModels.Coord leftArm_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord LeftArm {
@@ -201,7 +212,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "leftHand" field.</summary>
-    public const int LeftHandFieldNumber = 9;
+    public const int LeftHandFieldNumber = 10;
     private global::VrLifeShared.Networking.NetworkingModels.Coord leftHand_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord LeftHand {
@@ -212,7 +223,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "rightShoulder" field.</summary>
-    public const int RightShoulderFieldNumber = 10;
+    public const int RightShoulderFieldNumber = 11;
     private global::VrLifeShared.Networking.NetworkingModels.Coord rightShoulder_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord RightShoulder {
@@ -223,7 +234,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "rightArm" field.</summary>
-    public const int RightArmFieldNumber = 11;
+    public const int RightArmFieldNumber = 12;
     private global::VrLifeShared.Networking.NetworkingModels.Coord rightArm_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord RightArm {
@@ -234,7 +245,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "rightHand" field.</summary>
-    public const int RightHandFieldNumber = 12;
+    public const int RightHandFieldNumber = 13;
     private global::VrLifeShared.Networking.NetworkingModels.Coord rightHand_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord RightHand {
@@ -245,7 +256,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "leftKnee" field.</summary>
-    public const int LeftKneeFieldNumber = 13;
+    public const int LeftKneeFieldNumber = 14;
     private global::VrLifeShared.Networking.NetworkingModels.Coord leftKnee_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord LeftKnee {
@@ -256,7 +267,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "leftFoot" field.</summary>
-    public const int LeftFootFieldNumber = 14;
+    public const int LeftFootFieldNumber = 15;
     private global::VrLifeShared.Networking.NetworkingModels.Coord leftFoot_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord LeftFoot {
@@ -267,7 +278,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "rightKnee" field.</summary>
-    public const int RightKneeFieldNumber = 15;
+    public const int RightKneeFieldNumber = 16;
     private global::VrLifeShared.Networking.NetworkingModels.Coord rightKnee_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord RightKnee {
@@ -278,7 +289,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     }
 
     /// <summary>Field number for the "rightFoot" field.</summary>
-    public const int RightFootFieldNumber = 16;
+    public const int RightFootFieldNumber = 17;
     private global::VrLifeShared.Networking.NetworkingModels.Coord rightFoot_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeShared.Networking.NetworkingModels.Coord RightFoot {
@@ -303,6 +314,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
       if (UserId != other.UserId) return false;
       if (!object.Equals(BodyLocation, other.BodyLocation)) return false;
+      if (!object.Equals(BodyRotation, other.BodyRotation)) return false;
       if (!object.Equals(Head, other.Head)) return false;
       if (!object.Equals(Neck, other.Neck)) return false;
       if (!object.Equals(Spine, other.Spine)) return false;
@@ -325,6 +337,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
       int hash = 1;
       if (UserId != 0UL) hash ^= UserId.GetHashCode();
       if (bodyLocation_ != null) hash ^= BodyLocation.GetHashCode();
+      if (bodyRotation_ != null) hash ^= BodyRotation.GetHashCode();
       if (head_ != null) hash ^= Head.GetHashCode();
       if (neck_ != null) hash ^= Neck.GetHashCode();
       if (spine_ != null) hash ^= Spine.GetHashCode();
@@ -357,60 +370,64 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteRawTag(18);
         output.WriteMessage(BodyLocation);
       }
-      if (head_ != null) {
+      if (bodyRotation_ != null) {
         output.WriteRawTag(26);
+        output.WriteMessage(BodyRotation);
+      }
+      if (head_ != null) {
+        output.WriteRawTag(34);
         output.WriteMessage(Head);
       }
       if (neck_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(Neck);
       }
       if (spine_ != null) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(50);
         output.WriteMessage(Spine);
       }
       if (hips_ != null) {
-        output.WriteRawTag(50);
+        output.WriteRawTag(58);
         output.WriteMessage(Hips);
       }
       if (leftShoulder_ != null) {
-        output.WriteRawTag(58);
+        output.WriteRawTag(66);
         output.WriteMessage(LeftShoulder);
       }
       if (leftArm_ != null) {
-        output.WriteRawTag(66);
+        output.WriteRawTag(74);
         output.WriteMessage(LeftArm);
       }
       if (leftHand_ != null) {
-        output.WriteRawTag(74);
+        output.WriteRawTag(82);
         output.WriteMessage(LeftHand);
       }
       if (rightShoulder_ != null) {
-        output.WriteRawTag(82);
+        output.WriteRawTag(90);
         output.WriteMessage(RightShoulder);
       }
       if (rightArm_ != null) {
-        output.WriteRawTag(90);
+        output.WriteRawTag(98);
         output.WriteMessage(RightArm);
       }
       if (rightHand_ != null) {
-        output.WriteRawTag(98);
+        output.WriteRawTag(106);
         output.WriteMessage(RightHand);
       }
       if (leftKnee_ != null) {
-        output.WriteRawTag(106);
+        output.WriteRawTag(114);
         output.WriteMessage(LeftKnee);
       }
       if (leftFoot_ != null) {
-        output.WriteRawTag(114);
+        output.WriteRawTag(122);
         output.WriteMessage(LeftFoot);
       }
       if (rightKnee_ != null) {
-        output.WriteRawTag(122);
+        output.WriteRawTag(130, 1);
         output.WriteMessage(RightKnee);
       }
       if (rightFoot_ != null) {
-        output.WriteRawTag(130, 1);
+        output.WriteRawTag(138, 1);
         output.WriteMessage(RightFoot);
       }
     }
@@ -423,6 +440,9 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
       if (bodyLocation_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(BodyLocation);
+      }
+      if (bodyRotation_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(BodyRotation);
       }
       if (head_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Head);
@@ -461,7 +481,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(LeftFoot);
       }
       if (rightKnee_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RightKnee);
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightKnee);
       }
       if (rightFoot_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(RightFoot);
@@ -482,6 +502,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
           bodyLocation_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
         }
         BodyLocation.MergeFrom(other.BodyLocation);
+      }
+      if (other.bodyRotation_ != null) {
+        if (bodyRotation_ == null) {
+          bodyRotation_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
+        }
+        BodyRotation.MergeFrom(other.BodyRotation);
       }
       if (other.head_ != null) {
         if (head_ == null) {
@@ -589,97 +615,104 @@ namespace VrLifeShared.Networking.NetworkingModels {
             break;
           }
           case 26: {
+            if (bodyRotation_ == null) {
+              bodyRotation_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
+            }
+            input.ReadMessage(bodyRotation_);
+            break;
+          }
+          case 34: {
             if (head_ == null) {
               head_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(head_);
             break;
           }
-          case 34: {
+          case 42: {
             if (neck_ == null) {
               neck_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(neck_);
             break;
           }
-          case 42: {
+          case 50: {
             if (spine_ == null) {
               spine_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(spine_);
             break;
           }
-          case 50: {
+          case 58: {
             if (hips_ == null) {
               hips_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(hips_);
             break;
           }
-          case 58: {
+          case 66: {
             if (leftShoulder_ == null) {
               leftShoulder_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(leftShoulder_);
             break;
           }
-          case 66: {
+          case 74: {
             if (leftArm_ == null) {
               leftArm_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(leftArm_);
             break;
           }
-          case 74: {
+          case 82: {
             if (leftHand_ == null) {
               leftHand_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(leftHand_);
             break;
           }
-          case 82: {
+          case 90: {
             if (rightShoulder_ == null) {
               rightShoulder_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(rightShoulder_);
             break;
           }
-          case 90: {
+          case 98: {
             if (rightArm_ == null) {
               rightArm_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(rightArm_);
             break;
           }
-          case 98: {
+          case 106: {
             if (rightHand_ == null) {
               rightHand_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(rightHand_);
             break;
           }
-          case 106: {
+          case 114: {
             if (leftKnee_ == null) {
               leftKnee_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(leftKnee_);
             break;
           }
-          case 114: {
+          case 122: {
             if (leftFoot_ == null) {
               leftFoot_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(leftFoot_);
             break;
           }
-          case 122: {
+          case 130: {
             if (rightKnee_ == null) {
               rightKnee_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(rightKnee_);
             break;
           }
-          case 130: {
+          case 138: {
             if (rightFoot_ == null) {
               rightFoot_ = new global::VrLifeShared.Networking.NetworkingModels.Coord();
             }
@@ -1041,7 +1074,8 @@ namespace VrLifeShared.Networking.NetworkingModels {
         }
       }
     }
-    }
+
+  }
 
   #endregion
 

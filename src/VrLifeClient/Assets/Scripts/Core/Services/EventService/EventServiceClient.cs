@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -42,48 +43,31 @@ namespace VrLifeClient.Core.Services.EventService
 
         public ServiceCallback<bool> SendSkeleton(SkeletonState skeleton)
         {
+            if(!_api.Services.User.UserId.HasValue)
+            {
+                throw new EventServiceException("UserId cannot be null.");
+            }
             skeleton.UserId = _api.Services.User.UserId.Value;
             EventDataMsg eventData = new EventDataMsg();
             eventData.EventType = (uint)VrLifeShared.Core.Services.EventService.EventType.SKELETON_STATE;
             eventData.SkeletonValue = skeleton.ToNetworkModel();
-            return SendEvent(eventData);
+            return SendInternalEvent(eventData);
         }
 
-        public ServiceCallback<bool> SendEvent(EventDataMsg eventData)
+        public ServiceCallback<bool> SendInternalEvent(EventDataMsg eventData)
         {
             return new ServiceCallback<bool>(() =>
             {
-                if(_api.Services.Room.ForwarderAddress == null)
-                {
-                    return false;
-                }
-                lock(_eventLock)
-                {
-                    eventData.EventId = _eventsSent++;
-                    _eventBuffer.Enqueue(eventData);
-                }
-                MainMessage msg = new MainMessage();
-                msg.EventMsg = new EventMsg();
-                msg.EventMsg.EventDataMsg = eventData;
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                MainMessage response;
-                try
-                {
-                    response = _api.OpenAPI.Networking.Send(msg, _api.Services.Room.ForwarderAddress);
-                }
-                catch (SocketException)
-                {
-                    _api.Services.System.OnForwarderLost();
-                    throw;
-                }
+                MainMessage response = SendEvent(eventData);
                 sw.Stop();
-                if(SystemServiceClient.IsErrorMsg(response))
+                if (SystemServiceClient.IsErrorMsg(response))
                 {
                     throw new EventServiceException(response.SystemMsg.ErrorMsg.ErrorMsg_);
                 }
                 EventResponse eventResponse = response.EventMsg.EventResponse;
-                if(eventResponse == null)
+                if (eventResponse == null)
                 {
                     throw new EventServiceException("Unknown response.");
                 }
@@ -91,6 +75,52 @@ namespace VrLifeClient.Core.Services.EventService
                 HandleEventResponse(eventResponse);
                 return true;
             });
+        }
+
+        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg eventData)
+        {
+            return new ServiceCallback<MainMessage>(() =>
+            {
+                return SendEvent(eventData);
+            });
+        }
+
+        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg eventData, IPEndPoint address)
+        {
+            return new ServiceCallback<MainMessage>(() => 
+            {
+                return SendEvent(eventData, address);
+            });
+        }
+
+        public MainMessage SendEvent(EventDataMsg eventData)
+        {
+            if (_api.Services.Room.ForwarderAddress == null)
+            {
+                return null;
+            }
+            return SendEvent(eventData, _api.Services.Room.ForwarderAddress);
+        }
+
+        public MainMessage SendEvent(EventDataMsg eventData, IPEndPoint address)
+        {
+            lock(_eventLock)
+            {
+                eventData.EventId = _eventsSent++;
+                _eventBuffer.Enqueue(eventData);
+            }
+            MainMessage msg = new MainMessage();
+            msg.EventMsg = new EventMsg();
+            msg.EventMsg.EventDataMsg = eventData;
+            try
+            {
+                return _api.OpenAPI.Networking.Send(msg, address);
+            }
+            catch (SocketException)
+            {
+                _api.Services.System.OnForwarderLost();
+                throw;
+            }
             
         }
 

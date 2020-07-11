@@ -99,6 +99,7 @@ namespace VrLifeServer
             // APIs
             _openAPI = new OpenAPI(udpListenner, _config);
             _closedAPI = new ClosedAPI(_openAPI, sp);
+            _openAPI.Init(_closedAPI);
 
             // Initialization of services
             foreach (IServiceProvider service in coreServices)

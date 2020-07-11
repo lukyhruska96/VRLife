@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using VrLifeClient.Core.Services.EventService;
@@ -23,6 +24,15 @@ namespace Assets.Scripts.API.OpenAPI
         public ServiceCallback<bool> SendSkeleton(SkeletonState skeleton)
         {
             return _eventService.SendSkeleton(skeleton);
+        }
+
+        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg msg) {
+            return _eventService.SendCustomEvent(msg);
+        }
+
+        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg msg, IPEndPoint address)
+        {
+            return _eventService.SendCustomEvent(msg, address);
         }
     }
 }

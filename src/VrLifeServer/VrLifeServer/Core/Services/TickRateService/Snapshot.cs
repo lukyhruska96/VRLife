@@ -37,5 +37,23 @@ namespace VrLifeServer.Core.Services.TickRateService
             data.Objects.AddRange(this.ObjectStates.Select(x => x.Value.ToNetworkModel()));
             return data;
         }
+
+        public static Snapshot MakeDiff(Snapshot from, Snapshot to)
+        {
+            Snapshot val = new Snapshot();
+            val.Tick = to.Tick;
+            var dict = to.SkeletonStates
+                .Select(x => from.SkeletonStates.TryGetValue(x.Key, out SkeletonState val) ? x.Value - val : x.Value)
+                .ToDictionary(x => x.UserId, x => x);
+            foreach(var keypair in dict)
+            {
+                while (!val.SkeletonStates.TryAdd(keypair.Key, keypair.Value));
+            }
+            foreach(var keypair in to.ObjectStates)
+            {
+                while (!val.ObjectStates.TryAdd(keypair.Key, keypair.Value)) ;
+            }
+            return val;
+        }
     }
 }

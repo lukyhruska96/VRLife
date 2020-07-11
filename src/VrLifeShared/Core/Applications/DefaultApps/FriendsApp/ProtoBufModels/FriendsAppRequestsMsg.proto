@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.FriendsApp.NetworkingModels;
+
+import "FriendsAppUserMsg.proto";
+message FriendsAppRequestsMsg
+{
+	uint64 toUser = 1;
+	repeated FriendsAppUserMsg friendRequestsList = 2;
+}

@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -60,7 +59,6 @@ public class Login : MonoBehaviour
 
     private void RoomFound(Room room)
     {
-        VrLifeCore.Room = room;
         Debug.Log("Room found");
         Debug.Log($"{room.Name}[{room.Id}] with capacity {room.Capacity}");
 

@@ -54,5 +54,7 @@ namespace VrLifeServer.Database
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<AppData> AppData { get; set; }
     }
 }

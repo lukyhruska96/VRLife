@@ -27,6 +27,9 @@ namespace VrLifeClient.Core.Services.RoomService
         public delegate void RoomExitEventHandler();
         public event RoomExitEventHandler RoomExited;
 
+        public delegate void RoomEnterEventHandler();
+        public event RoomEnterEventHandler RoomEntered;
+
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
@@ -171,6 +174,11 @@ namespace VrLifeClient.Core.Services.RoomService
         public void OnRoomExit()
         {
             RoomExited?.Invoke();
+        }
+
+        public void OnRoomEnter()
+        {
+            RoomEntered?.Invoke();
         }
     }
 }

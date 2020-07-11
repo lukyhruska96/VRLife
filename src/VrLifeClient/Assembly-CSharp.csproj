@@ -63,6 +63,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Libraries\Core\Applications\AppInfo.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\FriendsAppEvents.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\FriendsAppUser.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppListMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppRequestsMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppUserMsg.cs" />
     <Compile Include="Assets\Libraries\Core\Services\EventType.cs" />
     <Compile Include="Assets\Libraries\Logging\ConsoleLogger.cs" />
     <Compile Include="Assets\Libraries\Logging\FileLogger.cs" />
@@ -86,23 +93,56 @@
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\UserMsg.cs" />
     <Compile Include="Assets\Libraries\Networking\TCPNetworking.cs" />
     <Compile Include="Assets\Libraries\Networking\UDPNetworking.cs" />
-    <Compile Include="Assets\Prefab\Avatar\Default\DefaultController.cs" />
-    <Compile Include="Assets\Prefab\Avatar\Default\IdleChanging.cs" />
-    <Compile Include="Assets\Prefab\Avatar\Default\Test.cs" />
+    <Compile Include="Assets\Resources\Avatar\Default\DefaultController.cs" />
     <Compile Include="Assets\Scripts\API\ClosedAPI.cs" />
+    <Compile Include="Assets\Scripts\API\GlobalAPI\GlobalAPI.cs" />
+    <Compile Include="Assets\Scripts\API\HUDAPI\HUDAPI.cs" />
+    <Compile Include="Assets\Scripts\API\MenuAPI\MenuAPI.cs" />
     <Compile Include="Assets\Scripts\API\MiddlewareProvider.cs" />
+    <Compile Include="Assets\Scripts\API\ObjectAPI\ObjectAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\EventAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\RoomAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\SystemAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\TickAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\UserAPI.cs" />
+    <Compile Include="Assets\Scripts\API\Permissions.cs" />
     <Compile Include="Assets\Scripts\API\ServiceProvider.cs" />
     <Compile Include="Assets\Scripts\Config.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\BackgroundApp\IBackgroundApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\AppManager\AppManager.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\AppManager\AppManagerException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\DefaultApps.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsApp\FriendsApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsApp\FriendsAppException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\CurrentRoom.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendRequests.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsList.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsManagementApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsSearch.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\IFriendsManagementView.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListAppException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\GlobalApp\IGlobalAPp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\IApplication.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\IMenuApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuAppInfo.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\IMenuItem.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemButton.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemCheckbox.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemGrid.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemImage.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemInfo.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemInput.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemText.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\ObjectApp\IObjectApp.cs" />
     <Compile Include="Assets\Scripts\Core\Character\CharacterLoadingException.cs" />
+    <Compile Include="Assets\Scripts\Core\Character\ControlHUD.cs" />
     <Compile Include="Assets\Scripts\Core\Character\DefaultAvatar.cs" />
     <Compile Include="Assets\Scripts\Core\Character\SkeletonState.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceClient.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\IServiceClient.cs" />
@@ -118,13 +158,20 @@
     <Compile Include="Assets\Scripts\Core\Services\UserService\UserServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Utils\Convert.cs" />
     <Compile Include="Assets\Scripts\Core\Utils\GameObject.cs" />
+    <Compile Include="Assets\Scripts\Core\Utils\MenuItem.cs" />
     <Compile Include="Assets\Scripts\Core\Wrappers\IAvatar.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Main\SceneController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Main\VrLifeCore.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Login.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\MenuEventSystem.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Register.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\HUDControl.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\InputController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuControl.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuDropdownList.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuAppContainer.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemGridController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemImageController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\RoomState.cs" />
@@ -694,8 +741,14 @@
     <Reference Include="Unity.InputSystem">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Path.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
@@ -709,8 +762,32 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.001">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Runtime">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Runtime">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEditorBridge.001">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

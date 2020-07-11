@@ -15,25 +15,12 @@ namespace VrLifeServer.Core.Services.TickRateService
     class TickRateServiceForwarder : ITickRateServiceForwarder
     {
         private const long MAX_ACTIVITY_DELTA = 5000;
+        private const long TIME_TO_INIT = 10000;
         private ClosedAPI _api;
         private ILogger _log;
         private ConcurrentDictionary<uint, TickRoom> _tickRoom = new ConcurrentDictionary<uint, TickRoom>();
         private Dictionary<(uint, ulong), long> _playerLastActivity = new Dictionary<(uint, ulong), long>();
 
-        public void AddRoom(Room room)
-        {
-            TickRoom tickRoom = new TickRoom(room);
-            if(_tickRoom.TryAdd(room.Id, tickRoom)) {
-                tickRoom.Start();
-            }
-        }
-
-        public void DelRoom(Room room)
-        {
-            if(_tickRoom.TryRemove(room.Id, out TickRoom tickRoom)) {
-                tickRoom.Stop();
-            }
-        }
 
         public MainMessage HandleMessage(MainMessage msg)
         {
@@ -66,7 +53,10 @@ namespace VrLifeServer.Core.Services.TickRateService
         {
             _api = api;
             _log = api.OpenAPI.CreateLogger(this.GetType().Name);
+            _api.Services.Room.UserConnected += OnUserConnected;
             _api.Services.Room.UserDisconnected += OnUserDisconnected;
+            _api.Services.Room.RoomDeleted += OnRoomDeleted;
+            _api.Services.Room.RoomCreated += OnRoomCreated;
         }
 
         public bool IsActive(ulong userId, uint roomId)
@@ -102,6 +92,27 @@ namespace VrLifeServer.Core.Services.TickRateService
             {
                 _playerLastActivity.Remove((roomId, userId));
                 room.CurrentTick.SkeletonStates.TryRemove(userId, out _);
+            }
+        }
+
+        private void OnUserConnected(ulong userId, uint roomId)
+        {
+            _playerLastActivity[(roomId, userId)] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + TIME_TO_INIT;
+        }
+
+        protected virtual void OnRoomDeleted(uint roomId)
+        {
+            TickRoom r = null;
+            while (_tickRoom.ContainsKey(roomId) && !_tickRoom.TryRemove(roomId, out r)) ;
+            r?.Stop();
+        }
+
+        protected virtual void OnRoomCreated(Room room)
+        {
+            TickRoom tickRoom = new TickRoom(room, (int)room.TickRate);
+            if (_tickRoom.TryAdd(room.Id, tickRoom))
+            {
+                tickRoom.Start();
             }
         }
     }

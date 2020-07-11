@@ -8,4 +8,8 @@
     <PackageReference Include="Google.Protobuf" Version="3.11.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Applications\DefaultApps\FriendsApp\NetworkingModels\" />
+  </ItemGroup>
+
 </Project>

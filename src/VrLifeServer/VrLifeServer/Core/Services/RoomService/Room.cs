@@ -22,6 +22,7 @@ namespace VrLifeServer.Core.Services.RoomService
         public IPEndPoint Address { get; set; }
         public uint TickRate { get; set; }
         public ulong StartTime { get; set; }
+        public long LastActivity { get; set; }
 
         public Room()
         {

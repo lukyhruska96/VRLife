@@ -26,6 +26,8 @@ namespace VrLifeClient
 
         private ClosedAPI _closedAPI;
 
+        public ClosedAPI ClosedAPI { get => _closedAPI; }
+
         private List<IServiceClient> coreServices = new List<IServiceClient>();
 
         private Config _config;

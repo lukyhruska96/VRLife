@@ -6,9 +6,19 @@ namespace VrLifeServer.Core.Services.RoomService
 {
     interface IRoomServiceForwarder : IRoomService, IServiceForwarder
     {
-        public uint? RoomByUserId(ulong userId);
+        uint? RoomByUserId(ulong userId);
+        ulong[] GetConnectedUsers(uint roomId);
 
-        public delegate void UserDisconnectEventHandler(ulong userId, uint roomId, string reason);
-        public event UserDisconnectEventHandler UserDisconnected;
+        delegate void UserConnectEventHandler(ulong userId, uint roomId);
+        event UserConnectEventHandler UserConnected;
+
+        delegate void UserDisconnectEventHandler(ulong userId, uint roomId, string reason);
+        event UserDisconnectEventHandler UserDisconnected;
+
+        delegate void RoomDeleteEventHandler(uint roomId);
+        event RoomDeleteEventHandler RoomDeleted;
+
+        delegate void RoomCreateEventHandler(Room room);
+        event RoomCreateEventHandler RoomCreated;
     }
 }

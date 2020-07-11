@@ -30,8 +30,12 @@ namespace VrLifeServer.Core.Services.UserService
             _clientMachines.Add(null);
         }
 
-        public User GetUserByClientId(uint clientId)
+        public User GetUserByClientId(ulong clientId)
         {
+            if(clientId >=(ulong)_clientMachines.Count)
+            {
+                return null;
+            }
             return _clientMachines[(int)clientId];
         }
            

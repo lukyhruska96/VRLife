@@ -13,8 +13,38 @@ namespace VrLifeServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("VrLifeServer.Database.DbModels.AppData", b =>
+                {
+                    b.Property<ulong>("RecordId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<ulong>("AppId")
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<double>("DecimalValue")
+                        .HasColumnType("double");
+
+                    b.Property<ulong>("FieldId")
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long>("NumericValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StringValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("RecordId");
+
+                    b.ToTable("AppData");
+                });
 
             modelBuilder.Entity("VrLifeServer.Database.DbModels.User", b =>
                 {

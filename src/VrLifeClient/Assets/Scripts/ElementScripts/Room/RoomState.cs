@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Core.Character;
+using Assets.Scripts.Core.Services.TickRateService;
 using Assets.Scripts.Core.Utils;
 using Assets.Scripts.Core.Wrappers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VrLifeClient;
 using VrLifeShared.Networking.NetworkingModels;
 
@@ -13,18 +15,21 @@ public class RoomState : MonoBehaviour
     private Dictionary<ulong, IAvatar> _avatars = new Dictionary<ulong, IAvatar>();
     private Coroutine _roomStateCoroutine;
     private IAvatar _playerAvatar;
+    private ControlHUD _hud;
     private bool _ready = false;
 
+    private void Awake()
+    {
+        VrLifeCore.API.Room.OnRoomEnter();
+    }
     void Start()
     {
         if(VrLifeCore.API == null)
         {
             return;
         }
-        ulong userId = VrLifeCore.API.User.UserId.Value;
-        _playerAvatar = new DefaultAvatar(userId, "Player", Vector3.zero, Quaternion.identity);
-        _playerAvatar.SetControls(true);
-        //_avatars[userId] = _playerAvatar;
+        VrLifeCore.API.Room.RoomExited += OnRoomExit;
+        InitilizePlayer();
         _roomStateCoroutine = StartCoroutine(RoomStateCoroutine());
         _ready = true;
     }
@@ -52,7 +57,15 @@ public class RoomState : MonoBehaviour
         ulong lastTick = 0;
         while(true)
         {
-            SnapshotData data = VrLifeCore.API.TickRate.GetSnapshot().Wait();
+            SnapshotData data;
+            try
+            {
+                data = VrLifeCore.API.TickRate.GetSnapshot().Wait();
+            }
+            catch(TickRateServiceException)
+            {
+                yield break;
+            }
             if(data.TickNum == lastTick)
             {
                 continue;
@@ -83,5 +96,18 @@ public class RoomState : MonoBehaviour
             lastTick = data.TickNum;
             yield return null;
         }
+    }
+
+    private void OnRoomExit()
+    {
+        SceneController.current.ToMainMenu();
+    }
+
+    private void InitilizePlayer()
+    {
+        ulong userId = VrLifeCore.API.User.UserId.Value;
+        _playerAvatar = new DefaultAvatar(userId, "Player", Vector3.zero, Quaternion.identity);
+        _playerAvatar.SetControls(true);
+        _hud = new ControlHUD(_playerAvatar.GetHead());
     }
 }

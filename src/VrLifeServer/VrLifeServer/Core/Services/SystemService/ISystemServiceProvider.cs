@@ -6,5 +6,6 @@ namespace VrLifeServer.Core.Services.SystemService
 {
     interface ISystemServiceProvider : ISystemService, IServiceProvider
     {
+        bool IsAlive(ulong serverId);
     }
 }

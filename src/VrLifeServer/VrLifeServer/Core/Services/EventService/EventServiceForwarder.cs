@@ -40,12 +40,7 @@ namespace VrLifeServer.Core.Services.EventService
             MainMessage response;
             if (eventMsg.EventDataMsg.AppTypeCase != EventDataMsg.AppTypeOneofCase.None)
             {
-                ulong? userId = _api.Services.User.GetUserIdByClientId(msg.ClientId);
-                if(!userId.HasValue)
-                {
-                    return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unauthenticated client.");
-                }
-                response = _api.Services.App.HandleEvent(eventMsg, userId.Value, eventMsg.EventDataMsg.InstanceId);
+                response = _api.Services.App.HandleEvent(msg);
             }
             else
             {

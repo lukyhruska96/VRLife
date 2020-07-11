@@ -27,21 +27,22 @@ namespace VrLifeShared.Networking.NetworkingModels {
             "CgxldmVudERhdGFNc2cYASABKAsyNi5WckxpZmVTaGFyZWQuTmV0d29ya2lu",
             "Zy5OZXR3b3JraW5nTW9kZWxzLkV2ZW50RGF0YU1zZ0gAElAKDWV2ZW50UmVz",
             "cG9uc2UYAiABKAsyNy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
-            "aW5nTW9kZWxzLkV2ZW50UmVzcG9uc2VIAEIOCgxFdmVudE1zZ1R5cGUiuwIK",
+            "aW5nTW9kZWxzLkV2ZW50UmVzcG9uc2VIAEIOCgxFdmVudE1zZ1R5cGUizwIK",
             "DEV2ZW50RGF0YU1zZxIPCgdldmVudElkGAEgASgEEhEKCWV2ZW50VHlwZRgC",
-            "IAEoDRISCghpbnRWYWx1ZRgDIAEoDUgAEhQKCmZsb2F0VmFsdWUYBCABKAJI",
-            "ABJLCg1za2VsZXRvblZhbHVlGAUgASgLMjIuVnJMaWZlU2hhcmVkLk5ldHdv",
-            "cmtpbmcuTmV0d29ya2luZ01vZGVscy5Ta2VsZXRvbkgAEksKC29iamVjdFZh",
-            "bHVlGAYgASgLMjQuVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0d29ya2lu",
-            "Z01vZGVscy5HYW1lT2JqZWN0SAASFQoLY3VzdG9tVmFsdWUYByABKAxIABIU",
-            "CgppbnN0YW5jZUlkGAggASgNSAFCCwoJVmFsdWVUeXBlQgkKB0FwcFR5cGUi",
-            "TwoNRXZlbnRSZXNwb25zZRITCgtwcm9jZXNzVGltZRgBIAEoDRIRCglldmVu",
-            "dE1hc2sYAiABKA0SFgoOaGlnaGVzdEV2ZW50SWQYAyABKARiBnByb3RvMw=="));
+            "IAEoDRITCglsb25nVmFsdWUYAyABKARIABIVCgtkb3VibGVWYWx1ZRgEIAEo",
+            "AUgAEksKDXNrZWxldG9uVmFsdWUYBSABKAsyMi5WckxpZmVTaGFyZWQuTmV0",
+            "d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLlNrZWxldG9uSAASSwoLb2JqZWN0",
+            "VmFsdWUYBiABKAsyNC5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
+            "aW5nTW9kZWxzLkdhbWVPYmplY3RIABIVCgtzdHJpbmdWYWx1ZRgHIAEoCUgA",
+            "EhUKC2N1c3RvbVZhbHVlGAggASgMSAASDwoFYXBwSWQYCSABKARIAUILCglW",
+            "YWx1ZVR5cGVCCQoHQXBwVHlwZSJPCg1FdmVudFJlc3BvbnNlEhMKC3Byb2Nl",
+            "c3NUaW1lGAEgASgNEhEKCWV2ZW50TWFzaxgCIAEoDRIWCg5oaWdoZXN0RXZl",
+            "bnRJZBgDIAEoBGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::VrLifeShared.Networking.NetworkingModels.DataTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventMsg), global::VrLifeShared.Networking.NetworkingModels.EventMsg.Parser, new[]{ "EventDataMsg", "EventResponse" }, new[]{ "EventMsgType" }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventDataMsg), global::VrLifeShared.Networking.NetworkingModels.EventDataMsg.Parser, new[]{ "EventId", "EventType", "IntValue", "FloatValue", "SkeletonValue", "ObjectValue", "CustomValue", "InstanceId" }, new[]{ "ValueType", "AppType" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventDataMsg), global::VrLifeShared.Networking.NetworkingModels.EventDataMsg.Parser, new[]{ "EventId", "EventType", "LongValue", "DoubleValue", "SkeletonValue", "ObjectValue", "StringValue", "CustomValue", "AppId" }, new[]{ "ValueType", "AppType" }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventResponse), global::VrLifeShared.Networking.NetworkingModels.EventResponse.Parser, new[]{ "ProcessTime", "EventMask", "HighestEventId" }, null, null, null)
           }));
     }
@@ -265,11 +266,11 @@ namespace VrLifeShared.Networking.NetworkingModels {
       eventId_ = other.eventId_;
       eventType_ = other.eventType_;
       switch (other.ValueTypeCase) {
-        case ValueTypeOneofCase.IntValue:
-          IntValue = other.IntValue;
+        case ValueTypeOneofCase.LongValue:
+          LongValue = other.LongValue;
           break;
-        case ValueTypeOneofCase.FloatValue:
-          FloatValue = other.FloatValue;
+        case ValueTypeOneofCase.DoubleValue:
+          DoubleValue = other.DoubleValue;
           break;
         case ValueTypeOneofCase.SkeletonValue:
           SkeletonValue = other.SkeletonValue.Clone();
@@ -277,14 +278,17 @@ namespace VrLifeShared.Networking.NetworkingModels {
         case ValueTypeOneofCase.ObjectValue:
           ObjectValue = other.ObjectValue.Clone();
           break;
+        case ValueTypeOneofCase.StringValue:
+          StringValue = other.StringValue;
+          break;
         case ValueTypeOneofCase.CustomValue:
           CustomValue = other.CustomValue;
           break;
       }
 
       switch (other.AppTypeCase) {
-        case AppTypeOneofCase.InstanceId:
-          InstanceId = other.InstanceId;
+        case AppTypeOneofCase.AppId:
+          AppId = other.AppId;
           break;
       }
 
@@ -317,25 +321,25 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
-    /// <summary>Field number for the "intValue" field.</summary>
-    public const int IntValueFieldNumber = 3;
+    /// <summary>Field number for the "longValue" field.</summary>
+    public const int LongValueFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public uint IntValue {
-      get { return valueTypeCase_ == ValueTypeOneofCase.IntValue ? (uint) valueType_ : 0; }
+    public ulong LongValue {
+      get { return valueTypeCase_ == ValueTypeOneofCase.LongValue ? (ulong) valueType_ : 0UL; }
       set {
         valueType_ = value;
-        valueTypeCase_ = ValueTypeOneofCase.IntValue;
+        valueTypeCase_ = ValueTypeOneofCase.LongValue;
       }
     }
 
-    /// <summary>Field number for the "floatValue" field.</summary>
-    public const int FloatValueFieldNumber = 4;
+    /// <summary>Field number for the "doubleValue" field.</summary>
+    public const int DoubleValueFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public float FloatValue {
-      get { return valueTypeCase_ == ValueTypeOneofCase.FloatValue ? (float) valueType_ : 0F; }
+    public double DoubleValue {
+      get { return valueTypeCase_ == ValueTypeOneofCase.DoubleValue ? (double) valueType_ : 0D; }
       set {
         valueType_ = value;
-        valueTypeCase_ = ValueTypeOneofCase.FloatValue;
+        valueTypeCase_ = ValueTypeOneofCase.DoubleValue;
       }
     }
 
@@ -361,8 +365,19 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
+    /// <summary>Field number for the "stringValue" field.</summary>
+    public const int StringValueFieldNumber = 7;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string StringValue {
+      get { return valueTypeCase_ == ValueTypeOneofCase.StringValue ? (string) valueType_ : ""; }
+      set {
+        valueType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        valueTypeCase_ = ValueTypeOneofCase.StringValue;
+      }
+    }
+
     /// <summary>Field number for the "customValue" field.</summary>
-    public const int CustomValueFieldNumber = 7;
+    public const int CustomValueFieldNumber = 8;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString CustomValue {
       get { return valueTypeCase_ == ValueTypeOneofCase.CustomValue ? (pb::ByteString) valueType_ : pb::ByteString.Empty; }
@@ -372,17 +387,17 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
-    /// <summary>Field number for the "instanceId" field.</summary>
-    public const int InstanceIdFieldNumber = 8;
+    /// <summary>Field number for the "appId" field.</summary>
+    public const int AppIdFieldNumber = 9;
     /// <summary>
     ///  Nullable&lt;uint>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public uint InstanceId {
-      get { return appTypeCase_ == AppTypeOneofCase.InstanceId ? (uint) appType_ : 0; }
+    public ulong AppId {
+      get { return appTypeCase_ == AppTypeOneofCase.AppId ? (ulong) appType_ : 0UL; }
       set {
         appType_ = value;
-        appTypeCase_ = AppTypeOneofCase.InstanceId;
+        appTypeCase_ = AppTypeOneofCase.AppId;
       }
     }
 
@@ -390,11 +405,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
     /// <summary>Enum of possible cases for the "ValueType" oneof.</summary>
     public enum ValueTypeOneofCase {
       None = 0,
-      IntValue = 3,
-      FloatValue = 4,
+      LongValue = 3,
+      DoubleValue = 4,
       SkeletonValue = 5,
       ObjectValue = 6,
-      CustomValue = 7,
+      StringValue = 7,
+      CustomValue = 8,
     }
     private ValueTypeOneofCase valueTypeCase_ = ValueTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -412,7 +428,7 @@ namespace VrLifeShared.Networking.NetworkingModels {
     /// <summary>Enum of possible cases for the "AppType" oneof.</summary>
     public enum AppTypeOneofCase {
       None = 0,
-      InstanceId = 8,
+      AppId = 9,
     }
     private AppTypeOneofCase appTypeCase_ = AppTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -441,12 +457,13 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
       if (EventId != other.EventId) return false;
       if (EventType != other.EventType) return false;
-      if (IntValue != other.IntValue) return false;
-      if (FloatValue != other.FloatValue) return false;
+      if (LongValue != other.LongValue) return false;
+      if (DoubleValue != other.DoubleValue) return false;
       if (!object.Equals(SkeletonValue, other.SkeletonValue)) return false;
       if (!object.Equals(ObjectValue, other.ObjectValue)) return false;
+      if (StringValue != other.StringValue) return false;
       if (CustomValue != other.CustomValue) return false;
-      if (InstanceId != other.InstanceId) return false;
+      if (AppId != other.AppId) return false;
       if (ValueTypeCase != other.ValueTypeCase) return false;
       if (AppTypeCase != other.AppTypeCase) return false;
       return true;
@@ -457,12 +474,13 @@ namespace VrLifeShared.Networking.NetworkingModels {
       int hash = 1;
       if (EventId != 0UL) hash ^= EventId.GetHashCode();
       if (EventType != 0) hash ^= EventType.GetHashCode();
-      if (valueTypeCase_ == ValueTypeOneofCase.IntValue) hash ^= IntValue.GetHashCode();
-      if (valueTypeCase_ == ValueTypeOneofCase.FloatValue) hash ^= FloatValue.GetHashCode();
+      if (valueTypeCase_ == ValueTypeOneofCase.LongValue) hash ^= LongValue.GetHashCode();
+      if (valueTypeCase_ == ValueTypeOneofCase.DoubleValue) hash ^= DoubleValue.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) hash ^= SkeletonValue.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) hash ^= ObjectValue.GetHashCode();
+      if (valueTypeCase_ == ValueTypeOneofCase.StringValue) hash ^= StringValue.GetHashCode();
       if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) hash ^= CustomValue.GetHashCode();
-      if (appTypeCase_ == AppTypeOneofCase.InstanceId) hash ^= InstanceId.GetHashCode();
+      if (appTypeCase_ == AppTypeOneofCase.AppId) hash ^= AppId.GetHashCode();
       hash ^= (int) valueTypeCase_;
       hash ^= (int) appTypeCase_;
       return hash;
@@ -483,13 +501,13 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteRawTag(16);
         output.WriteUInt32(EventType);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.IntValue) {
+      if (valueTypeCase_ == ValueTypeOneofCase.LongValue) {
         output.WriteRawTag(24);
-        output.WriteUInt32(IntValue);
+        output.WriteUInt64(LongValue);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.FloatValue) {
-        output.WriteRawTag(37);
-        output.WriteFloat(FloatValue);
+      if (valueTypeCase_ == ValueTypeOneofCase.DoubleValue) {
+        output.WriteRawTag(33);
+        output.WriteDouble(DoubleValue);
       }
       if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) {
         output.WriteRawTag(42);
@@ -499,13 +517,17 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteRawTag(50);
         output.WriteMessage(ObjectValue);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
+      if (valueTypeCase_ == ValueTypeOneofCase.StringValue) {
         output.WriteRawTag(58);
+        output.WriteString(StringValue);
+      }
+      if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
+        output.WriteRawTag(66);
         output.WriteBytes(CustomValue);
       }
-      if (appTypeCase_ == AppTypeOneofCase.InstanceId) {
-        output.WriteRawTag(64);
-        output.WriteUInt32(InstanceId);
+      if (appTypeCase_ == AppTypeOneofCase.AppId) {
+        output.WriteRawTag(72);
+        output.WriteUInt64(AppId);
       }
     }
 
@@ -518,11 +540,11 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (EventType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EventType);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.IntValue) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(IntValue);
+      if (valueTypeCase_ == ValueTypeOneofCase.LongValue) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(LongValue);
       }
-      if (valueTypeCase_ == ValueTypeOneofCase.FloatValue) {
-        size += 1 + 4;
+      if (valueTypeCase_ == ValueTypeOneofCase.DoubleValue) {
+        size += 1 + 8;
       }
       if (valueTypeCase_ == ValueTypeOneofCase.SkeletonValue) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SkeletonValue);
@@ -530,11 +552,14 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (valueTypeCase_ == ValueTypeOneofCase.ObjectValue) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ObjectValue);
       }
+      if (valueTypeCase_ == ValueTypeOneofCase.StringValue) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StringValue);
+      }
       if (valueTypeCase_ == ValueTypeOneofCase.CustomValue) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(CustomValue);
       }
-      if (appTypeCase_ == AppTypeOneofCase.InstanceId) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(InstanceId);
+      if (appTypeCase_ == AppTypeOneofCase.AppId) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(AppId);
       }
       return size;
     }
@@ -551,11 +576,11 @@ namespace VrLifeShared.Networking.NetworkingModels {
         EventType = other.EventType;
       }
       switch (other.ValueTypeCase) {
-        case ValueTypeOneofCase.IntValue:
-          IntValue = other.IntValue;
+        case ValueTypeOneofCase.LongValue:
+          LongValue = other.LongValue;
           break;
-        case ValueTypeOneofCase.FloatValue:
-          FloatValue = other.FloatValue;
+        case ValueTypeOneofCase.DoubleValue:
+          DoubleValue = other.DoubleValue;
           break;
         case ValueTypeOneofCase.SkeletonValue:
           SkeletonValue = other.SkeletonValue;
@@ -563,14 +588,17 @@ namespace VrLifeShared.Networking.NetworkingModels {
         case ValueTypeOneofCase.ObjectValue:
           ObjectValue = other.ObjectValue;
           break;
+        case ValueTypeOneofCase.StringValue:
+          StringValue = other.StringValue;
+          break;
         case ValueTypeOneofCase.CustomValue:
           CustomValue = other.CustomValue;
           break;
       }
 
       switch (other.AppTypeCase) {
-        case AppTypeOneofCase.InstanceId:
-          InstanceId = other.InstanceId;
+        case AppTypeOneofCase.AppId:
+          AppId = other.AppId;
           break;
       }
 
@@ -593,11 +621,11 @@ namespace VrLifeShared.Networking.NetworkingModels {
             break;
           }
           case 24: {
-            IntValue = input.ReadUInt32();
+            LongValue = input.ReadUInt64();
             break;
           }
-          case 37: {
-            FloatValue = input.ReadFloat();
+          case 33: {
+            DoubleValue = input.ReadDouble();
             break;
           }
           case 42: {
@@ -619,11 +647,15 @@ namespace VrLifeShared.Networking.NetworkingModels {
             break;
           }
           case 58: {
+            StringValue = input.ReadString();
+            break;
+          }
+          case 66: {
             CustomValue = input.ReadBytes();
             break;
           }
-          case 64: {
-            InstanceId = input.ReadUInt32();
+          case 72: {
+            AppId = input.ReadUInt64();
             break;
           }
         }

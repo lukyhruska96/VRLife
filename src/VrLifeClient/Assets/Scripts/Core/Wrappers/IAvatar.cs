@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Wrappers
 {
@@ -15,9 +16,11 @@ namespace Assets.Scripts.Core.Wrappers
 
         void SetSkeleton(SkeletonState skeleton);
 
-        GameObject GetGameObject();
+        UnityEngine.GameObject GetGameObject();
 
         void SetControls(bool enabled);
+
+        UnityEngine.GameObject GetHead();
 
         void Destroy();
     }

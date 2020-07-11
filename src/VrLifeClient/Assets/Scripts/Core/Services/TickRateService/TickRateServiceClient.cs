@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Core.Services;
 using Assets.Scripts.Core.Services.TickRateService;
+using Assets.Scripts.Core.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;
@@ -40,6 +42,10 @@ namespace VrLifeClient.Core.Services.TickRateService
             {
                 lock(_tickLock)
                 {
+                    if(!_api.Services.User.UserId.HasValue)
+                    {
+                        throw new TickRateServiceException("UserId cannot be null.");
+                    }
                     SnapshotRequest request = new SnapshotRequest();
                     request.UserId = _api.Services.User.UserId.Value;
                     request.LastRTT = _api.Services.Event.LastRTT;
@@ -56,6 +62,11 @@ namespace VrLifeClient.Core.Services.TickRateService
                     if (data == null)
                     {
                         throw new TickRateServiceException("Unknown response.");
+                    }
+                    int tickDiff = (int)(data.TickNum - _lastTick);
+                    if (tickDiff < _api.Services.Room.CurrentRoom.TickRate && _lastTick != 0)
+                    {
+                        data = SnapshotBuffer.Last().AddDiff(data);
                     }
                     SnapshotBuffer.Enqueue(data);
                     if(SnapshotBuffer.Count > SNAPSHOT_BUFFER_SIZE)

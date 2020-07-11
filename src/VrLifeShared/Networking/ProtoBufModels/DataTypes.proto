@@ -4,20 +4,21 @@ package VrLifeShared.Networking.NetworkingModels;
 message Skeleton {
 	uint64 userId = 1;
 	Coord bodyLocation = 2;
-    Coord head = 3;
-    Coord neck = 4;
-    Coord spine = 5;
-    Coord hips = 6;
-    Coord leftShoulder = 7;
-    Coord leftArm = 8;
-    Coord leftHand = 9;
-    Coord rightShoulder = 10;
-    Coord rightArm = 11;
-    Coord rightHand = 12;
-    Coord leftKnee = 13;
-    Coord leftFoot = 14;
-    Coord rightKnee = 15;
-    Coord rightFoot = 16;
+    Coord bodyRotation = 3;
+    Coord head = 4;
+    Coord neck = 5;
+    Coord spine = 6;
+    Coord hips = 7;
+    Coord leftShoulder = 8;
+    Coord leftArm = 9;
+    Coord leftHand = 10;
+    Coord rightShoulder = 11;
+    Coord rightArm = 12;
+    Coord rightHand = 13;
+    Coord leftKnee = 14;
+    Coord leftFoot = 15;
+    Coord rightKnee = 16;
+    Coord rightFoot = 17;
 }
 
 message GameObject {

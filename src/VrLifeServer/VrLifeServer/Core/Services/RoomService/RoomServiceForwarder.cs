@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Update.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
@@ -21,6 +23,9 @@ namespace VrLifeServer.Core.Services.RoomService
         private const int ACTIVITY_WATCH_INTERVAL = 5000;
 
         public event IRoomServiceForwarder.UserDisconnectEventHandler UserDisconnected;
+        public event IRoomServiceForwarder.UserConnectEventHandler UserConnected;
+        public event IRoomServiceForwarder.RoomDeleteEventHandler RoomDeleted;
+        public event IRoomServiceForwarder.RoomCreateEventHandler RoomCreated;
 
         private List<Room> _roomList = new List<Room>();
         private Dictionary<ulong, uint?> _user2Room = new Dictionary<ulong, uint?>();
@@ -49,18 +54,6 @@ namespace VrLifeServer.Core.Services.RoomService
                         default:
                             return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
                     }
-                case RoomMsg.MessageTypeOneofCase.RoomDetail:
-                    if (msg.SenderIdCase != MainMessage.SenderIdOneofCase.ServerId)
-                    {
-                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Client cannot ask for room migration.");
-                    }
-                    return RoomMigration(msg.MsgId, msg.ServerId, roomMsg.RoomDetail);
-                case RoomMsg.MessageTypeOneofCase.RoomList:
-                    if (msg.SenderIdCase != MainMessage.SenderIdOneofCase.ServerId)
-                    {
-                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Client cannot ask for bulk room migration.");
-                    }
-                    return RoomBulkMigration(msg.MsgId, msg.ServerId, roomMsg.RoomList);
                 default:
                     return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
 
@@ -73,6 +66,7 @@ namespace VrLifeServer.Core.Services.RoomService
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
             InitRoomListInfo();
             InitActivityWatch();
+            InitRoomGC();
         }
 
         private MainMessage RoomDetail(uint roomId)
@@ -110,11 +104,12 @@ namespace VrLifeServer.Core.Services.RoomService
             room.Name = create.Name;
             room.Capacity = create.Capacity;
             room.Address = new IPEndPoint(_api.OpenAPI.Config.ServerAddress, (int)_api.OpenAPI.Config.UdpPort);
-            lock(_roomList)
+            room.LastActivity = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            lock (_roomList)
             {
                 room.Id = (uint) _roomList.Count;
                 _roomList.Add(room);
-                _api.Services.TickRate.AddRoom(room);
+                OnRoomCreated(room);
                 _log.Info($"Created new Room with ID {room.Id}.");
                 return RoomDetail(room.Id);
             }
@@ -141,7 +136,9 @@ namespace VrLifeServer.Core.Services.RoomService
                     return ISystemService.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
                 }
                 room.Players.Add(userId.Value);
+                room.LastActivity = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 _user2Room[userId.Value] = (uint?)roomId;
+                OnUserConnected(userId.Value, room.Id);
                 _log.Info($"User with id '{userId.Value}' entered room '{room.Name}'.");
                 MainMessage response = new MainMessage();
                 response.RoomMsg = new RoomMsg();
@@ -168,6 +165,7 @@ namespace VrLifeServer.Core.Services.RoomService
                 }
                 Room room = _roomList[roomId];
                 room.Players.RemoveAt(idx);
+                room.LastActivity = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 OnUserDisconnected(userId.Value, room.Id, "Disconnected");
                 _user2Room[userId.Value] = null;
                 _log.Info($"User with id '{userId.Value}' exited room '{room.Name}'.");
@@ -245,18 +243,24 @@ namespace VrLifeServer.Core.Services.RoomService
             activityWatch.Start();
         }
 
-        // TODO Features
-
-        private MainMessage RoomBulkMigration(ulong msgId, uint serverId, RoomList roomList)
+        private void InitRoomGC()
         {
-            _log.Debug("In RoomBulkMigration method.");
-            return ISystemService.CreateErrorMessage(msgId, 0, 0, "Not supported yet.");
-        }
-
-        private MainMessage RoomMigration(ulong msgId, uint serverId, RoomDetail roomDetail)
-        {
-            _log.Debug("In RoomMigration method.");
-            return ISystemService.CreateErrorMessage(msgId, 0, 0, "Not supported yet.");
+            Task roomGC = new Task(() =>
+            {
+                for(int i = 0; i < _roomList.Count; ++i)
+                {
+                    Room r = _roomList[i];
+                    if(r.Players.Count == 0 && 
+                        DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - 
+                        r.LastActivity > ACTIVITY_WATCH_INTERVAL * 3)
+                    {
+                        _roomList[(int)r.Id] = null;
+                        OnRoomDeleted(r.Id);
+                    }
+                }
+                Thread.Sleep(ACTIVITY_WATCH_INTERVAL);
+            }, TaskCreationOptions.LongRunning);
+            roomGC.Start();
         }
 
         public uint? RoomByUserId(ulong userId)
@@ -268,12 +272,33 @@ namespace VrLifeServer.Core.Services.RoomService
             return roomId;
         }
 
+        public ulong[] GetConnectedUsers(uint roomId)
+        {
+            if(roomId >= _roomList.Count)
+            {
+                return null;
+            }
+            return _roomList[(int)roomId].Players.ToArray();
+        }
+
+        protected virtual void OnUserConnected(ulong userId, uint roomId)
+        {
+            UserConnected?.Invoke(userId, roomId);
+        }
+
         protected virtual void OnUserDisconnected(ulong userId, uint roomId, string reason)
         {
-            if(UserDisconnected != null)
-            {
-                UserDisconnected(userId, roomId, reason);
-            }
+            UserDisconnected?.Invoke(userId, roomId, reason);
+        }
+
+        protected virtual void OnRoomDeleted(uint roomId)
+        {
+            RoomDeleted?.Invoke(roomId);
+        }
+
+        protected virtual void OnRoomCreated(Room room)
+        {
+            RoomCreated?.Invoke(room);
         }
     }
 }

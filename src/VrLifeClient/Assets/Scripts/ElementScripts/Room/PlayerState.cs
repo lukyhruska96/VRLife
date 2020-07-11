@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core.Character;
+using Assets.Scripts.Core.Services.EventService;
 using Assets.Scripts.Core.Wrappers;
 using System;
 using System.Collections;
@@ -11,7 +12,7 @@ using VrLifeShared.Networking.NetworkingModels;
 
 public class PlayerState : MonoBehaviour
 {
-    public IAvatar avatar;
+    public IAvatar Avatar { get; set; }
     private Coroutine _skeletonStateEvent = null;
     // Start is called before the first frame update
     void Start()
@@ -35,17 +36,30 @@ public class PlayerState : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(_skeletonStateEvent);
-        _skeletonStateEvent = null;
+        if (_skeletonStateEvent != null)
+        {
+            StopCoroutine(_skeletonStateEvent);
+            _skeletonStateEvent = null;
+        }
     }
 
     IEnumerator SkeletonStateEvent()
     {
-        while(true)
+        if (Avatar != null)
         {
-            SkeletonState state = avatar.GetCurrentSkeleton();
-            VrLifeCore.API.Event.SendSkeleton(state).Wait();
-            yield return null;
+            while (true)
+            {
+                try
+                {
+                    SkeletonState state = Avatar.GetCurrentSkeleton();
+                    VrLifeCore.API.Event.SendSkeleton(state).Wait();
+                }
+                catch(EventServiceException)
+                {
+                    yield break;
+                }
+                yield return null;
+            }
         }
     }
 }

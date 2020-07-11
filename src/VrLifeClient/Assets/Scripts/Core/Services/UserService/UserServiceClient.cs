@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine.Events;
 using VrLifeClient.API;
+using VrLifeClient.Core.Services.RoomService;
 using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
@@ -14,7 +15,6 @@ namespace VrLifeClient.Core.Services.UserService
     class UserServiceClient : IServiceClient
     {
         private ClosedAPI _api;
-        private ILogger _log;
 
         private ulong? _userId;
         public ulong? UserId { get => _userId; }
@@ -24,14 +24,40 @@ namespace VrLifeClient.Core.Services.UserService
 
         public void HandleMessage(MainMessage msg)
         {
-            _log.Error("Cannot handle this type of message.");
+
         }
 
         public void Init(ClosedAPI api)
         {
             this._api = api;
-            this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
             this._api.Services.System.ProviderLost += Reset;
+        }
+
+        public ServiceCallback<UserListMsg> CurrentRoomUsers()
+        {
+            return new ServiceCallback<UserListMsg>(() => {
+                Room r = _api.Services.Room.CurrentRoom;
+                if (r == null)
+                {
+                    throw new UserException("User must be connected to some room.");
+                }
+                MainMessage msg = new MainMessage();
+                msg.UserMngMsg = new UserMngMsg();
+                msg.UserMngMsg.UserMsg = new UserMsg();
+                msg.UserMngMsg.UserMsg.UserRequestMsg = new UserRequestMsg();
+                msg.UserMngMsg.UserMsg.UserRequestMsg.ListQuery = new UserDetailMsg();
+                MainMessage response = _api.OpenAPI.Networking.Send(msg, r.Address);
+                if(SystemServiceClient.IsErrorMsg(response))
+                {
+                    throw new ErrorMsgException(response.SystemMsg.ErrorMsg);
+                }
+                UserListMsg listMsg = response.UserMngMsg.UserMsg.UserListMsg;
+                if(listMsg == null)
+                {
+                    throw new ErrorMsgException("Unknown response.");
+                }
+                return listMsg;
+            });
         }
 
         public ServiceCallback<bool> Login(string username, string password)
@@ -86,14 +112,12 @@ namespace VrLifeClient.Core.Services.UserService
 
         public void Reset()
         {
-            _log.Debug("In Reset method.");
             _userId = null;
             OnUserLogout();
         }
 
         public void OnUserLogout()
         {
-            _log.Debug("OnUserLogout");
             UserLoggedOut?.Invoke();
         }
     }

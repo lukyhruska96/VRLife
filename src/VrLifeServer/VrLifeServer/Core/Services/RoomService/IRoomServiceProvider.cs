@@ -6,5 +6,6 @@ namespace VrLifeServer.Core.Services.RoomService
 {
     interface IRoomServiceProvider : IRoomService, IServiceProvider
     {
+        uint? RoomIdByUserId(ulong userId);
     }
 }

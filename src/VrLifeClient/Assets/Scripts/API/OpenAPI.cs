@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.API;
 using Assets.Scripts.API.OpenAPI;
+using Assets.Scripts.Core.Applications.DefaultApps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace VrLifeClient.API
         public SystemAPI System { get => _system; }
         private SystemAPI _system;
 
+        public DefaultApps Apps { get => _defaultApps; }
+        private DefaultApps _defaultApps;
+
         private ServiceProvider _serviceProvider;
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config, ServiceProvider serviceProvider)
@@ -46,11 +50,7 @@ namespace VrLifeClient.API
             this._event = new EventAPI(serviceProvider.Event);
             this._tick = new TickAPI(serviceProvider.TickRate);
             this._system = new SystemAPI(serviceProvider.System);
-        }
-
-        public ILogger CreateLogger(string className)
-        {
-            return new LoggerWrapper(className, this._config.Loggers);
+            this._defaultApps = new DefaultApps();
         }
     }
 }
