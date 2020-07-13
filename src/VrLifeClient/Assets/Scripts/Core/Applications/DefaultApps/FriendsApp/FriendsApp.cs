@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Applications.BackgroundApp;
 using Assets.Scripts.Core.Services;
+using Assets.Scripts.Core.Services.EventService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.Core.Services.EventService;
 using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
@@ -71,12 +73,16 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.GET_FRIEND;
                 msg.LongValue = userId;
-                MainMessage response = _api.Event.SendCustomEvent(msg, _api.Config.MainServer).Wait();
-                if (SystemServiceClient.IsErrorMsg(response))
+                byte[] data;
+                try
                 {
-                    throw new FriendsAppException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                    data = _api.Event.SendEvent(msg, EventRecipient.PROVIDER).Wait();
                 }
-                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(response.AppMsg.Data);
+                catch(EventServiceException e)
+                {
+                    throw new FriendsAppException(e.Message);
+                }
+                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(data);
                 if(friendsAppMsg == null || friendsAppMsg.FriendDetail == null)
                 {
                     throw new FriendsAppException("Unknown response.");
@@ -92,12 +98,16 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 EventDataMsg msg = new EventDataMsg();
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.LIST_FRIENDS;
-                MainMessage response = _api.Event.SendCustomEvent(msg, _api.Config.MainServer).Wait();
-                if (SystemServiceClient.IsErrorMsg(response))
+                byte[] data;
+                try
                 {
-                    throw new FriendsAppException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                    data = _api.Event.SendEvent(msg, EventRecipient.PROVIDER).Wait();
                 }
-                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(response.AppMsg.Data);
+                catch(EventServiceException e)
+                {
+                    throw new FriendsAppException(e.Message);
+                }
+                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(data);
                 if (friendsAppMsg == null || friendsAppMsg.FriendsList == null)
                 {
                     throw new FriendsAppException("Unknown response.");
@@ -115,12 +125,16 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 EventDataMsg msg = new EventDataMsg();
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.LIST_FRIEND_REQUESTS;
-                MainMessage response = _api.Event.SendCustomEvent(msg, _api.Config.MainServer).Wait();
-                if (SystemServiceClient.IsErrorMsg(response))
+                byte[] data;
+                try
                 {
-                    throw new FriendsAppException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                    data = _api.Event.SendEvent(msg, EventRecipient.PROVIDER).Wait();
                 }
-                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(response.AppMsg.Data);
+                catch(EventServiceException e)
+                {
+                    throw new FriendsAppException(e.Message);
+                }
+                FriendsAppMsg friendsAppMsg = FriendsAppMsg.Parser.ParseFrom(data);
                 if (friendsAppMsg == null || friendsAppMsg.FriendRequests == null)
                 {
                     throw new FriendsAppException("Unknown response.");
@@ -139,10 +153,13 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.ADD_FRIEND;
                 msg.LongValue = userId;
-                MainMessage response = _api.Event.SendCustomEvent(msg, _api.Config.MainServer).Wait();
-                if(SystemServiceClient.IsErrorMsg(response))
+                try
                 {
-                    throw new FriendsAppException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                    _api.Event.SendEvent(msg, EventRecipient.PROVIDER).Wait();
+                }
+                catch(EventServiceException e)
+                {
+                    throw new FriendsAppException(e.Message);
                 }
                 return true;
             });
@@ -156,10 +173,13 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.DEL_FRIEND;
                 msg.LongValue = userId;
-                MainMessage response = _api.Event.SendCustomEvent(msg, _api.Config.MainServer).Wait();
-                if (SystemServiceClient.IsErrorMsg(response))
+                try
                 {
-                    throw new FriendsAppException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                    _api.Event.SendEvent(msg, EventRecipient.PROVIDER).Wait();
+                }
+                catch(EventServiceException e)
+                {
+                    throw new FriendsAppException(e.Message);
                 }
                 return true;
             });

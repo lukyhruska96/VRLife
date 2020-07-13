@@ -28,6 +28,6 @@ namespace VrLifeServer.Applications
     {
         AppMsg HandleMessage(byte[] data, int size, MsgContext ctx);
 
-        MainMessage HandleEvent(EventDataMsg eventData, MsgContext ctx);
+        byte[] HandleEvent(EventDataMsg eventData, MsgContext ctx);
     }
 }

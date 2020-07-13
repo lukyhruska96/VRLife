@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.API.Provider;
 using VrLifeServer.Applications;
+using VrLifeServer.Core.Services.EventService;
 using VrLifeServer.Core.Services.SystemService;
 using VrLifeShared.Networking.NetworkingModels;
 
@@ -13,17 +14,17 @@ namespace VrLifeServer.Core.Services.AppService
         private ClosedAPI _api;
         private Dictionary<ulong, IApplicationProvider> _appInstances = 
             new Dictionary<ulong, IApplicationProvider>();
-        public MainMessage HandleEvent(MainMessage msg)
+        public byte[] HandleEvent(MainMessage msg)
         {
             EventDataMsg eventData = msg.EventMsg.EventDataMsg;
             if (eventData == null)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid EventData msg.");
+                throw new EventErrorException("Invalid EventData msg.");
             }
             ulong appId = eventData.AppId;
             if (!_appInstances.ContainsKey(appId))
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "No handler could be found for this event.");
+                throw new EventErrorException("No handler could be found for this event.");
             }
             try
             {
@@ -31,7 +32,7 @@ namespace VrLifeServer.Core.Services.AppService
             }
             catch(Exception e)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, e.Message);
+                throw new EventErrorException(e.Message);
             }
         }
 

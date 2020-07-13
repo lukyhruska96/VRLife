@@ -8,6 +8,6 @@ namespace VrLifeServer.Core.Services.AppService
 
     interface IAppService : IService
     {
-        MainMessage HandleEvent(MainMessage msg);
+        byte[] HandleEvent(MainMessage msg);
     }
 }

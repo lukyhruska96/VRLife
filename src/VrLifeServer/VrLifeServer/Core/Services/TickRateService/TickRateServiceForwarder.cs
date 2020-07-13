@@ -41,7 +41,6 @@ namespace VrLifeServer.Core.Services.TickRateService
             {
                 return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Client is not connected to any Room.");
             }
-            _log.Debug($"Received SnapshotRequest with lastTick {req.LastTick} and lastRTT {req.LastRTT}");
             SnapshotData data = _tickRoom[roomId.Value].GetSnapshotData(req.LastTick, req.LastRTT);
             MainMessage response = new MainMessage();
             response.TickMsg = new TickMsg();

@@ -35,33 +35,26 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             return _info;
         }
 
-        public MainMessage HandleEvent(EventDataMsg eventData, MsgContext ctx)
+        public byte[] HandleEvent(EventDataMsg eventData, MsgContext ctx)
         {
-            try
+            switch ((FriendsAppEvents)eventData.EventType)
             {
-                switch ((FriendsAppEvents)eventData.EventType)
-                {
-                    case FriendsAppEvents.ADD_FRIEND:
-                        return HandleAddFriend(eventData, ctx);
-                    case FriendsAppEvents.DEL_FRIEND:
-                        return HandleDelFriend(eventData, ctx);
-                    case FriendsAppEvents.GET_FRIEND:
-                        return HandleGetFriend(eventData, ctx);
-                    case FriendsAppEvents.LIST_FRIEND_REQUESTS:
-                        return HandleListFriendRequests(eventData, ctx);
-                    case FriendsAppEvents.LIST_FRIENDS:
-                        return HandleListFriends(eventData, ctx);
-                    default:
-                        return ISystemService.CreateErrorMessage(ctx.msgId, 0, 0, "Unknown event type.");
-                }
-            }
-            catch (FriendsAppProviderException e)
-            {
-                return ISystemService.CreateErrorMessage(ctx.msgId, 0, 0, e.Message);
+                case FriendsAppEvents.ADD_FRIEND:
+                    return HandleAddFriend(eventData, ctx);
+                case FriendsAppEvents.DEL_FRIEND:
+                    return HandleDelFriend(eventData, ctx);
+                case FriendsAppEvents.GET_FRIEND:
+                    return HandleGetFriend(eventData, ctx);
+                case FriendsAppEvents.LIST_FRIEND_REQUESTS:
+                    return HandleListFriendRequests(eventData, ctx);
+                case FriendsAppEvents.LIST_FRIENDS:
+                    return HandleListFriends(eventData, ctx);
+                default:
+                    throw new FriendsAppProviderException("Unknown event type.");
             }
         }
 
-        private MainMessage HandleAddFriend(EventDataMsg eventMsg, MsgContext ctx)
+        private byte[] HandleAddFriend(EventDataMsg eventMsg, MsgContext ctx)
         {
             if(ctx.senderType != SenderType.USER)
             {
@@ -86,10 +79,10 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             {
                 _friendsData.SendFriendRequest(userReq.Id, userTo.Id);
             }
-            return ISystemService.CreateOkMessage(ctx.msgId);
+            return null;
         }
 
-        private MainMessage HandleDelFriend(EventDataMsg eventMsg, MsgContext ctx)
+        private byte[] HandleDelFriend(EventDataMsg eventMsg, MsgContext ctx)
         {
             User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
@@ -118,10 +111,10 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
                     _friendsData.RemoveFriendRequest(userReq.Id, userTo.Id);
                 }
             }
-            return ISystemService.CreateOkMessage(ctx.msgId);
+            return null;
         }
 
-        private MainMessage HandleListFriendRequests(EventDataMsg eventMsg, MsgContext ctx)
+        private byte[] HandleListFriendRequests(EventDataMsg eventMsg, MsgContext ctx)
         {
             User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
@@ -138,14 +131,10 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             msg.FriendRequests = new FriendsAppRequestsMsg();
             msg.FriendRequests.ToUser = userReq.Id;
             msg.FriendRequests.FriendRequestsList.AddRange(requestUsers.Select(x => x.ToNetworkModel()));
-            MainMessage mainMsg = new MainMessage();
-            mainMsg.AppMsg = new AppMsg();
-            mainMsg.AppMsg.AppId = APP_ID;
-            mainMsg.AppMsg.Data = ByteString.CopyFrom(msg.ToByteArray());
-            return mainMsg;
+            return msg.ToByteArray();
         }
 
-        private MainMessage HandleListFriends(EventDataMsg eventMsg, MsgContext ctx)
+        private byte[] HandleListFriends(EventDataMsg eventMsg, MsgContext ctx)
         {
             User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
@@ -161,14 +150,10 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             FriendsAppMsg msg = new FriendsAppMsg();
             msg.FriendsList = new FriendsAppListMsg();
             msg.FriendsList.FriendsList.AddRange(friends.Select(x => x.ToNetworkModel()));
-            MainMessage mainMsg = new MainMessage();
-            mainMsg.AppMsg = new AppMsg();
-            mainMsg.AppMsg.AppId = APP_ID;
-            mainMsg.AppMsg.Data = ByteString.CopyFrom(msg.ToByteArray());
-            return mainMsg;
+            return msg.ToByteArray();
         }
 
-        private MainMessage HandleGetFriend(EventDataMsg eventMsg, MsgContext ctx)
+        private byte[] HandleGetFriend(EventDataMsg eventMsg, MsgContext ctx)
         {
             User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
@@ -188,11 +173,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             FriendsAppUser friendDetail = ToFriendsAppUser(userTo.Id);
             FriendsAppMsg msg = new FriendsAppMsg();
             msg.FriendDetail = friendDetail.ToNetworkModel();
-            MainMessage mainMsg = new MainMessage();
-            mainMsg.AppMsg = new AppMsg();
-            mainMsg.AppMsg.AppId = APP_ID;
-            mainMsg.AppMsg.Data = ByteString.CopyFrom(msg.ToByteArray());
-            return mainMsg;
+            return msg.ToByteArray();
         }
 
         public AppMsg HandleMessage(byte[] data, int size, MsgContext context)

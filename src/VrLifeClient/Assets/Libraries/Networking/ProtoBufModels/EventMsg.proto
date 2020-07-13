@@ -2,6 +2,7 @@
 package VrLifeShared.Networking.NetworkingModels;
 
 import "DataTypes.proto";
+import "SystemMsg.proto";
 
 message EventMsg {
 	oneof EventMsgType {
@@ -30,4 +31,8 @@ message EventResponse {
 	uint32 processTime = 1;
 	uint32 eventMask = 2;
 	uint64 highestEventId = 3;
+	oneof hasData {
+		bytes data = 4;
+		ErrorMsg error = 5;
+	}
 }

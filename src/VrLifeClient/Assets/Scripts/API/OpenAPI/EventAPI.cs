@@ -21,18 +21,13 @@ namespace Assets.Scripts.API.OpenAPI
             this._eventService = eventService;
         }
 
-        public ServiceCallback<bool> SendSkeleton(SkeletonState skeleton)
+        public ServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
         {
             return _eventService.SendSkeleton(skeleton);
         }
 
-        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg msg) {
-            return _eventService.SendCustomEvent(msg);
-        }
-
-        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg msg, IPEndPoint address)
-        {
-            return _eventService.SendCustomEvent(msg, address);
+        public ServiceCallback<byte[]> SendEvent(EventDataMsg msg, EventRecipient recipient) {
+            return _eventService.SendEvent(msg, recipient);
         }
     }
 }

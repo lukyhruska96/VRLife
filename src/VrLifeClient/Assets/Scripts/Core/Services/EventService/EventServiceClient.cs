@@ -19,14 +19,18 @@ using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.EventService
 {
+    public enum EventRecipient
+    {
+        FORWARDER,
+        PROVIDER
+    }
     class EventServiceClient : IServiceClient
     {
         private ClosedAPI _api;
-        private ConcurrentQueue<EventDataMsg> _eventBuffer = new ConcurrentQueue<EventDataMsg>();
-        private ulong _eventsSent = 0;
-        private object _eventLock = new object();
 
         private uint _lastRTT = 0;
+        private EventMaskHandler _providerHandler;
+        private EventMaskHandler _forwarderHandler;
         public uint LastRTT { get => _lastRTT; }
         
 
@@ -38,10 +42,12 @@ namespace VrLifeClient.Core.Services.EventService
         public void Init(ClosedAPI api)
         {
             _api = api;
+            _providerHandler = new EventMaskHandler(_api);
+            _forwarderHandler = new EventMaskHandler(_api);
             _api.Services.Room.RoomExited += Reset;
         }
 
-        public ServiceCallback<bool> SendSkeleton(SkeletonState skeleton)
+        public ServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
         {
             if(!_api.Services.User.UserId.HasValue)
             {
@@ -51,70 +57,60 @@ namespace VrLifeClient.Core.Services.EventService
             EventDataMsg eventData = new EventDataMsg();
             eventData.EventType = (uint)VrLifeShared.Core.Services.EventService.EventType.SKELETON_STATE;
             eventData.SkeletonValue = skeleton.ToNetworkModel();
-            return SendInternalEvent(eventData);
+            return SendEvent(eventData, EventRecipient.FORWARDER);
         }
 
-        public ServiceCallback<bool> SendInternalEvent(EventDataMsg eventData)
+        public ServiceCallback<byte[]> SendEvent(EventDataMsg eventData, EventRecipient recipient)
         {
-            return new ServiceCallback<bool>(() =>
+            return new ServiceCallback<byte[]>(() =>
             {
+                switch(recipient)
+                {
+                    case EventRecipient.FORWARDER:
+                        _forwarderHandler.SetId(eventData);
+                        break;
+                    case EventRecipient.PROVIDER:
+                        _providerHandler.SetId(eventData);
+                        break;
+                        
+                }
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                MainMessage response = SendEvent(eventData);
+                EventResponse response = SendEventData(eventData, recipient);
                 sw.Stop();
-                if (SystemServiceClient.IsErrorMsg(response))
-                {
-                    throw new EventServiceException(response.SystemMsg.ErrorMsg.ErrorMsg_);
-                }
-                EventResponse eventResponse = response.EventMsg.EventResponse;
-                if (eventResponse == null)
+                if (response == null)
                 {
                     throw new EventServiceException("Unknown response.");
                 }
-                _lastRTT = (uint)(sw.ElapsedMilliseconds - (long)eventResponse.ProcessTime);
-                HandleEventResponse(eventResponse);
-                return true;
+                if (response.HasDataCase == EventResponse.HasDataOneofCase.Error)
+                {
+                    throw new EventServiceException(response.Error.ErrorMsg_);
+                }
+                _lastRTT = (uint)(sw.ElapsedMilliseconds - (long)response.ProcessTime);
+                switch(recipient)
+                {
+                    case EventRecipient.FORWARDER:
+                        _forwarderHandler.HandleEventResponse(response);
+                        break;
+                    case EventRecipient.PROVIDER:
+                        _providerHandler.HandleEventResponse(response);
+                        break;
+                }
+                return response.Data.ToByteArray();
             });
         }
 
-        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg eventData)
+        public EventResponse SendEventData(EventDataMsg eventData, EventRecipient recipient)
         {
-            return new ServiceCallback<MainMessage>(() =>
-            {
-                return SendEvent(eventData);
-            });
-        }
-
-        public ServiceCallback<MainMessage> SendCustomEvent(EventDataMsg eventData, IPEndPoint address)
-        {
-            return new ServiceCallback<MainMessage>(() => 
-            {
-                return SendEvent(eventData, address);
-            });
-        }
-
-        public MainMessage SendEvent(EventDataMsg eventData)
-        {
-            if (_api.Services.Room.ForwarderAddress == null)
-            {
-                return null;
-            }
-            return SendEvent(eventData, _api.Services.Room.ForwarderAddress);
-        }
-
-        public MainMessage SendEvent(EventDataMsg eventData, IPEndPoint address)
-        {
-            lock(_eventLock)
-            {
-                eventData.EventId = _eventsSent++;
-                _eventBuffer.Enqueue(eventData);
-            }
+            IPEndPoint address = recipient == EventRecipient.FORWARDER ? 
+                _api.Services.Room.ForwarderAddress : _api.OpenAPI.Config.MainServer;
             MainMessage msg = new MainMessage();
             msg.EventMsg = new EventMsg();
             msg.EventMsg.EventDataMsg = eventData;
             try
             {
-                return _api.OpenAPI.Networking.Send(msg, address);
+                MainMessage response = _api.OpenAPI.Networking.Send(msg, address);
+                return response.EventMsg.EventResponse;
             }
             catch (SocketException)
             {
@@ -124,39 +120,9 @@ namespace VrLifeClient.Core.Services.EventService
             
         }
 
-        private void HandleEventResponse(EventResponse response)
-        {
-            bool[] maskValues = response.EventMask.ToBinary();
-            EventDataMsg[] eventData;
-            ulong highestId;
-            lock(_eventLock)
-            {
-                highestId = _eventsSent;
-                eventData = _eventBuffer.ToArray();
-            }
-            for(int i = 0; i < maskValues.Length; ++i)
-            {
-                if(!maskValues[i])
-                {
-                    ulong eventId = (ulong)((long)response.HighestEventId - (maskValues.Length - i - 1));
-                    if((long)(highestId - eventId) < eventData.Length)
-                    {
-                        ulong evIdx = (ulong)(eventData.Length - (int)(highestId - eventId) - 1);
-                        MainMessage msg = new MainMessage();
-                        msg.EventMsg = new EventMsg();
-                        msg.EventMsg.EventDataMsg = eventData[evIdx];
-                        _api.OpenAPI.Networking.SendAsync(msg, _api.Services.Room.ForwarderAddress, _ => { });
-                    }
-                }
-            }
-        }
-
         public void Reset()
         {
-            // events contain only clientId, not userId
-            // server keeps eventMask of lost events,
-            // where eventId must be still raising
-            // even if another user logged in
+            _forwarderHandler.Reset();
         }
     }
 }

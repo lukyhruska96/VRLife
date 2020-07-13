@@ -143,6 +143,7 @@
     <Compile Include="Assets\Scripts\Core\Character\SkeletonState.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceException.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\EventService\EventMaskHandler.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\IServiceClient.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Assets\Scripts\Core\Wrappers\IAvatar.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Main\SceneController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Main\VrLifeCore.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\MainMenu\ExitButton.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Login.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\MenuEventSystem.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Register.cs" />

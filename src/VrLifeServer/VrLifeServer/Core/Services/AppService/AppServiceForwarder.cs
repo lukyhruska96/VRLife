@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.API.Forwarder;
 using VrLifeServer.Applications;
 using VrLifeServer.Core.Applications.DefaultApps;
+using VrLifeServer.Core.Services.EventService;
 using VrLifeServer.Core.Services.RoomService;
 using VrLifeServer.Core.Services.SystemService;
 using VrLifeShared.Networking.NetworkingModels;
@@ -17,27 +19,27 @@ namespace VrLifeServer.Core.Services.AppService
         private Dictionary<uint, Dictionary<ulong, IApplicationForwarder>> _appInstances = 
             new Dictionary<uint, Dictionary<ulong, IApplicationForwarder>>();
         private ClosedAPI _api;
-        public MainMessage HandleEvent(MainMessage msg)
+        public byte[] HandleEvent(MainMessage msg)
         {
             EventDataMsg eventData = msg.EventMsg.EventDataMsg;
             if(eventData == null)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid EventData msg.");
+                throw new EventErrorException("Invalid EventData msg.");
             }
             ulong? userId = _api.Services.User.GetUserIdByClientId(msg.ClientId, true);
             if(!userId.HasValue)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unauthenticated user.");
+                throw new EventErrorException("Unauthenticated user.");
             }
             uint? roomId = _api.Services.Room.RoomByUserId(userId.Value);
             if(!roomId.HasValue)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "User is not connected to any room.");
+                throw new EventErrorException("User is not connected to any room.");
             }
             ulong appId = eventData.AppId;
             if(!_appInstances.ContainsKey(roomId.Value) || !_appInstances[roomId.Value].ContainsKey(appId))
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "No handler could be found for this event.");
+                throw new EventErrorException("No handler could be found for this event.");
             }
             try
             {
@@ -45,7 +47,7 @@ namespace VrLifeServer.Core.Services.AppService
             }
             catch(Exception e)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, e.Message);
+                throw new EventErrorException(e.Message);
             }
         }
 

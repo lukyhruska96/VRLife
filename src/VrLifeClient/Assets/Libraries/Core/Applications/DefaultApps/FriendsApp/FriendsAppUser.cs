@@ -35,11 +35,14 @@ namespace VrLifeShared.Core.Applications.DefaultApps.FriendsApp
             FriendsAppUserMsg friendMsg = new FriendsAppUserMsg();
             friendMsg.UserId = UserId;
             friendMsg.Username = Username;
-            if(CurrentRoomId.HasValue)
+            if (CurrentRoomId.HasValue)
             {
                 friendMsg.RoomId = CurrentRoomId.Value;
             }
-            friendMsg.FriendList.Add(FriendsList);
+            if (FriendsList != null)
+            {
+                friendMsg.FriendList.AddRange(FriendsList);
+            }
             return friendMsg;
         }
     }

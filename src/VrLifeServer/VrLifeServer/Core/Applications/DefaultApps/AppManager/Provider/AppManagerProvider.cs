@@ -28,12 +28,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.AppManager.Provider
             return _info;
         }
 
-        public MainMessage HandleEvent(EventMsg evnt, MsgContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MainMessage HandleEvent(EventDataMsg eventData, MsgContext context)
+        public byte[] HandleEvent(EventDataMsg eventData, MsgContext context)
         {
             throw new NotImplementedException();
         }

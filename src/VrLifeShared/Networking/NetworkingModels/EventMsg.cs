@@ -23,27 +23,29 @@ namespace VrLifeShared.Networking.NetworkingModels {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg5FdmVudE1zZy5wcm90bxIoVnJMaWZlU2hhcmVkLk5ldHdvcmtpbmcuTmV0",
-            "d29ya2luZ01vZGVscxoPRGF0YVR5cGVzLnByb3RvIrwBCghFdmVudE1zZxJO",
-            "CgxldmVudERhdGFNc2cYASABKAsyNi5WckxpZmVTaGFyZWQuTmV0d29ya2lu",
-            "Zy5OZXR3b3JraW5nTW9kZWxzLkV2ZW50RGF0YU1zZ0gAElAKDWV2ZW50UmVz",
-            "cG9uc2UYAiABKAsyNy5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
-            "aW5nTW9kZWxzLkV2ZW50UmVzcG9uc2VIAEIOCgxFdmVudE1zZ1R5cGUizwIK",
-            "DEV2ZW50RGF0YU1zZxIPCgdldmVudElkGAEgASgEEhEKCWV2ZW50VHlwZRgC",
-            "IAEoDRITCglsb25nVmFsdWUYAyABKARIABIVCgtkb3VibGVWYWx1ZRgEIAEo",
-            "AUgAEksKDXNrZWxldG9uVmFsdWUYBSABKAsyMi5WckxpZmVTaGFyZWQuTmV0",
-            "d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLlNrZWxldG9uSAASSwoLb2JqZWN0",
-            "VmFsdWUYBiABKAsyNC5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3b3Jr",
-            "aW5nTW9kZWxzLkdhbWVPYmplY3RIABIVCgtzdHJpbmdWYWx1ZRgHIAEoCUgA",
-            "EhUKC2N1c3RvbVZhbHVlGAggASgMSAASDwoFYXBwSWQYCSABKARIAUILCglW",
-            "YWx1ZVR5cGVCCQoHQXBwVHlwZSJPCg1FdmVudFJlc3BvbnNlEhMKC3Byb2Nl",
-            "c3NUaW1lGAEgASgNEhEKCWV2ZW50TWFzaxgCIAEoDRIWCg5oaWdoZXN0RXZl",
-            "bnRJZBgDIAEoBGIGcHJvdG8z"));
+            "d29ya2luZ01vZGVscxoPRGF0YVR5cGVzLnByb3RvGg9TeXN0ZW1Nc2cucHJv",
+            "dG8ivAEKCEV2ZW50TXNnEk4KDGV2ZW50RGF0YU1zZxgBIAEoCzI2LlZyTGlm",
+            "ZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuRXZlbnREYXRh",
+            "TXNnSAASUAoNZXZlbnRSZXNwb25zZRgCIAEoCzI3LlZyTGlmZVNoYXJlZC5O",
+            "ZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuRXZlbnRSZXNwb25zZUgAQg4K",
+            "DEV2ZW50TXNnVHlwZSLPAgoMRXZlbnREYXRhTXNnEg8KB2V2ZW50SWQYASAB",
+            "KAQSEQoJZXZlbnRUeXBlGAIgASgNEhMKCWxvbmdWYWx1ZRgDIAEoBEgAEhUK",
+            "C2RvdWJsZVZhbHVlGAQgASgBSAASSwoNc2tlbGV0b25WYWx1ZRgFIAEoCzIy",
+            "LlZyTGlmZVNoYXJlZC5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuU2tl",
+            "bGV0b25IABJLCgtvYmplY3RWYWx1ZRgGIAEoCzI0LlZyTGlmZVNoYXJlZC5O",
+            "ZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuR2FtZU9iamVjdEgAEhUKC3N0",
+            "cmluZ1ZhbHVlGAcgASgJSAASFQoLY3VzdG9tVmFsdWUYCCABKAxIABIPCgVh",
+            "cHBJZBgJIAEoBEgBQgsKCVZhbHVlVHlwZUIJCgdBcHBUeXBlIq8BCg1FdmVu",
+            "dFJlc3BvbnNlEhMKC3Byb2Nlc3NUaW1lGAEgASgNEhEKCWV2ZW50TWFzaxgC",
+            "IAEoDRIWCg5oaWdoZXN0RXZlbnRJZBgDIAEoBBIOCgRkYXRhGAQgASgMSAAS",
+            "QwoFZXJyb3IYBSABKAsyMi5WckxpZmVTaGFyZWQuTmV0d29ya2luZy5OZXR3",
+            "b3JraW5nTW9kZWxzLkVycm9yTXNnSABCCQoHaGFzRGF0YWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::VrLifeShared.Networking.NetworkingModels.DataTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::VrLifeShared.Networking.NetworkingModels.DataTypesReflection.Descriptor, global::VrLifeShared.Networking.NetworkingModels.SystemMsgReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventMsg), global::VrLifeShared.Networking.NetworkingModels.EventMsg.Parser, new[]{ "EventDataMsg", "EventResponse" }, new[]{ "EventMsgType" }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventDataMsg), global::VrLifeShared.Networking.NetworkingModels.EventDataMsg.Parser, new[]{ "EventId", "EventType", "LongValue", "DoubleValue", "SkeletonValue", "ObjectValue", "StringValue", "CustomValue", "AppId" }, new[]{ "ValueType", "AppType" }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventResponse), global::VrLifeShared.Networking.NetworkingModels.EventResponse.Parser, new[]{ "ProcessTime", "EventMask", "HighestEventId" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeShared.Networking.NetworkingModels.EventResponse), global::VrLifeShared.Networking.NetworkingModels.EventResponse.Parser, new[]{ "ProcessTime", "EventMask", "HighestEventId", "Data", "Error" }, new[]{ "HasData" }, null, null)
           }));
     }
     #endregion
@@ -691,6 +693,15 @@ namespace VrLifeShared.Networking.NetworkingModels {
       processTime_ = other.processTime_;
       eventMask_ = other.eventMask_;
       highestEventId_ = other.highestEventId_;
+      switch (other.HasDataCase) {
+        case HasDataOneofCase.Data:
+          Data = other.Data;
+          break;
+        case HasDataOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -731,6 +742,47 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
     }
 
+    /// <summary>Field number for the "data" field.</summary>
+    public const int DataFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString Data {
+      get { return hasDataCase_ == HasDataOneofCase.Data ? (pb::ByteString) hasData_ : pb::ByteString.Empty; }
+      set {
+        hasData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        hasDataCase_ = HasDataOneofCase.Data;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 5;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::VrLifeShared.Networking.NetworkingModels.ErrorMsg Error {
+      get { return hasDataCase_ == HasDataOneofCase.Error ? (global::VrLifeShared.Networking.NetworkingModels.ErrorMsg) hasData_ : null; }
+      set {
+        hasData_ = value;
+        hasDataCase_ = value == null ? HasDataOneofCase.None : HasDataOneofCase.Error;
+      }
+    }
+
+    private object hasData_;
+    /// <summary>Enum of possible cases for the "hasData" oneof.</summary>
+    public enum HasDataOneofCase {
+      None = 0,
+      Data = 4,
+      Error = 5,
+    }
+    private HasDataOneofCase hasDataCase_ = HasDataOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HasDataOneofCase HasDataCase {
+      get { return hasDataCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearHasData() {
+      hasDataCase_ = HasDataOneofCase.None;
+      hasData_ = null;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EventResponse);
@@ -747,6 +799,9 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (ProcessTime != other.ProcessTime) return false;
       if (EventMask != other.EventMask) return false;
       if (HighestEventId != other.HighestEventId) return false;
+      if (Data != other.Data) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (HasDataCase != other.HasDataCase) return false;
       return true;
     }
 
@@ -756,6 +811,9 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (ProcessTime != 0) hash ^= ProcessTime.GetHashCode();
       if (EventMask != 0) hash ^= EventMask.GetHashCode();
       if (HighestEventId != 0UL) hash ^= HighestEventId.GetHashCode();
+      if (hasDataCase_ == HasDataOneofCase.Data) hash ^= Data.GetHashCode();
+      if (hasDataCase_ == HasDataOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) hasDataCase_;
       return hash;
     }
 
@@ -778,6 +836,14 @@ namespace VrLifeShared.Networking.NetworkingModels {
         output.WriteRawTag(24);
         output.WriteUInt64(HighestEventId);
       }
+      if (hasDataCase_ == HasDataOneofCase.Data) {
+        output.WriteRawTag(34);
+        output.WriteBytes(Data);
+      }
+      if (hasDataCase_ == HasDataOneofCase.Error) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Error);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -791,6 +857,12 @@ namespace VrLifeShared.Networking.NetworkingModels {
       }
       if (HighestEventId != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(HighestEventId);
+      }
+      if (hasDataCase_ == HasDataOneofCase.Data) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Data);
+      }
+      if (hasDataCase_ == HasDataOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
       }
       return size;
     }
@@ -809,6 +881,15 @@ namespace VrLifeShared.Networking.NetworkingModels {
       if (other.HighestEventId != 0UL) {
         HighestEventId = other.HighestEventId;
       }
+      switch (other.HasDataCase) {
+        case HasDataOneofCase.Data:
+          Data = other.Data;
+          break;
+        case HasDataOneofCase.Error:
+          Error = other.Error;
+          break;
+      }
+
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -829,6 +910,19 @@ namespace VrLifeShared.Networking.NetworkingModels {
           }
           case 24: {
             HighestEventId = input.ReadUInt64();
+            break;
+          }
+          case 34: {
+            Data = input.ReadBytes();
+            break;
+          }
+          case 42: {
+            global::VrLifeShared.Networking.NetworkingModels.ErrorMsg subBuilder = new global::VrLifeShared.Networking.NetworkingModels.ErrorMsg();
+            if (hasDataCase_ == HasDataOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
             break;
           }
         }

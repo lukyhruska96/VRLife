@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Text;
 using VrLifeServer.API;
 using VrLifeServer.API.Provider;
@@ -13,21 +15,45 @@ namespace VrLifeServer.Core.Services.EventService
     {
         private ClosedAPI _api;
         private ILogger _log;
+
+        private EventMaskHandler _maskHandler = new EventMaskHandler();
+
         public MainMessage HandleMessage(MainMessage msg)
         {
-            if(msg.EventMsg.EventMsgTypeCase != EventMsg.EventMsgTypeOneofCase.EventDataMsg)
+            EventDataMsg dataMsg = msg.EventMsg.EventDataMsg;
+            if(dataMsg == null)
             {
-                const string inv_type = "Invalid type of event msg.";
-                _log.Error(inv_type);
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, inv_type);
+                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid msg type.");
             }
-            if(msg.EventMsg.EventDataMsg.AppTypeCase != EventDataMsg.AppTypeOneofCase.None)
+
+            EventResponse response;
+            if (msg.EventMsg.EventDataMsg.AppTypeCase != EventDataMsg.AppTypeOneofCase.None)
             {
-                return _api.Services.App.HandleEvent(msg);
+                try
+                {
+                    response = new EventResponse();
+                    byte[] responseData = _api.Services.App.HandleEvent(msg);
+                    if (responseData != null)
+                    {
+                        response.Data = ByteString.CopyFrom(responseData);
+                    }
+                }
+                catch (EventErrorException e)
+                {
+                    response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
+                }
             }
-            const string err_msg = "Main server does not handle events of this type.";
-            _log.Error(err_msg);
-            return ISystemService.CreateErrorMessage(0, 0, 0, err_msg);
+            else
+            {
+                const string err_msg = "Main server does not handle events of this type.";
+                _log.Error(err_msg);
+                response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, err_msg);
+            }
+            response = _maskHandler.Handle(msg.ClientId, dataMsg, response);
+            MainMessage responseMsg = new MainMessage();
+            responseMsg.EventMsg = new EventMsg();
+            responseMsg.EventMsg.EventResponse = response;
+            return responseMsg;
         }
 
         public void Init(ClosedAPI api)
@@ -35,5 +61,6 @@ namespace VrLifeServer.Core.Services.EventService
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
         }
+
     }
 }
