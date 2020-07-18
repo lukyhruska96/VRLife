@@ -50,7 +50,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public GameObject GetGameObject()
         {
-            return _gameObject;
+            return _gameObject == null ? null : _gameObject;
         }
 
         public MenuItemInfo GetInfo()
@@ -65,6 +65,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
                 item.Dispose();
             }
             GameObject.Destroy(_gameObject);
+            _itemDict.Clear();
+            _grid = new IMenuItem[height, width];
         }
 
         public List<IMenuItem> GetChildren()
@@ -133,7 +135,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             {
                 RemoveObjectInGrid(child);
                 _itemDict.Remove(info.Name);
-                ((IGOReadable)child).GetGameObject().transform.SetParent(null);
+                ((IGOReadable)child).GetGameObject()?.transform.SetParent(null);
                 child.GetInfo().Parent = null;
             }
             else
@@ -206,14 +208,15 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             float height = rectTransform.rect.height;
             float columnWidth = width / this.width;
             float rowHeight = height / this.height;
-            return ((int)(localPosition.y / rowHeight), (int)(localPosition.x / columnWidth));
+            return ((int)(localPosition.x / columnWidth), (int)(localPosition.y / rowHeight));
         }
 
         private void OnPointerClick(Vector2 localPosition)
         {
             (int x, int y) = PositionToGridIdx(localPosition);
-            if (_grid[x, y] != null) {
-                ItemClicked?.Invoke(_grid[x, y], x, y);
+            if (_grid[y, x] != null) {
+                Debug.Log($"x:y {x}:{y}");
+                ItemClicked?.Invoke(_grid[y, x], x, y);
             }
         }
 

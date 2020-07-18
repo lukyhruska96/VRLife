@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.API.MenuAPI;
+﻿using Assets.Scripts.API.HUDAPI;
 using Assets.Scripts.Core.Applications.MenuApp;
 using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
 using Assets.Scripts.Core.Services;
@@ -13,6 +13,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using VrLifeClient;
 using VrLifeClient.API;
+using VrLifeClient.API.HUDAPI;
+using VrLifeClient.API.MenuAPI;
+using VrLifeClient.API.OpenAPI;
 using VrLifeClient.Core.Services.RoomService;
 using VrLifeShared.Core;
 using VrLifeShared.Core.Applications;
@@ -28,7 +31,6 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
         private MenuAPI _menuAPI;
         private ClosedAPI _api;
         private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
-        private MenuAppInfo _menuInfo = new MenuAppInfo();
         private MenuItemGrid _root;
         private MenuItemGrid _roomListGrid;
         private MenuItemImage _loading = null;
@@ -38,17 +40,12 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
             return _info;
         }
 
-        public MenuAppInfo GetMenuInfo()
-        {
-            return _menuInfo;
-        }
-
         public IMenuItem GetRootItem()
         {
             return _root;
         }
 
-        public void Init(OpenAPI api, MenuAPI menuAPI)
+        public void Init(OpenAPI api, MenuAPI menuAPI, HUDAPI hudAPI)
         {
             this._menuAPI = menuAPI;
             this._api = VrLifeCore.GetClosedAPI(_info);
@@ -166,6 +163,11 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
         public void Dispose()
         {
             _root?.Dispose();
+        }
+
+        public void HandleNotification(Notification notification)
+        {
+
         }
     }
 }

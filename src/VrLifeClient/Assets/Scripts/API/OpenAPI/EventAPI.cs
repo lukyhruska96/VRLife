@@ -11,7 +11,7 @@ using VrLifeClient.Core.Services.EventService;
 using VrLifeShared.Core.Services.EventService;
 using VrLifeShared.Networking.NetworkingModels;
 
-namespace Assets.Scripts.API.OpenAPI
+namespace VrLifeClient.API.OpenAPI
 {
     class EventAPI
     {

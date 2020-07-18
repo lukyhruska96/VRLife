@@ -24,6 +24,9 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
         public delegate void EditEndEventHandler(string value);
         public event EditEndEventHandler EditEnded;
 
+        public delegate void SubmitEventHandler();
+        public event SubmitEventHandler onSubmit;
+
         public MenuItemInput(string name)
         {
             _info = new MenuItemInfo
@@ -77,7 +80,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public GameObject GetGameObject()
         {
-            return _gameObject;
+            return _gameObject == null ? null : _gameObject;
         }
 
         public MenuItemInfo GetInfo()
@@ -106,6 +109,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             prefab.SetActive(false);
             _gameObject = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
             _gameObject.name = _info.Name;
+            _gameObject.GetComponent<MenuItemInputController>().onSubmit += OnSubmit;
             _input = _gameObject.GetComponent<InputField>();
             _input.onValueChanged.AddListener(OnValueChanged);
             _input.onEndEdit.AddListener(OnEditEnded);
@@ -130,6 +134,11 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
         public void SetPadding(float horizontal, float vertical)
         {
             SetPadding(horizontal, vertical, horizontal, vertical);
+        }
+
+        private void OnSubmit()
+        {
+            onSubmit?.Invoke();
         }
     }
 }

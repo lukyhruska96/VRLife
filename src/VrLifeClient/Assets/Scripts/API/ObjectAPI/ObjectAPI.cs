@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VrLifeClient.API;
 
-namespace Assets.Scripts.API.ObjectAPI
+namespace VrLifeClient.API.ObjectAPI
 {
     class ObjectAPI
     {

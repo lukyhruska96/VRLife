@@ -18,6 +18,7 @@ namespace Assets.Scripts.Core.Character
         private UnityEngine.GameObject _avatarInstance = null;
         private ulong _userId;
         private DefaultController _defaultController;
+        private SoundPlayer _player;
 
         public DefaultAvatar(ulong userId, string name, Vector3 position, Quaternion rotation)
         {
@@ -30,7 +31,13 @@ namespace Assets.Scripts.Core.Character
             _avatarInstance = (UnityEngine.GameObject)UnityEngine.GameObject.Instantiate(prefab, position, rotation);
             _avatarInstance.name = name;
             _defaultController = _avatarInstance.GetComponent<DefaultController>();
+            _player = _avatarInstance.GetComponent<SoundPlayer>();
             _avatarInstance.GetComponent<PlayerState>().Avatar = this;
+        }
+
+        public SoundPlayer GetSoundPlayer()
+        {
+            return _player;
         }
 
         public SkeletonState GetCurrentSkeleton()

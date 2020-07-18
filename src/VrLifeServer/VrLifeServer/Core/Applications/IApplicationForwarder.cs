@@ -7,6 +7,6 @@ namespace VrLifeServer.Applications
 {
     interface IApplicationForwarder : IApplicationServer
     {
-        void Init(OpenAPI api);
+        void Init(uint roomId, OpenAPI api);
     }
 }

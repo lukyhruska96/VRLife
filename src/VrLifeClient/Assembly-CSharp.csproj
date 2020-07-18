@@ -64,12 +64,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Libraries\Core\Applications\AppInfo.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\ChatAppEventType.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\ChatObj.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\ChatObjMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatAppMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatList.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatMessage.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatObjectMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatRequest.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatSend.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\ChatApp\NetworkingModels\ChatUpdateMsg.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\FriendsAppEvents.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\FriendsAppUser.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppListMsg.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppMsg.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppRequestsMsg.cs" />
     <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\FriendsApp\NetworkingModels\FriendsAppUserMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\VoiceChatApp\NetworkingModels\VoiceChatData.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\VoiceChatApp\NetworkingModels\VoiceChatDataObj.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\VoiceChatApp\NetworkingModels\VoiceChatMsg.cs" />
+    <Compile Include="Assets\Libraries\Core\Applications\DefaultApps\VoiceChatApp\NetworkingModels\VoiceChatRequest.cs" />
     <Compile Include="Assets\Libraries\Core\Services\EventType.cs" />
     <Compile Include="Assets\Libraries\Logging\ConsoleLogger.cs" />
     <Compile Include="Assets\Libraries\Logging\FileLogger.cs" />
@@ -93,14 +107,23 @@
     <Compile Include="Assets\Libraries\Networking\NetworkingModels\UserMsg.cs" />
     <Compile Include="Assets\Libraries\Networking\TCPNetworking.cs" />
     <Compile Include="Assets\Libraries\Networking\UDPNetworking.cs" />
+    <Compile Include="Assets\Libraries\UniMic\Mic.cs" />
     <Compile Include="Assets\Resources\Avatar\Default\DefaultController.cs" />
     <Compile Include="Assets\Scripts\API\ClosedAPI.cs" />
+    <Compile Include="Assets\Scripts\API\ClosedAPI\DeviceAPI\DeviceAPI.cs" />
+    <Compile Include="Assets\Scripts\API\ClosedAPI\DeviceAPI\MicrophoneDevice\MicrophoneDevice.cs" />
+    <Compile Include="Assets\Scripts\API\ClosedAPI\DeviceAPI\MicrophoneDevice\MicrophoneDeviceException.cs" />
+    <Compile Include="Assets\Scripts\API\ClosedAPI\DeviceAPI\MicrophoneDevice\MicrophoneListener.cs" />
     <Compile Include="Assets\Scripts\API\GlobalAPI\GlobalAPI.cs" />
+    <Compile Include="Assets\Scripts\API\GlobalAPI\PlayersAPI.cs" />
+    <Compile Include="Assets\Scripts\API\GlobalAPI\PlayersAPIException.cs" />
     <Compile Include="Assets\Scripts\API\HUDAPI\HUDAPI.cs" />
+    <Compile Include="Assets\Scripts\API\HUDAPI\Notification.cs" />
     <Compile Include="Assets\Scripts\API\MenuAPI\MenuAPI.cs" />
     <Compile Include="Assets\Scripts\API\MiddlewareProvider.cs" />
     <Compile Include="Assets\Scripts\API\ObjectAPI\ObjectAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI.cs" />
+    <Compile Include="Assets\Scripts\API\OpenAPI\AppAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\EventAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\RoomAPI.cs" />
     <Compile Include="Assets\Scripts\API\OpenAPI\SystemAPI.cs" />
@@ -112,6 +135,11 @@
     <Compile Include="Assets\Scripts\Core\Applications\BackgroundApp\IBackgroundApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\AppManager\AppManager.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\AppManager\AppManagerException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\ChatApp\ChatApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\ChatApp\ChatAppException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\ChatApp\ChatMessageBlockCtrl.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\ChatApp\FriendsBlockCtrl.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\ChatApp\RecentBlockCtrl.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\DefaultApps.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsApp\FriendsApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsApp\FriendsAppException.cs" />
@@ -123,10 +151,11 @@
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\IFriendsManagementView.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListAppException.cs" />
-    <Compile Include="Assets\Scripts\Core\Applications\GlobalApp\IGlobalAPp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\VoiceChatApp\VoiceChatApp.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\VoiceChatApp\VoiceChatAppException.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\GlobalApp\IGlobalApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\IApplication.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\IMenuApp.cs" />
-    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuAppInfo.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\IMenuItem.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemButton.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemCheckbox.cs" />
@@ -135,12 +164,14 @@
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemImage.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemInfo.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemInput.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemScrollable.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\MenuApp\MenuItems\MenuItemText.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\ObjectApp\IObjectApp.cs" />
     <Compile Include="Assets\Scripts\Core\Character\CharacterLoadingException.cs" />
     <Compile Include="Assets\Scripts\Core\Character\ControlHUD.cs" />
     <Compile Include="Assets\Scripts\Core\Character\DefaultAvatar.cs" />
     <Compile Include="Assets\Scripts\Core\Character\SkeletonState.cs" />
+    <Compile Include="Assets\Scripts\Core\Character\SoundPlayer.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\AppService\AppServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\EventService\EventMaskHandler.cs" />
@@ -151,6 +182,7 @@
     <Compile Include="Assets\Scripts\Core\Services\RoomService\RoomServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\RoomService\RoomServiceException.cs" />
     <Compile Include="Assets\Scripts\Core\Services\ServiceCallback.cs" />
+    <Compile Include="Assets\Scripts\Core\Services\ServiceCoroutine.cs" />
     <Compile Include="Assets\Scripts\Core\Services\ServiceEvent.cs" />
     <Compile Include="Assets\Scripts\Core\Services\SystemService\SystemServiceClient.cs" />
     <Compile Include="Assets\Scripts\Core\Services\TickRateService\TickRateServiceClient.cs" />
@@ -167,17 +199,21 @@
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Login.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\MenuEventSystem.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\MainMenu\Register.cs" />
-    <Compile Include="Assets\Scripts\ElementScripts\Room\HUDControl.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\HUDController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\InputController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\HUDItems\NotificationController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuAPICoroutines.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuControl.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuDropdownList.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuAppContainer.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemGridController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemImageController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemInputController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\RoomState.cs" />
     <Compile Include="Assets\Scripts\VrLifeClient.cs" />
+    <None Include="Assets\Packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.xml" />
     <None Include="Assets\Packages\System.Buffers.4.4.0\useSharedDesignerContext.txt" />
     <None Include="Assets\Packages\Google.Protobuf.3.11.4\lib\netstandard2.0\Google.Protobuf.xml" />
     <None Include="Assets\Packages\System.Numerics.Vectors.4.4.0\version.txt" />
@@ -376,6 +412,9 @@
     </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/Google.Protobuf.3.11.4/lib/netstandard2.0/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Assets/Packages/System.Buffers.4.4.0/lib/netstandard2.0/System.Buffers.dll</HintPath>

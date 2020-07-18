@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
+
+import "VoiceChatRequest.proto";
+import "VoiceChatData.proto";
+
+message VoiceChatMsg {
+	oneof MsgType {
+		VoiceChatRequest request = 1;
+		VoiceChatData data = 2;
+	}
+}

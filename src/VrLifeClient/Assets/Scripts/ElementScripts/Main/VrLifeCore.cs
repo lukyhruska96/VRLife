@@ -2,6 +2,7 @@
 using System.Net;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications;
 
 namespace VrLifeClient
@@ -32,6 +33,7 @@ namespace VrLifeClient
                 IsExiting = true;
                 API.Room.RoomExit(API.Room.CurrentRoom.Id).Wait();
             }
+            _client?.Dispose();
         }
 
         public static ClosedAPI GetClosedAPI(AppInfo info)

@@ -79,7 +79,7 @@ namespace VrLifeClient.Core.Services.TickRateService
             });
         }
 
-        public void Reset()
+        private void Reset()
         {
             lock (_tickLock)
             {

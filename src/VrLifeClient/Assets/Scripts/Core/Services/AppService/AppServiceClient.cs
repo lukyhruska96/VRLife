@@ -3,16 +3,25 @@ using Assets.Scripts.Core.Applications.BackgroundApp;
 using Assets.Scripts.Core.Applications.GlobalApp;
 using Assets.Scripts.Core.Applications.MenuApp;
 using Assets.Scripts.Core.Applications.ObjectApp;
+using Assets.Scripts.Core.Services;
 using Assets.Scripts.Core.Services.AppService;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using VrLifeClient.API;
+using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.AppService
 {
+    enum AppMsgRecipient
+    {
+        FORWARDER,
+        PROVIDER
+    }
     class AppServiceClient : IServiceClient
     {
         private ClosedAPI _api;
@@ -69,7 +78,7 @@ namespace VrLifeClient.Core.Services.AppService
 
         private void InitDefaultApps()
         {
-            foreach(IApplication app in _api.OpenAPI.Apps)
+            foreach(IApplication app in _api.OpenAPI.DefaultApps)
             {
                 RegisterApp(app);
             }
@@ -77,7 +86,7 @@ namespace VrLifeClient.Core.Services.AppService
 
         private void RegisterMenuApp(IMenuApp app)
         {
-            app.Init(_api.OpenAPI, _api.MenuAPI);
+            app.Init(_api.OpenAPI, _api.MenuAPI, _api.HUDAPI);
             MenuApps.Add(app);
         }
 
@@ -98,7 +107,7 @@ namespace VrLifeClient.Core.Services.AppService
             app.Init(_api.OpenAPI, _api.ObjectAPI);
         }
 
-        public void Reset()
+        private void Reset()
         {
             foreach(IApplication app in AllApps.Values)
             {
@@ -114,6 +123,41 @@ namespace VrLifeClient.Core.Services.AppService
         private void OnRoomEnter()
         {
             InitDefaultApps();
+        }
+
+        public ServiceCallback<byte[]> SendAppMsg(AppInfo app, byte[] data, AppMsgRecipient recipient)
+        {
+            return new ServiceCallback<byte[]>(() =>
+            {
+                MainMessage mainMsg = new MainMessage();
+                mainMsg.AppMsg = new AppMsg();
+                mainMsg.AppMsg.AppId = app.ID;
+                mainMsg.AppMsg.Data = ByteString.CopyFrom(data);
+                MainMessage response = null;
+                switch(recipient)
+                {
+                    case AppMsgRecipient.FORWARDER:
+                        response = _api.OpenAPI.Networking.Send(mainMsg, _api.Services.Room.ForwarderAddress);
+                        break;
+                    case AppMsgRecipient.PROVIDER:
+                        response = _api.OpenAPI.Networking.Send(mainMsg, _api.OpenAPI.Config.MainServer);
+                        break;
+                }
+                if(response == null)
+                {
+                    throw new AppServiceException("Unknown response.");
+                }
+                if(SystemServiceClient.IsErrorMsg(response))
+                {
+                    throw new AppServiceException(response.SystemMsg.ErrorMsg.ErrorMsg_);
+                }
+                AppMsg appMsg = response.AppMsg;
+                if(appMsg == null)
+                {
+                    throw new AppServiceException("Unknown response.");
+                }
+                return appMsg.Data.ToByteArray();
+            });
         }
     }
 }

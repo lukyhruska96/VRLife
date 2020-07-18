@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeClient.Core.Services;
 using VrLifeClient.Core.Services.AppService;
 using VrLifeClient.Core.Services.EventService;
@@ -16,7 +17,7 @@ using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient
 {
-    class VrLifeClient
+    class VrLifeClient : IDisposable
     {
         private UDPNetworking<MainMessage> _client;
         public UDPNetworking<MainMessage> Client { get => _client; }
@@ -76,6 +77,11 @@ namespace VrLifeClient
             {
                 service?.Init(_closedAPI);
             }
+        }
+
+        public void Dispose()
+        {
+            _closedAPI?.Dispose();
         }
     }
 }

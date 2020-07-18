@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             _root.AddChild(2, 2, 2, 5, loading);
             loading.SetGif(GetLoadingGif(), 12);
 
-            _requests = _api.Apps.Friends.GetFriendRequests().Wait();
+            _requests = _api.DefaultApps.Friends.GetFriendRequests().Wait();
 
             _root.Clear();
             loading.Dispose();
@@ -72,14 +73,14 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                 acceptBtn.SetText("Accept");
                 acceptBtn.Clicked += () =>
                 {
-                    _api.Apps.Friends.AcceptFriendRequest(user.UserId).Wait();
+                    _api.DefaultApps.Friends.AcceptFriendRequest(user.UserId).Wait();
                     Refresh();
                 };
                 _root.AddChild(3, i, 1, 1, acceptBtn);
                 MenuItemButton rejectBtn = new MenuItemButton($"reject{user.UserId}");
                 rejectBtn.SetText("Reject");
                 rejectBtn.Clicked += () => {
-                    _api.Apps.Friends.DeleteFriendRequest(user.UserId).Wait();
+                    _api.DefaultApps.Friends.DeleteFriendRequest(user.UserId).Wait();
                     Refresh();
                 };
                 _root.AddChild(4, i, 1, 1, rejectBtn);

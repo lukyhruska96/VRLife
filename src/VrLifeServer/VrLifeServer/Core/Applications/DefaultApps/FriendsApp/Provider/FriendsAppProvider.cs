@@ -176,7 +176,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             return msg.ToByteArray();
         }
 
-        public AppMsg HandleMessage(byte[] data, int size, MsgContext context)
+        public byte[] HandleMessage(byte[] data, int size, MsgContext context)
         {
             throw new FriendsAppProviderException("FriendsAppProvider accepts requests only through event system.");
         }

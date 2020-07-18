@@ -120,7 +120,7 @@ namespace VrLifeClient.Core.Services.EventService
             
         }
 
-        public void Reset()
+        private void Reset()
         {
             _forwarderHandler.Reset();
         }

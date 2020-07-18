@@ -56,7 +56,7 @@ namespace VrLifeShared.Logging
 
         public void Error(Exception ex)
         {
-            Write(ex.Message, "ERROR");
+            Write($"{ex.GetType().Name}: {ex.Message}", "ERROR");
             Write(ex.StackTrace + Environment.NewLine, "ERROR");
         }
 

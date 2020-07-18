@@ -38,7 +38,7 @@ namespace VrLifeShared.Logging
 
         public void Error(Exception ex)
         {
-            logger.Error($"{wrapMsg}: {ex.Message}");
+            logger.Error($"{wrapMsg}: {ex.GetType().Name}: { ex.Message}");
         }
 
         public void Info(string msg)

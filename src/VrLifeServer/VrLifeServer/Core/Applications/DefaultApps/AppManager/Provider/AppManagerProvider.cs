@@ -33,7 +33,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.AppManager.Provider
             throw new NotImplementedException();
         }
 
-        public AppMsg HandleMessage(byte[] data, int size, MsgContext context)
+        public byte[] HandleMessage(byte[] data, int size, MsgContext context)
         {
             throw new NotImplementedException();
         }

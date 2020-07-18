@@ -14,6 +14,12 @@ namespace Assets.Scripts.Core.Services
         private Func<T> _func;
         private UnityEvent<T> _succ = null;
         private ErrorUnityEvent _err = null;
+
+        private Task<T> t = null;
+        public T Result { get => t.Result; }
+
+        public Exception Exception { get; private set; } = null;
+        public bool HasException { get => Exception != null; }
         public ServiceCallback(Func<T> func)
         {
             this._func = func;
@@ -33,26 +39,46 @@ namespace Assets.Scripts.Core.Services
 
         public T Wait()
         {
-            return _func.Invoke();
+            t = new Task<T>(Action);
+            t.RunSynchronously();
+            if (HasException)
+            {
+                throw Exception;
+            }
+            return t.Result;
+        }
+
+        public ServiceCoroutine<T> WaitCoroutine()
+        {
+            t = Task<T>.Run(Action);
+            return new ServiceCoroutine<T>(t);
         }
 
         public ServiceCallback<T> Exec()
         {
-            Task.Run(() =>
-            {
-                T val;
-                try
-                {
-                    val = _func.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    _err?.Invoke(ex);
-                    return;
-                }
-                _succ?.Invoke(val);
-            });
+            t = Task<T>.Run(Action);
             return this;
+        }
+
+        private T Action()
+        {
+            T val;
+            try
+            {
+                val = _func.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Exception = ex;
+                _err?.Invoke(ex);
+                return default;
+            }
+            try
+            {
+                _succ?.Invoke(val);
+            }
+            catch(Exception) { }
+            return val;
         }
 
     }

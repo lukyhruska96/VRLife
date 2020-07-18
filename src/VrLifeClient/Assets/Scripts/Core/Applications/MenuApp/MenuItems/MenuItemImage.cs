@@ -65,7 +65,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public GameObject GetGameObject()
         {
-            return _gameObject;
+            return _gameObject == null ? null : _gameObject;
         }
 
         public MenuItemInfo GetInfo()

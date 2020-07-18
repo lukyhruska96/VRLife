@@ -29,10 +29,6 @@ namespace VrLifeClient.Core.Services.SystemService
             return msg.MessageTypeCase == MainMessage.MessageTypeOneofCase.SystemMsg && msg.SystemMsg.SystemMsgTypeCase == SystemMsg.SystemMsgTypeOneofCase.ErrorMsg;
         }
 
-        public void Reset()
-        {
-        }
-
         public void OnForwarderLost()
         {
             ForwarderLost?.Invoke();

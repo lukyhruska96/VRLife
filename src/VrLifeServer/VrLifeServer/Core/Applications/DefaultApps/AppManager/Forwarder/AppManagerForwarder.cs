@@ -31,12 +31,12 @@ namespace VrLifeServer.Core.Applications.DefaultApps.AppManager.Forwarder
             throw new NotImplementedException();
         }
 
-        public AppMsg HandleMessage(byte[] data, int size, MsgContext context)
+        public byte[] HandleMessage(byte[] data, int size, MsgContext context)
         {
             throw new NotImplementedException();
         }
 
-        public void Init(OpenAPI api)
+        public void Init(uint roomId, OpenAPI api)
         {
             _api = api.GetClosedAPI(_info);
         }

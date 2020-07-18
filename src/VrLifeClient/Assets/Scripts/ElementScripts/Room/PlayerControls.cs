@@ -20,7 +20,6 @@ namespace Assets.Scripts.ElementScripts.Room
         public Animator animator;
 
         private InputController controller;
-        private static PlayerControls current;
         private IAvatar _avatar;
 
         private bool _freeLook = false;
@@ -28,7 +27,6 @@ namespace Assets.Scripts.ElementScripts.Room
 
         public void Awake()
         {
-            current = this;
             controller = new InputController();
         }
 

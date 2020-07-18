@@ -22,6 +22,8 @@ namespace Assets.Scripts.Core.Wrappers
 
         UnityEngine.GameObject GetHead();
 
+        SoundPlayer GetSoundPlayer();
+
         void Destroy();
     }
 }

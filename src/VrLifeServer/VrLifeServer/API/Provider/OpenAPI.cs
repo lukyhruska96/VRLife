@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeServer.API.Provider.APIs;
 using VrLifeServer.Core.Applications.DefaultApps;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Core.Applications;
@@ -20,6 +21,8 @@ namespace VrLifeServer.API.Provider
         private ClosedAPI _closedAPI;
         private bool init = false;
 
+        public UserAPI User { get; private set; } = null;
+
         public DefaultAppsProvider Apps { get; private set; } = new DefaultAppsProvider();
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
@@ -30,11 +33,13 @@ namespace VrLifeServer.API.Provider
 
         public void Init(ClosedAPI api)
         {
-            if(!init)
+            if(init)
             {
-                _closedAPI = api;
-                init = true;
+                return;
             }
+            _closedAPI = api;
+            User = new UserAPI(_closedAPI);
+            init = true;
         }
 
         public ILogger CreateLogger(string className)

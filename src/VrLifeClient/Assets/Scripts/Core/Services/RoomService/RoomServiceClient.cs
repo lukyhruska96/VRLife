@@ -164,7 +164,7 @@ namespace VrLifeClient.Core.Services.RoomService
             }
         }
 
-        public void Reset()
+        private void Reset()
         {
             _currentRoom = null;
             _forwarderAddress = null;

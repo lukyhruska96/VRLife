@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
+
+message VoiceChatRequest {
+	uint64 sampleId = 1;
+	repeated float data = 2;
+}

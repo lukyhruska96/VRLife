@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VrLifeClient;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core;
 using VrLifeShared.Core.Applications;
 

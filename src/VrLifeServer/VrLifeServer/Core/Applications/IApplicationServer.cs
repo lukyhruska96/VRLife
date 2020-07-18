@@ -26,7 +26,7 @@ namespace VrLifeServer.Applications
 
     interface IApplicationServer : IApplication
     {
-        AppMsg HandleMessage(byte[] data, int size, MsgContext ctx);
+        byte[] HandleMessage(byte[] data, int size, MsgContext ctx);
 
         byte[] HandleEvent(EventDataMsg eventData, MsgContext ctx);
     }

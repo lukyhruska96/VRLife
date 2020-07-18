@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core.Character;
+using Assets.Scripts.Core.Services;
 using Assets.Scripts.Core.Services.EventService;
 using Assets.Scripts.Core.Wrappers;
 using System;
@@ -49,12 +50,10 @@ public class PlayerState : MonoBehaviour
         {
             while (true)
             {
-                try
-                {
-                    SkeletonState state = Avatar.GetCurrentSkeleton();
-                    VrLifeCore.API.Event.SendSkeleton(state).Wait();
-                }
-                catch(EventServiceException)
+                SkeletonState state = Avatar.GetCurrentSkeleton();
+                ServiceCallback<byte[]> callback = VrLifeCore.API.Event.SendSkeleton(state);
+                yield return callback.WaitCoroutine();
+                if(callback.HasException)
                 {
                     yield break;
                 }

@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
+
+message ChatSend {
+	uint64 to = 1;
+	string message = 2;
+}

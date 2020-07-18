@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.API.MenuAPI;
+﻿using Assets.Scripts.API.HUDAPI;
 using Assets.Scripts.Core.Applications.DefaultApps.FriendsApp;
 using Assets.Scripts.Core.Applications.MenuApp;
 using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.API.HUDAPI;
+using VrLifeClient.API.MenuAPI;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
 using VrLifeShared.Networking.NetworkingModels;
@@ -21,7 +24,6 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
         private const string NAME = "Friends Management";
         private const string DESC = "Provides ability manage friends in menu UI.";
         private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
-        private MenuAppInfo _menuInfo = new MenuAppInfo();
         private MenuAPI _menuAPI;
         private OpenAPI _api;
         private MenuItemGrid _root;
@@ -54,17 +56,12 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             return _info;
         }
 
-        public MenuAppInfo GetMenuInfo()
-        {
-            return _menuInfo;
-        }
-
         public IMenuItem GetRootItem()
         {
             return _root;
         }
 
-        public void Init(OpenAPI api, MenuAPI menuAPI)
+        public void Init(OpenAPI api, MenuAPI menuAPI, HUDAPI hudAPI)
         {
             _api = api;
             _menuAPI = menuAPI;
@@ -181,6 +178,11 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
         private void OnEnabled()
         {
             _active?.Refresh();
+        }
+
+        public void HandleNotification(Notification notification)
+        {
+
         }
     }
 }

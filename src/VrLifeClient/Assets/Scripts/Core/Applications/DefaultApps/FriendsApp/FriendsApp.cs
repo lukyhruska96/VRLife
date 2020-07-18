@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeClient.Core.Services.EventService;
 using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Core.Applications;

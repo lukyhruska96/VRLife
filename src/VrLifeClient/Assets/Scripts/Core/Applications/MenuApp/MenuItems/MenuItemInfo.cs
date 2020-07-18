@@ -17,7 +17,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
         MI_IMAGE,
         MI_INPUT,
         MI_BUTTON,
-        MI_CHECKBOX
+        MI_CHECKBOX,
+        MI_SCROLLABLE
     }
     public class MenuItemInfo
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,6 +11,7 @@ using VrLifeServer.Core.Applications.DefaultApps;
 using VrLifeServer.Core.Services.EventService;
 using VrLifeServer.Core.Services.RoomService;
 using VrLifeServer.Core.Services.SystemService;
+using VrLifeShared.Logging;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.AppService
@@ -19,6 +21,7 @@ namespace VrLifeServer.Core.Services.AppService
         private Dictionary<uint, Dictionary<ulong, IApplicationForwarder>> _appInstances = 
             new Dictionary<uint, Dictionary<ulong, IApplicationForwarder>>();
         private ClosedAPI _api;
+        private ILogger _log;
         public byte[] HandleEvent(MainMessage msg)
         {
             EventDataMsg eventData = msg.EventMsg.EventDataMsg;
@@ -47,6 +50,7 @@ namespace VrLifeServer.Core.Services.AppService
             }
             catch(Exception e)
             {
+                _log.Error(e);
                 throw new EventErrorException(e.Message);
             }
         }
@@ -70,10 +74,14 @@ namespace VrLifeServer.Core.Services.AppService
                 return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "No handler could be found for this event.");
             }
             MainMessage response = new MainMessage();
+            response.AppMsg = new AppMsg();
+            response.AppMsg.AppId = appId;
             byte[] data = appMsg.Data.ToByteArray();
             try
             {
-                response.AppMsg = _appInstances[roomId.Value][appId].HandleMessage(data, data.Length, new MsgContext(msg));
+                response.AppMsg.Data = ByteString.CopyFrom(
+                    _appInstances[roomId.Value][appId].HandleMessage(data, data.Length, new MsgContext(msg))
+                    );
             }
             catch (Exception e)
             {
@@ -85,6 +93,7 @@ namespace VrLifeServer.Core.Services.AppService
         public void Init(ClosedAPI api)
         {
             _api = api;
+            _log = _api.OpenAPI.CreateLogger(GetType().Name);
             _api.Services.Room.RoomDeleted += OnRoomDeleted;
             _api.Services.Room.RoomCreated += OnRoomCreated;
         }
@@ -94,7 +103,7 @@ namespace VrLifeServer.Core.Services.AppService
             _api.OpenAPI.Apps.DefaultApps[roomId] = new DefaultAppForwarderInstances();
             foreach(IApplicationForwarder app in _api.OpenAPI.Apps.DefaultApps[roomId])
             {
-                app.Init(_api.OpenAPI);
+                app.Init(roomId, _api.OpenAPI);
                 _appInstances[roomId].Add(app.GetInfo().ID, app);
             }
         }
@@ -119,7 +128,7 @@ namespace VrLifeServer.Core.Services.AppService
                 app.Dispose();
                 throw new AppServiceException("Another instance of this app is already registered.");
             }
-            app.Init(_api.OpenAPI);
+            app.Init(roomId, _api.OpenAPI);
             _appInstances[roomId].Add(app.GetInfo().ID, app);
         }
 

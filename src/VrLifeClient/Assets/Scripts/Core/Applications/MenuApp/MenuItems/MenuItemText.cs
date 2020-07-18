@@ -49,6 +49,11 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             _gameObject.GetComponent<Text>().color = color;
         }
 
+        public void SetTextStyle(FontStyle style)
+        {
+            _gameObject.GetComponent<Text>().fontStyle = style;
+        }
+
         public List<IMenuItem> GetChildren()
         {
             return null;
@@ -89,7 +94,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public GameObject GetGameObject()
         {
-            return _gameObject;
+            return _gameObject == null ? null : _gameObject;
         }
 
         public void SetPadding(float left, float top, float right, float bottom)

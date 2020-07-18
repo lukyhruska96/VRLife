@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeClient.Core.Services.AppService;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
 using VrLifeShared.Networking.NetworkingModels;
 
-namespace VrLifeClient.API
+namespace VrLifeClient.API.OpenAPI
 {
     class OpenAPI
     {
@@ -35,8 +36,11 @@ namespace VrLifeClient.API
         public SystemAPI System { get => _system; }
         private SystemAPI _system;
 
-        public DefaultApps Apps { get => _defaultApps; }
+        public DefaultApps DefaultApps { get => _defaultApps; }
         private DefaultApps _defaultApps;
+
+        public AppAPI App { get => _app; }
+        private AppAPI _app;
 
         private ServiceProvider _serviceProvider;
 
@@ -50,6 +54,7 @@ namespace VrLifeClient.API
             this._event = new EventAPI(serviceProvider.Event);
             this._tick = new TickAPI(serviceProvider.TickRate);
             this._system = new SystemAPI(serviceProvider.System);
+            this._app = new AppAPI(serviceProvider.App);
             this._defaultApps = new DefaultApps();
         }
     }

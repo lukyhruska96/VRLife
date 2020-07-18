@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Experimental.Networking.PlayerConnection;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             _root.AddChild(2, 2, 2, 5, loading);
             loading.SetGif(GetLoadingGif(), 12);
 
-            _friends = _api.Apps.Friends.ListFriends().Wait();
+            _friends = _api.DefaultApps.Friends.ListFriends().Wait();
 
             _root.Clear();
             loading.Dispose();
@@ -76,7 +77,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                     connectBtn.SetText("Connect");
                     connectBtn.Clicked += () =>
                     {
-                        _api.Apps.RoomList.ChangeRoom(friend.CurrentRoomId.Value);
+                        _api.DefaultApps.RoomList.ChangeRoom(friend.CurrentRoomId.Value);
                     };
                     _root.AddChild(3, i, 1, 1, connectBtn);
                 }
@@ -84,7 +85,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                 removeFriend.SetText("Remove");
                 removeFriend.Clicked += () =>
                 {
-                    _api.Apps.Friends.RemoveFriend(friend.UserId).Wait();
+                    _api.DefaultApps.Friends.RemoveFriend(friend.UserId).Wait();
                     Refresh();
                 };
                 _root.AddChild(4, i, 1, 1, removeFriend);

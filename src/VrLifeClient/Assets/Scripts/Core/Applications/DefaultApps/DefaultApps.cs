@@ -15,8 +15,10 @@ namespace Assets.Scripts.Core.Applications.DefaultApps
         public RoomListApp.RoomListApp RoomList { get; private set; } = new RoomListApp.RoomListApp();
         public AppManager.AppManager AppManager { get; private set; } = new AppManager.AppManager();
         public FriendsApp.FriendsApp Friends { get; private set; } = new FriendsApp.FriendsApp();
+        public VoiceChatApp.VoiceChatApp VoiceChat { get; private set; } = new VoiceChatApp.VoiceChatApp();
         public FriendsManagementApp.FriendsManagementApp FriendsManagement { get; private set; } = 
             new FriendsManagementApp.FriendsManagementApp();
+        public ChatApp.ChatApp Chat { get; private set; } = new ChatApp.ChatApp();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -24,6 +26,8 @@ namespace Assets.Scripts.Core.Applications.DefaultApps
             yield return AppManager;
             yield return Friends;
             yield return FriendsManagement;
+            yield return VoiceChat;
+            yield return Chat;
         }
     }
 }

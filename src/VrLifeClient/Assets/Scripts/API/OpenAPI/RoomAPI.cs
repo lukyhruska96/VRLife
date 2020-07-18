@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using VrLifeClient.Core.Services.RoomService;
 using VrLifeShared.Networking.NetworkingModels;
 
-namespace Assets.Scripts.API.OpenAPI
+namespace VrLifeClient.API.OpenAPI
 {
     class RoomAPI
     {

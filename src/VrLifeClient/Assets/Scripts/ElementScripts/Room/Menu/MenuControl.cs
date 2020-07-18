@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.API.HUDAPI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,5 +39,28 @@ public class MenuControl : MonoBehaviour
     {
         gameObject.SetActive(true);
         MenuAppContainer.current?.OnOpenMenu();
+    }
+
+    public bool IsMenuOpen()
+    {
+        return gameObject.activeSelf;
+    }
+
+    public void HandleNotification(Notification notification)
+    {
+        if(MenuDropdownList.current == null)
+        {
+            return;
+        }
+        if(!IsMenuOpen())
+        {
+            OpenMenu();
+        }
+        MenuDropdownList.current.HandleNotification(notification);
+    }
+
+    private void OnDestroy()
+    {
+        current = null;
     }
 }

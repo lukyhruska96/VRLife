@@ -40,6 +40,7 @@ namespace VrLifeServer.Core.Services.EventService
                 }
                 catch (EventErrorException e)
                 {
+                    _log.Error(e);
                     response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
                 }
             }

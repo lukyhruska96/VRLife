@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.API.Provider;
 using VrLifeServer.Applications;
 using VrLifeServer.Core.Services.EventService;
 using VrLifeServer.Core.Services.SystemService;
+using VrLifeShared.Logging;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.AppService
@@ -12,6 +14,7 @@ namespace VrLifeServer.Core.Services.AppService
     class AppServiceProvider : IAppServiceProvider
     {
         private ClosedAPI _api;
+        private ILogger _log;
         private Dictionary<ulong, IApplicationProvider> _appInstances = 
             new Dictionary<ulong, IApplicationProvider>();
         public byte[] HandleEvent(MainMessage msg)
@@ -32,7 +35,7 @@ namespace VrLifeServer.Core.Services.AppService
             }
             catch(Exception e)
             {
-                throw new EventErrorException(e.Message);
+                throw new EventErrorException($"{e.GetType().Name}: {e.Message}");
             }
         }
 
@@ -45,13 +48,20 @@ namespace VrLifeServer.Core.Services.AppService
                 return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "No handler could be found for this event.");
             }
             MainMessage response = new MainMessage();
+            response.AppMsg = new AppMsg();
+            response.AppMsg.AppId = appId;
             byte[] data = appMsg.Data.ToByteArray();
             try
             {
-                response.AppMsg = _appInstances[appId].HandleMessage(data, data.Length, new MsgContext(msg));
+                byte[] responseData = _appInstances[appId].HandleMessage(data, data.Length, new MsgContext(msg));
+                if(responseData != null)
+                {
+                    response.AppMsg.Data = ByteString.CopyFrom(responseData);
+                }
             }
             catch (Exception e)
             {
+                _log.Error(e);
                 return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, e.Message);
             }
             return response;
@@ -60,6 +70,7 @@ namespace VrLifeServer.Core.Services.AppService
         public void Init(ClosedAPI api)
         {
             _api = api;
+            _log = _api.OpenAPI.CreateLogger(GetType().Name);
             InitDefaultApps();
         }
 

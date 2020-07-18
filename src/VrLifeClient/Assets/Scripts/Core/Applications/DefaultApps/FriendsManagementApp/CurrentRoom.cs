@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using VrLifeClient.API;
+using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
 
             _users = _api.User.CurrentRoomUsers().Wait().Users.ToList();
             _users.Remove(_users.Find(x => x.UserId == _api.User.UserId));
-            _friends = _api.Apps.Friends.ListFriends().Wait().Select(x => x.UserId).ToList();
+            _friends = _api.DefaultApps.Friends.ListFriends().Wait().Select(x => x.UserId).ToList();
 
             _root.Clear();
             loading.Dispose();
@@ -76,7 +77,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                     addFriend.SetText("Add Friend");
                     addFriend.Clicked += () =>
                     {
-                        _api.Apps.Friends.SendFriendRequest(user.UserId).Wait();
+                        _api.DefaultApps.Friends.SendFriendRequest(user.UserId).Wait();
                         MenuItemText requestSent = new MenuItemText("requestSent");
                         _root.RemoveChild(addFriend);
                         addFriend.Dispose();

@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
+
+import "ChatSend.proto";
+
+message ChatRequest {
+	oneof requestType {
+		ChatSend sendRequest = 1;
+		bool listRequest = 2;
+	}
+}

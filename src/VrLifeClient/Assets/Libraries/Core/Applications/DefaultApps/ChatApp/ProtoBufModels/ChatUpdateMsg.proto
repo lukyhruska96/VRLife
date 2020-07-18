@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+package VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
+
+import "ChatMessage.proto";
+
+message ChatUpdateMsg { 
+	repeated ChatMessage messages = 1;
+}
