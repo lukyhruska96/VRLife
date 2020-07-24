@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.API.Forwarder;
 using VrLifeServer.Core.Services;
@@ -10,10 +9,13 @@ using VrLifeServer.Core.Services.TickRateService;
 using VrLifeServer.Core.Services.UserService;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 using System.Linq;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking.Middlewares;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Forwarder.Core.Services;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Networking.Middlewares;
 
 namespace VrLifeServer
 {
@@ -40,6 +42,7 @@ namespace VrLifeServer
             middlewares.Add(new MsgIdIncrement());
             middlewares.Add(_serverIdFiller);
             udpListenner = new UDPNetworking<MainMessage>(_config.Listen, (int)_config.UdpPort, this.MsgRouter, middlewares);
+            udpListenner.SetDebug(config.Debug);
         }
 
         public void Start()
@@ -47,13 +50,13 @@ namespace VrLifeServer
             this._log.Debug("In method Start().");
             // say hi
             this._log.Info("Contacting Main Server...");
-            udpListenner.SendAsync(ISystemService.CreateHelloMessage(_config),
+            udpListenner.SendAsync(ServiceUtils.CreateHelloMessage(_config),
                 _config.MainServer,
                 this.AfterFirstResponse,
                 (e) =>
                 {
                     _log.Error(new ServerException("Main Server is unreachable", e));
-                    Environment.Exit(1);
+                    System.Environment.Exit(1);
                 });
         }
 
@@ -78,7 +81,7 @@ namespace VrLifeServer
                 new UserServiceForwarder(), 
                 new AppServiceForwarder());
 
-            int maxIndex = Enum.GetValues(typeof(MainMessage.MessageTypeOneofCase))
+            int maxIndex = System.Enum.GetValues(typeof(MainMessage.MessageTypeOneofCase))
                 .OfType<MainMessage.MessageTypeOneofCase>()
                 .Select(x => (int)x)
                 .Max();

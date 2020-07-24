@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Numerics;
-using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Utils
 {

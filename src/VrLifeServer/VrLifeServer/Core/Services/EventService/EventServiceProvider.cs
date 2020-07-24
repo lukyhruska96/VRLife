@@ -1,19 +1,16 @@
 ﻿using Google.Protobuf;
 using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
-using VrLifeServer.API;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.EventService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.EventService
 {
     class EventServiceProvider : IEventServiceProvider
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
 
         private EventMaskHandler _maskHandler = new EventMaskHandler();
@@ -23,7 +20,7 @@ namespace VrLifeServer.Core.Services.EventService
             EventDataMsg dataMsg = msg.EventMsg.EventDataMsg;
             if(dataMsg == null)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid msg type.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid msg type.");
             }
 
             EventResponse response;
@@ -41,14 +38,14 @@ namespace VrLifeServer.Core.Services.EventService
                 catch (EventErrorException e)
                 {
                     _log.Error(e);
-                    response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
+                    response = VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
                 }
             }
             else
             {
                 const string err_msg = "Main server does not handle events of this type.";
                 _log.Error(err_msg);
-                response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, err_msg);
+                response = VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msg.MsgId, 0, 0, err_msg);
             }
             response = _maskHandler.Handle(msg.ClientId, dataMsg, response);
             MainMessage responseMsg = new MainMessage();
@@ -57,7 +54,7 @@ namespace VrLifeServer.Core.Services.EventService
             return responseMsg;
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);

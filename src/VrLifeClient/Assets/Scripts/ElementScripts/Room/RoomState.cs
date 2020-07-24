@@ -1,28 +1,29 @@
 ﻿using Assets.Scripts.Core.Character;
 using Assets.Scripts.Core.Services;
-using Assets.Scripts.Core.Services.TickRateService;
 using Assets.Scripts.Core.Utils;
-using Assets.Scripts.Core.Wrappers;
-using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Common.Core.Utils;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient;
 using VrLifeClient.API;
-using VrLifeShared.Core.Applications;
-using VrLifeShared.Networking.NetworkingModels;
 
 public class RoomState : MonoBehaviour
 {
-    private AppInfo _info = new AppInfo(ulong.MaxValue, "RoomState", null, AppType.APP_GLOBAL);
+    private AppInfo _info = new AppInfo(ulong.MaxValue, "RoomState", null, 
+        new AppVersion(new int[] { 1, 0, 0 }),  AppType.APP_GLOBAL);
     private Coroutine _roomStateCoroutine;
     private IAvatar _playerAvatar;
     private ControlHUD _hud;
     private bool _ready = false;
-    private ClosedAPI _api;
+    private IClosedAPI _api;
 
     private void Awake()
     {
@@ -66,7 +67,7 @@ public class RoomState : MonoBehaviour
         while(true)
         {
             SnapshotData data;
-            ServiceCallback<SnapshotData> callback = VrLifeCore.API.TickRate.GetSnapshot();
+            IServiceCallback<SnapshotData> callback = VrLifeCore.API.TickRate.GetSnapshot();
             yield return callback.WaitCoroutine();
             if(callback.HasException)
             {

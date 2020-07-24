@@ -9,11 +9,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Services.RoomService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.API.Forwarder;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeServer.Core.Services.UserService;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.RoomService
 {
@@ -22,14 +22,14 @@ namespace VrLifeServer.Core.Services.RoomService
         private const int ROOM_INFO_INTERVAL = 10000;
         private const int ACTIVITY_WATCH_INTERVAL = 5000;
 
-        public event IRoomServiceForwarder.UserDisconnectEventHandler UserDisconnected;
-        public event IRoomServiceForwarder.UserConnectEventHandler UserConnected;
-        public event IRoomServiceForwarder.RoomDeleteEventHandler RoomDeleted;
-        public event IRoomServiceForwarder.RoomCreateEventHandler RoomCreated;
+        public event UserDisconnectEventHandler UserDisconnected;
+        public event UserConnectEventHandler UserConnected;
+        public event RoomDeleteEventHandler RoomDeleted;
+        public event RoomCreateEventHandler RoomCreated;
 
         private List<Room> _roomList = new List<Room>();
         private Dictionary<ulong, uint?> _user2Room = new Dictionary<ulong, uint?>();
-        private ClosedAPI _api = null;
+        private IClosedAPI _api = null;
         private ILogger _log;
 
         public MainMessage HandleMessage(MainMessage msg)
@@ -52,20 +52,23 @@ namespace VrLifeServer.Core.Services.RoomService
                         case RoomQuery.RoomQueryOneofCase.RoomListQuery:
                             return RoomList(roomMsg.RoomQuery.RoomListQuery);
                         default:
-                            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
+                            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
                     }
                 default:
-                    return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid Operation.");
 
             }
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
             InitRoomListInfo();
-            InitActivityWatch();
+            if(!_api.OpenAPI.Config.Debug)
+            {
+                InitActivityWatch();
+            }
             InitRoomGC();
         }
 
@@ -121,19 +124,19 @@ namespace VrLifeServer.Core.Services.RoomService
             int roomId = (int)roomEnter.RoomId;
             if (roomId >= _roomList.Count || _roomList[roomId] == null)
             {
-                return ISystemService.CreateErrorMessage(msgId, 0, 0, "There is no such room with this ID.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "There is no such room with this ID.");
             }
             lock (_roomList[roomId])
             {
                 Room room = _roomList[roomId];
                 if(room.Capacity <= room.Players.Count)
                 {
-                    return ISystemService.CreateErrorMessage(msgId, 0, 0, "Room is full.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "Room is full.");
                 }
                 ulong? userId = _api.Services.User.GetUserIdByClientId(clientId);
                 if(!userId.HasValue)
                 {
-                    return ISystemService.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
                 }
                 room.Players.Add(userId.Value);
                 room.LastActivity = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -154,14 +157,14 @@ namespace VrLifeServer.Core.Services.RoomService
             ulong? userId = _api.Services.User.GetUserIdByClientId(clientId);
             if(!userId.HasValue || roomId >= _roomList.Count || _roomList[roomId] == null)
             {
-                return ISystemService.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "Unable to match client ID to any user.");
             }
             lock(_roomList[roomId])
             {
                 int idx = _roomList[roomId].Players.FindIndex(x => x == userId.Value);
                 if (idx < 0)
                 {
-                    return ISystemService.CreateErrorMessage(msgId, 0, 0, "Your client is not connected to this room.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "Your client is not connected to this room.");
                 }
                 Room room = _roomList[roomId];
                 room.Players.RemoveAt(idx);
@@ -170,7 +173,7 @@ namespace VrLifeServer.Core.Services.RoomService
                 _user2Room[userId.Value] = null;
                 _log.Info($"User with id '{userId.Value}' exited room '{room.Name}'.");
             }
-            return ISystemService.CreateOkMessage(msgId);
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage(msgId);
         }
 
         private static MainMessage PrepareMsg()

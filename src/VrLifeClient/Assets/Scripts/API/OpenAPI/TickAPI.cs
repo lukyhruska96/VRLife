@@ -4,21 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.TickRateService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.API.OpenAPI
 {
-    class TickAPI
+    class TickAPI : ITickAPI
     {
-        private TickRateServiceClient _tickRateService;
+        private ITickRateServiceClient _tickRateService;
         
-        public TickAPI(TickRateServiceClient tickRateService)
+        public TickAPI(ITickRateServiceClient tickRateService)
         {
             this._tickRateService = tickRateService;
         }
 
-        public ServiceCallback<SnapshotData> GetSnapshot()
+        public IServiceCallback<SnapshotData> GetSnapshot()
         {
             return _tickRateService.GetSnapshot();
         }

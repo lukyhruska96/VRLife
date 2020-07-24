@@ -1,6 +1,5 @@
 ﻿using Assets.Prefab.Avatar.Default;
 using Assets.Scripts.Core.Utils;
-using Assets.Scripts.Core.Wrappers;
 using Assets.Scripts.ElementScripts.Room;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Client.Core.Wrappers;
 
 namespace Assets.Scripts.Core.Character
 {
@@ -35,7 +36,7 @@ namespace Assets.Scripts.Core.Character
             _avatarInstance.GetComponent<PlayerState>().Avatar = this;
         }
 
-        public SoundPlayer GetSoundPlayer()
+        public ISoundPlayer GetSoundPlayer()
         {
             return _player;
         }

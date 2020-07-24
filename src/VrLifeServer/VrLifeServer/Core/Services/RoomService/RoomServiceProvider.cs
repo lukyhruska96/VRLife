@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.RoomService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeServer.Core.Utils;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.RoomService
 {
@@ -16,7 +14,7 @@ namespace VrLifeServer.Core.Services.RoomService
     {
         private Dictionary<int, List<Room>> _roomsPerServer = new Dictionary<int, List<Room>>();
         private Dictionary<ulong, uint?> _user2Room = new Dictionary<ulong, uint?>();
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         public MainMessage HandleMessage(MainMessage msg)
         {
@@ -27,25 +25,25 @@ namespace VrLifeServer.Core.Services.RoomService
                 case RoomMsg.MessageTypeOneofCase.RoomCreate:
                     return RoomCreate(msg.MsgId, msg.ClientId, msg);
                 case RoomMsg.MessageTypeOneofCase.RoomDetail:
-                    return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
                 case RoomMsg.MessageTypeOneofCase.RoomEnter:
                     serverId = _roomsPerServer.Where(x => x.Value.Find(y => y.Id == msg.RoomMsg.RoomEnter.RoomId) != null).FirstOrDefault().Key;
                     if(serverId == 0)
                     {
-                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Room with this ID could not be found.");
+                        return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Room with this ID could not be found.");
                     }
-                    return ISystemService.CreateRedirectMessage(msg, _api.Services.System.GetAddressById((uint)serverId));
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateRedirectMessage(msg, _api.Services.System.GetAddressById((uint)serverId));
                 case RoomMsg.MessageTypeOneofCase.RoomExit:
                     serverId = _roomsPerServer.Where(x => x.Value.Find(y => y.Id == msg.RoomMsg.RoomExit.RoomId) != null).FirstOrDefault().Key;
                     if (serverId == 0)
                     {
-                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Room with this ID could not be found.");
+                        return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Room with this ID could not be found.");
                     }
-                    return ISystemService.CreateRedirectMessage(msg, _api.Services.System.GetAddressById((uint)serverId));
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateRedirectMessage(msg, _api.Services.System.GetAddressById((uint)serverId));
                 case RoomMsg.MessageTypeOneofCase.RoomList:
                     if(msg.SenderIdCase == MainMessage.SenderIdOneofCase.ClientId)
                     {
-                        return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
+                        return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
                     }
                     return RoomListServer(msg.MsgId, (int)msg.ServerId, msg.RoomMsg.RoomList);
                 case RoomMsg.MessageTypeOneofCase.RoomQuery:
@@ -56,14 +54,14 @@ namespace VrLifeServer.Core.Services.RoomService
                         case RoomQuery.RoomQueryOneofCase.RoomListQuery:
                             return RoomListClient(msg.RoomMsg.RoomQuery.RoomListQuery);
                         default:
-                            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
+                            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
                     }
                 default:
-                    return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Invalid message.");
             }
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             _api = api;
         }
@@ -81,7 +79,7 @@ namespace VrLifeServer.Core.Services.RoomService
             }
             if(room == null)
             {
-                return ISystemService.CreateErrorMessage(msgId, 0, 0, "Room with this ID could not be found.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "Room with this ID could not be found.");
             }
             MainMessage msg = new MainMessage();
             msg.RoomMsg = new RoomMsg();
@@ -101,7 +99,7 @@ namespace VrLifeServer.Core.Services.RoomService
                 _roomsPerServer[serverId].AddRange(roomList.RoomList_.Select(x => new Room(x)));
             }
             roomList.RoomList_.AsParallel().ForAll(x => x.Players.AsParallel().ForAll(y => _user2Room[y] = x.RoomId));
-            return ISystemService.CreateOkMessage(msgId);
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage(msgId);
         }
 
         private MainMessage RoomListClient(RoomListQuery roomListQuery)
@@ -131,7 +129,7 @@ namespace VrLifeServer.Core.Services.RoomService
         {
             if(_roomsPerServer.Count == 0)
             {
-                return ISystemService.CreateErrorMessage(msgId, 0, 0, "There is currently no computing server.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msgId, 0, 0, "There is currently no computing server.");
             }
             int serverId = 1;
             foreach(KeyValuePair<int, List<Room>> pair in _roomsPerServer)
@@ -146,7 +144,7 @@ namespace VrLifeServer.Core.Services.RoomService
             }
 
             IPEndPoint redirect = _api.Services.System.GetAddressById((uint)serverId);
-            return ISystemService.CreateRedirectMessage(msg, redirect);
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateRedirectMessage(msg, redirect);
         }
 
         public uint? RoomIdByUserId(ulong userId)

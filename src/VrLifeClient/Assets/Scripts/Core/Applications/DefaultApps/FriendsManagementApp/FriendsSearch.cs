@@ -1,11 +1,5 @@
 ﻿using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VrLifeClient.API;
-using VrLifeClient.API.OpenAPI;
+using VrLifeAPI.Client.API;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
 {
@@ -13,8 +7,8 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
     {
         private const int ROWS = 6;
         private MenuItemGrid _root;
-        private OpenAPI _api;
-        public FriendsSearch(OpenAPI api)
+        private IOpenAPI _api;
+        public FriendsSearch(IOpenAPI api)
         {
             _api = api;
             InitMenuItems();

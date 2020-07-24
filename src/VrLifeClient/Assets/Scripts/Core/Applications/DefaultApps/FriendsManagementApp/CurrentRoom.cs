@@ -2,24 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using VrLifeClient.API;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API.OpenAPI;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
 {
     class CurrentRoom : IFriendsManagementView
     {
         private const int ROWS = 6;
-        private OpenAPI _api;
+        private IOpenAPI _api;
         private MenuItemGrid _root;
         private List<ulong> _friends = null;
         private List<UserDetailMsg> _users = null;
         private const string LOADING_PATH = "Gifs/loading";
-        public CurrentRoom(OpenAPI api)
+        public CurrentRoom(IOpenAPI api)
         {
             _api = api;
             InitMenuItems();

@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI.Forwarder.Core.Applications.DefaultApps;
 
 namespace VrLifeServer.Core.Applications.DefaultApps
 {
-    class DefaultAppsForwarder : IEnumerable
+    class DefaultAppsForwarder : IDefaultAppsForwarder
     {
-        public Dictionary<uint, DefaultAppForwarderInstances> DefaultApps { get; private set; } = 
-            new Dictionary<uint, DefaultAppForwarderInstances>();
+        public Dictionary<uint, IDefaultAppForwarderInstances> DefaultApps { get; private set; } = 
+            new Dictionary<uint, IDefaultAppForwarderInstances>();
 
         public IEnumerator GetEnumerator()
         {

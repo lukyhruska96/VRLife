@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VrLifeShared", "..\VrLifeShared\VrLifeShared.csproj", "{C6A970CA-D512-46C9-BB8B-59D4852FE02D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VrLifeAPI", "..\VrLifeAPI\VrLifeAPI.csproj", "{A05DBFB1-A6A7-4FCD-A34C-20EE7B1AA8FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C6A970CA-D512-46C9-BB8B-59D4852FE02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A970CA-D512-46C9-BB8B-59D4852FE02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A970CA-D512-46C9-BB8B-59D4852FE02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05DBFB1-A6A7-4FCD-A34C-20EE7B1AA8FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05DBFB1-A6A7-4FCD-A34C-20EE7B1AA8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05DBFB1-A6A7-4FCD-A34C-20EE7B1AA8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05DBFB1-A6A7-4FCD-A34C-20EE7B1AA8FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

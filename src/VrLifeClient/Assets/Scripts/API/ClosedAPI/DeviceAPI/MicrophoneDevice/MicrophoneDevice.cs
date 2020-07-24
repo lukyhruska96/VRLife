@@ -7,11 +7,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using VrLifeAPI.Client.API.ClosedAPI.DeviceAPI.MicrophoneDevice;
 using static UnityEngine.AudioClip;
 
 namespace VrLifeClient.API.DeviceAPI.MicrophoneDevice
 {
-    internal class MicrophoneDevice : IDisposable
+    internal class MicrophoneDevice : IMicrophoneDevice
     {
         private static string PREFAB_PATH = "MicrophoneDevice/MicrophoneListener";
         private GameObject _golistener;
@@ -21,7 +22,7 @@ namespace VrLifeClient.API.DeviceAPI.MicrophoneDevice
         public int SampleLength { get => Mic.Instance.SampleLength; }
         public int SampleDurationMS { get => Mic.Instance.SampleDurationMS; }
 
-        public event MicrophoneListener.MicrophoneDataEventHandler MicrophoneData
+        public event Action<ulong, float[]> MicrophoneData
         {
             add { _listener.MicrophoneData += value; }
             remove { _listener.MicrophoneData -= value; }

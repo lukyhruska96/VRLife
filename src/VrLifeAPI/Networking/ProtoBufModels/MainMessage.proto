@@ -1,0 +1,25 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Networking.NetworkingModels;
+import "SystemMsg.proto";
+import "TickMsg.proto";
+import "EventMsg.proto";
+import "RoomMsg.proto";
+import "UserMsg.proto";
+import "AppMsg.proto";
+
+
+message MainMessage {
+	uint64 msgId = 1;
+	oneof SenderId {
+		uint32 serverId = 2;
+		uint64 clientId = 3;
+	}
+	oneof MessageType {
+		SystemMsg systemMsg = 4;
+		TickMsg tickMsg = 5;
+		EventMsg eventMsg = 6;
+		RoomMsg roomMsg = 7;
+		UserMngMsg userMngMsg = 8;
+		AppMsg appMsg = 9;
+	}
+}

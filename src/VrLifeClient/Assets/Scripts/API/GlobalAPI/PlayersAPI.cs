@@ -1,16 +1,14 @@
 ﻿using Assets.Scripts.Core.Character;
-using Assets.Scripts.Core.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
+using VrLifeAPI.Client.API.GlobalAPI;
+using VrLifeAPI.Client.Core.Wrappers;
 
 namespace VrLifeClient.API.GlobalAPI
 {
-    class PlayersAPI
+    class PlayersAPI : IPlayersAPI
     {
         private ClosedAPI _api;
         private Dictionary<ulong, IAvatar> _avatars = new Dictionary<ulong, IAvatar>();

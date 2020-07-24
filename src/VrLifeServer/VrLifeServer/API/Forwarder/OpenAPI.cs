@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI;
+using VrLifeAPI.Common;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Applications.DefaultApps;
+using VrLifeAPI.Networking;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.Core.Applications.DefaultApps;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.API.Forwarder
 {
-    class OpenAPI
+    class OpenAPI : IOpenAPI
     {
-        public UDPNetworking<MainMessage> Networking { get => _udpNetworking; }
-        private UDPNetworking<MainMessage> _udpNetworking;
-        public Config Config { get => _config; }
-        private Config _config;
+        public IUDPNetworking<MainMessage> Networking { get => _udpNetworking; }
+        private IUDPNetworking<MainMessage> _udpNetworking;
+        public IConfig Config { get => _config; }
+        private IConfig _config;
 
-        private ClosedAPI _closedAPI;
+        private IClosedAPI _closedAPI;
         private bool init = false;
 
-        public DefaultAppsForwarder Apps { get; private set; } = new DefaultAppsForwarder();
+        public IDefaultAppsForwarder Apps { get; private set; } = new DefaultAppsForwarder();
 
-        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
+        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, IConfig config)
         {
             this._udpNetworking = udpNetworking;
             this._config = config;
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             if (!init)
             {
@@ -42,7 +48,7 @@ namespace VrLifeServer.API.Forwarder
             return new LoggerWrapper(className, this._config.Loggers);
         }
 
-        public ClosedAPI GetClosedAPI(AppInfo app)
+        public IClosedAPI GetClosedAPI(AppInfo app)
         {
             return Permissions.IsAllowed(app) ? _closedAPI : null;
         }

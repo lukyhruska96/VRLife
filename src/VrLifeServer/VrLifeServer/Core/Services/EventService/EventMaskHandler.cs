@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.EventService
 {

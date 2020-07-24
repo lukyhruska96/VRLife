@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using VrLifeShared.Core.Applications.DefaultApps.FriendsApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
+﻿using System.Linq;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Core.Applications.DefaultApps.FriendsApp
 {
-    public class FriendsAppUser
+    public class FriendsAppUser : IFriendsAppUser
     {
         public ulong UserId { get; private set; }
         public string Username { get; private set; }

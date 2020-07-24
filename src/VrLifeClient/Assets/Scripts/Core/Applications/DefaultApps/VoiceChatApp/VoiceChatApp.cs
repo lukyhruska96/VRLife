@@ -1,32 +1,31 @@
 ﻿using Adrenak.UniMic;
-using Assets.Scripts.Core.Applications.GlobalApp;
-using Assets.Scripts.Core.Wrappers;
 using Google.Protobuf;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.GlobalAPI;
+using VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp;
+using VrLifeAPI.Client.Services;
 using VrLifeClient;
 using VrLifeClient.API;
 using VrLifeClient.API.GlobalAPI;
 using VrLifeClient.API.OpenAPI;
-using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.VoiceChatApp
 {
-    class VoiceChatApp : IGlobalApp
+    class VoiceChatApp : IVoiceChatApp
     {
         public static readonly ulong APP_ID = 5;
         private const string NAME = "VoiceChatApp";
         private const string DESC = "Default application for room voice chat.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_GLOBAL);
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, 
+            new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_GLOBAL);
         private Dictionary<ulong, ulong> _lastSamples = new Dictionary<ulong, ulong>();
-        private ClosedAPI _api;
-        private GlobalAPI _globalAPI;
+        private IClosedAPI _api;
+        private IGlobalAPI _globalAPI;
 
         public void Dispose()
         {
@@ -38,9 +37,9 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.VoiceChatApp
             return _info;
         }
 
-        public void Init(OpenAPI api, GlobalAPI globalAPI)
+        public void Init(IOpenAPI api, IGlobalAPI globalAPI)
         {
-            _api = VrLifeCore.GetClosedAPI(_info);
+            _api = api.GetClosedAPI(_info);
             _globalAPI = globalAPI;
             _api.DeviceAPI.Microphone.MicrophoneData += OnMicrophoneData;
         }
@@ -52,8 +51,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.VoiceChatApp
             msg.Request.SampleId = sampleNum;
             msg.Request.Data.AddRange(data);
             byte[] response = _api.Services.App
-                .SendAppMsg(_info, msg.ToByteArray(), 
-                    VrLifeClient.Core.Services.AppService.AppMsgRecipient.FORWARDER)
+                .SendAppMsg(_info, msg.ToByteArray(), AppMsgRecipient.FORWARDER)
                 .Wait();
             VoiceChatMsg responseMsg = VoiceChatMsg.Parser.ParseFrom(response);
             if(responseMsg == null)

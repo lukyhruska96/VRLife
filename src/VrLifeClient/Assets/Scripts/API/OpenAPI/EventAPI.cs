@@ -1,32 +1,25 @@
-﻿using Assets.Scripts.Core.Character;
-using Assets.Scripts.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.EventService;
-using VrLifeShared.Core.Services.EventService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.API.OpenAPI
 {
-    class EventAPI
+    class EventAPI : IEventAPI
     {
-        private EventServiceClient _eventService;
-        public EventAPI(EventServiceClient eventService)
+        private IEventServiceClient _eventService;
+        public EventAPI(IEventServiceClient eventService)
         {
             this._eventService = eventService;
         }
 
-        public ServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
+        public IServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
         {
             return _eventService.SendSkeleton(skeleton);
         }
 
-        public ServiceCallback<byte[]> SendEvent(EventDataMsg msg, EventRecipient recipient) {
+        public IServiceCallback<byte[]> SendEvent(EventDataMsg msg, EventRecipient recipient) {
             return _eventService.SendEvent(msg, recipient);
         }
     }

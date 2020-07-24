@@ -3,25 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VrLifeAPI.Common.Core.Services.UserService;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.UserService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeServer.Database;
-using VrLifeServer.Database.DbModels;
-using VrLifeShared.Logging;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
 
     class UserServiceProvider : IUserServiceProvider
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
 
         private List<User> _clientMachines = new List<User>();
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             _log = api.OpenAPI.CreateLogger(this.GetType().Name);
@@ -30,7 +30,7 @@ namespace VrLifeServer.Core.Services.UserService
             _clientMachines.Add(null);
         }
 
-        public User GetUserByClientId(ulong clientId)
+        public IUser GetUserByClientId(ulong clientId)
         {
             if(clientId >=(ulong)_clientMachines.Count)
             {
@@ -64,7 +64,7 @@ namespace VrLifeServer.Core.Services.UserService
                 case UserMngMsg.UserMngMsgTypeOneofCase.UserMsg:
                     return HandleUserMsg(msg);
                 default:
-                    return ISystemService.CreateErrorMessage(0, 0, 0,
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0,
                         this.GetType().Name + ": Cannot handle this type of message.");
             }
         }
@@ -80,13 +80,13 @@ namespace VrLifeServer.Core.Services.UserService
             if(user == null) 
             { 
                 _log.Debug("Could not find user with this username.");
-                return ISystemService.CreateErrorMessage(0, 0, 0,
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0,
                     "Could not find user with this username.");
             }
             if(!user.CheckPassword(password))
             {
                 _log.Debug("Invalid password.");
-                return ISystemService.CreateErrorMessage(0, 0, 0,
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0,
                     "Invalid password.");
             }
             MainMessage response = new MainMessage();
@@ -117,7 +117,7 @@ namespace VrLifeServer.Core.Services.UserService
                 case UserMsg.UserMsgTypeOneofCase.UserRequestMsg:
                     return HandleUserRequest(msg);
                 default:
-                    return ISystemService.CreateErrorMessage(0, 0, 0,
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0,
                         this.GetType().Name + ": Cannot handle this type of message.");
             }
         }
@@ -164,7 +164,7 @@ namespace VrLifeServer.Core.Services.UserService
                         string[] passwords = updateQuery.Password.Split('\n');
                         user1.ChangePassword(passwords[0], passwords[1]);
                         _log.Debug("Password sucessfuly changed.");
-                        return ISystemService.CreateOkMessage(msg.MsgId);
+                        return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage(msg.MsgId);
 
                     // show user by its Id
                     case UserRequestMsg.UserRequestTypeOneofCase.UserIdDetail:
@@ -181,12 +181,12 @@ namespace VrLifeServer.Core.Services.UserService
                         _log.Debug($"Looking for user with client id {userRequest.UserByClientId}");
                         if(msg.SenderIdCase != MainMessage.SenderIdOneofCase.ServerId)
                         {
-                            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Not enough permissions.");
+                            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Not enough permissions.");
                         }
                         ulong clientId = userRequest.UserByClientId;
                         if(clientId >= (ulong)_clientMachines.Count || _clientMachines[(int)clientId] == null)
                         {
-                            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unable to find user with this client ID");
+                            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Unable to find user with this client ID");
                         }
                         MainMessage respUserDetail = new MainMessage();
                         respUserDetail.UserMngMsg = new UserMngMsg();
@@ -200,7 +200,7 @@ namespace VrLifeServer.Core.Services.UserService
             catch (Exception ex)
             {
                 _log.Error(ex);
-                return ISystemService.CreateErrorMessage(0, 0, 0, ex.Message);
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0, ex.Message);
             }
         }
     }

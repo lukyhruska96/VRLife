@@ -11,6 +11,12 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.Applications.DefaultApps.RoomListApp;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeAPI.Client.Core.Wrappers;
 using VrLifeClient;
 using VrLifeClient.API;
 using VrLifeClient.API.HUDAPI;
@@ -22,15 +28,16 @@ using VrLifeShared.Core.Applications;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
 {
-    class RoomListApp : IMenuApp
+    class RoomListApp : IRoomListApp
     {
         private const string LOADING_PATH = "Gifs/loading";
         private const string NAME = "RoomListApp";
         private const string DESC = "Default application for listing rooms and joining them.";
         public static readonly ulong APP_ID = 2;
-        private MenuAPI _menuAPI;
-        private ClosedAPI _api;
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
+        private IMenuAPI _menuAPI;
+        private IClosedAPI _api;
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC,
+            new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_MENU);
         private MenuItemGrid _root;
         private MenuItemGrid _roomListGrid;
         private MenuItemImage _loading = null;
@@ -45,7 +52,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
             return _root;
         }
 
-        public void Init(OpenAPI api, MenuAPI menuAPI, HUDAPI hudAPI)
+        public void Init(IOpenAPI api, IMenuAPI menuAPI, IHUDAPI hudAPI)
         {
             this._menuAPI = menuAPI;
             this._api = VrLifeCore.GetClosedAPI(_info);
@@ -53,7 +60,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
 
         }
 
-        private List<Room> GetRoomList(string contains = "", bool notEmpty = false, bool notFull = false)
+        private List<IRoom> GetRoomList(string contains = "", bool notEmpty = false, bool notFull = false)
         {
             List<IMenuItem> items = _roomListGrid.Clear();
             items.ForEach(x => x.Dispose());
@@ -61,7 +68,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
             return _api.Services.Room.RoomList(contains, notEmpty, notFull).Wait();
         }
 
-        private void RenderRoomList(List<Room> list)
+        private void RenderRoomList(List<IRoom> list)
         {
             _roomListGrid.RemoveChild(_loading);
             _loading.Dispose();
@@ -90,8 +97,8 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
 
         public void ChangeRoom(uint roomId)
         {
-            List<Room> list = GetRoomList();
-            Room r = list.Find(x => x.Id == roomId);
+            List<IRoom> list = GetRoomList();
+            IRoom r = list.Find(x => x.Id == roomId);
             if(r == null)
             {
                 throw new RoomListAppException("Room with this id does not exist.");
@@ -99,7 +106,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
             ConnectRoom(r);
         }
 
-        private void ConnectRoom(Room r)
+        private void ConnectRoom(IRoom r)
         {
             _api.Services.Room.RoomExit(_api.Services.Room.CurrentRoom.Id, 
                 _api.Services.Room.ForwarderAddress).Wait();
@@ -138,7 +145,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.RoomListApp
             filter.SetText("Filter");
             filter.Clicked += () =>
                 {
-                    List<Room> roomList = GetRoomList(searchInput.GetText(), notEmpty.IsChecked(), notFull.IsChecked());
+                    List<IRoom> roomList = GetRoomList(searchInput.GetText(), notEmpty.IsChecked(), notFull.IsChecked());
                     RenderRoomList(roomList);
                 };
             _root.AddChild(0, 6, 2, 1, filter);

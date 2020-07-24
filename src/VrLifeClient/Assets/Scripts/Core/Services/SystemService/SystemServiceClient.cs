@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.SystemService
 {
-    class SystemServiceClient : IServiceClient
+    class SystemServiceClient : ISystemServiceClient
     {
-        private ClosedAPI _api;
-        public delegate void ForwarderLostEventHandler();
-        public event ForwarderLostEventHandler ForwarderLost;
-        public delegate void ProviderLostEventHandler();
-        public event ProviderLostEventHandler ProviderLost;
+        private IClosedAPI _api;
+
+        public event Action ForwarderLost;
+
+        public event Action ProviderLost;
 
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
         }

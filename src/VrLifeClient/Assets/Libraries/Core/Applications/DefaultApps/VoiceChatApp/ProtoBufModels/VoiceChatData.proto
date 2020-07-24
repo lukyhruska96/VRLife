@@ -1,8 +1,0 @@
-﻿syntax = "proto3";
-package VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
-
-import "VoiceChatDataObj.proto";
-
-message VoiceChatData {
-	repeated VoiceChatDataObj data = 1;
-}

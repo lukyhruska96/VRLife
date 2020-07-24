@@ -5,10 +5,12 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Services.SystemService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.API.Forwarder;
 using VrLifeServer.Core.Utils;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.SystemService
 {
@@ -16,7 +18,7 @@ namespace VrLifeServer.Core.Services.SystemService
     {
         private const long STATS_INTERVAL_MS = 1000;
 
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
 
         public MainMessage HandleMessage(MainMessage msg)
@@ -24,7 +26,7 @@ namespace VrLifeServer.Core.Services.SystemService
             throw new NotImplementedException();
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
@@ -77,7 +79,7 @@ namespace VrLifeServer.Core.Services.SystemService
 
         public MainMessage CreateHelloMessage()
         {
-            return ISystemService.CreateHelloMessage(_api.OpenAPI.Config);
+            return ServiceUtils.CreateHelloMessage(_api.OpenAPI.Config);
         }
 
         public IPEndPoint GetAddressById(uint serverId)

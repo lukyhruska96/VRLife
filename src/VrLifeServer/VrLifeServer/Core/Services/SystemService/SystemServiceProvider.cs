@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.SystemService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Utils;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.SystemService
 {
@@ -29,7 +26,7 @@ namespace VrLifeServer.Core.Services.SystemService
     class SystemServiceProvider : ISystemServiceProvider
     {
 
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         private ILogger _log;
 
@@ -44,11 +41,11 @@ namespace VrLifeServer.Core.Services.SystemService
                 case SystemMsg.SystemMsgTypeOneofCase.StatMsg:
                     return HandleStatMsg(msg);
                 default:
-                    return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown message type");
             }
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
@@ -64,9 +61,9 @@ namespace VrLifeServer.Core.Services.SystemService
             if (msg.Version != VrLifeServer.VERSION)
             {
                 this._log.Debug("Not compatiable version of client.");
-                return ISystemService.CreateErrorMessage(0, 0, 0, "Not compatiable version");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(0, 0, 0, "Not compatiable version");
             }
-            MainMessage response = ISystemService.CreateOkMessage();
+            MainMessage response = VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage();
             response.ServerId = (uint)computingServers.Count;
             this._log.Debug($"Sending {response.ServerId} as a new ServerID.");
             computingServers.Add(
@@ -83,19 +80,19 @@ namespace VrLifeServer.Core.Services.SystemService
             if(serverId >= computingServers.Count)
             {
                 _log.Error("Unknown Computing Server.");
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown Computing Server.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Unknown Computing Server.");
             }
             StatMsg statMsg = msg.SystemMsg.StatMsg;
             computingServers[(int)serverId].cpuUsage = statMsg.CpuUsage;
             computingServers[(int)serverId].ramUsage = statMsg.MemoryUsed;
             computingServers[(int)serverId].lastResponse = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             _log.Debug($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
-            return ISystemService.CreateOkMessage((uint)msg.MsgId);
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage((uint)msg.MsgId);
         }
 
         public MainMessage CreateHelloMessage()
         {
-            return ISystemService.CreateHelloMessage(_api.OpenAPI.Config);
+            return ServiceUtils.CreateHelloMessage(_api.OpenAPI.Config);
         }
 
         public IPEndPoint GetAddressById(uint serverId)

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Events;
+using VrLifeAPI.Client.Services;
 
 namespace Assets.Scripts.Core.Services
 {
-    public class ErrorUnityEvent : UnityEvent<Exception> { }
 
-    class ServiceCallback<T>
+    class ServiceCallback<T> : IServiceCallback<T>
     {
         private Func<T> _func;
         private UnityEvent<T> _succ = null;
@@ -20,18 +20,19 @@ namespace Assets.Scripts.Core.Services
 
         public Exception Exception { get; private set; } = null;
         public bool HasException { get => Exception != null; }
+
         public ServiceCallback(Func<T> func)
         {
             this._func = func;
         }
 
-        public ServiceCallback<T> SetSucc(UnityEvent<T> succ)
+        public IServiceCallback<T> SetSucc(UnityEvent<T> succ)
         {
             this._succ = succ;
             return this;
         }
 
-        public ServiceCallback<T> SetErr(ErrorUnityEvent err)
+        public IServiceCallback<T> SetErr(ErrorUnityEvent err)
         {
             this._err = err;
             return this;
@@ -54,7 +55,7 @@ namespace Assets.Scripts.Core.Services
             return new ServiceCoroutine<T>(t);
         }
 
-        public ServiceCallback<T> Exec()
+        public IServiceCallback<T> Exec()
         {
             t = Task<T>.Run(Action);
             return this;

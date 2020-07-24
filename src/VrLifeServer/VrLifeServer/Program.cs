@@ -1,14 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
-using VrLifeServer.Core;
-using VrLifeServer.Core.Utils;
 using VrLifeServer.Database;
-using VrLifeShared.Logging;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace VrLifeServer
 {
@@ -96,6 +90,7 @@ namespace VrLifeServer
             mainConf["serverAddress"] = "127.0.0.1";
             mainConf["tcp-port"] = 8765;
             mainConf["udp-port"] = 8766;
+            mainConf["appStoragePath"] = @"C:\Users\lukyh\Documents\VRLife\src\AppData";
             mainConf["main"] = true;
             JObject database = new JObject();
             database["type"] = "mysql";

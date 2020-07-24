@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VrLifeClient.API.HUDAPI
 {
-    class HUDAPI
+    class HUDAPI : IHUDAPI
     {
         private ClosedAPI _api;
 

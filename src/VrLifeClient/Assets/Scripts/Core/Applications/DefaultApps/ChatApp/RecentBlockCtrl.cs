@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
 using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
@@ -15,7 +19,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
     class RecentBlockCtrl
     {
         private const float BLOCK_HEIGHT = 40;
-        private OpenAPI _api;
+        private IOpenAPI _api;
         private MenuItemScrollable _root;
         private List<ChatObj> _chats = null;
 
@@ -24,7 +28,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         public delegate void ChatSelectEventHandler(ChatObj chat);
         public event ChatSelectEventHandler ChatSelected;
 
-        public RecentBlockCtrl(OpenAPI api)
+        public RecentBlockCtrl(IOpenAPI api)
         {
             _api = api;
             InitMenuItems();
@@ -54,7 +58,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
             }
             List<IMenuItem> children = _root.GetChildren();
             children.ForEach(x => { _root.RemoveChild(x); x.Dispose(); });
-            Dictionary<ulong, FriendsAppUser> friends = _api.DefaultApps.Friends.ListFriends().Wait().ToDictionary(x => x.UserId, x => x);
+            Dictionary<ulong, IFriendsAppUser> friends = _api.DefaultApps.Friends.ListFriends().Wait().ToDictionary(x => x.UserId, x => x);
             ulong userId = _api.User.UserId.Value;
             foreach (ChatObj chat in _chats)
             {
@@ -64,7 +68,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
                 }
                 ulong otherUser = chat.User1 == userId ? chat.User2 : chat.User1;
                 string username;
-                if (friends.TryGetValue(otherUser, out FriendsAppUser friend))
+                if (friends.TryGetValue(otherUser, out IFriendsAppUser friend))
                 {
                     username = friend.Username;
                 }

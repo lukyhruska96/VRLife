@@ -1,11 +1,7 @@
-﻿using Assets.Scripts.Core.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+using VrLifeAPI.Client.Services;
 using VrLifeClient;
 
 public class Register : MonoBehaviour

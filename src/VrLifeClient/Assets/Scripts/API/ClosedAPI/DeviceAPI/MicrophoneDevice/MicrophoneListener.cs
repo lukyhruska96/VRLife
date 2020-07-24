@@ -16,8 +16,7 @@ namespace VrLifeClient.API.DeviceAPI.MicrophoneDevice
         private AudioClip _clip;
         private bool _muted = false;
 
-        public delegate void MicrophoneDataEventHandler(ulong sampleNum, float[] data);
-        public event MicrophoneDataEventHandler MicrophoneData;
+        public event Action<ulong, float[]> MicrophoneData;
         private void Awake()
         {
             current = this;

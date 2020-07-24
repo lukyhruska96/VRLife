@@ -1,13 +1,10 @@
-﻿using Assets.Scripts.Core.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
 using VrLifeClient;
-using VrLifeClient.Core.Services.RoomService;
 
 public class Login : MonoBehaviour
 {
@@ -57,7 +54,7 @@ public class Login : MonoBehaviour
             .SetErr(_errorEvent).Exec();
     }
 
-    private void RoomFound(Room room)
+    private void RoomFound(IRoom room)
     {
         Debug.Log("Room found");
         Debug.Log($"{room.Name}[{room.Id}] with capacity {room.Capacity}");

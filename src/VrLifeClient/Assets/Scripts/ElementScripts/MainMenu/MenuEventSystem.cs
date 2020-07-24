@@ -1,11 +1,9 @@
 ﻿using Assets.Scripts.Core.Services;
-using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using VrLifeClient.Core.Services.RoomService;
+using VrLifeAPI.Client.Core.Wrappers;
 
 public class MenuEventSystem : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class MenuEventSystem : MonoBehaviour
 
     public UnityEvent<bool> SignedIn { get; } = new ServiceEvent<bool>();
     public UnityEvent<bool> SignedUp { get; } = new ServiceEvent<bool>();
-    public UnityEvent<Room> RoomFound { get; } = new ServiceEvent<Room>();
+    public UnityEvent<IRoom> RoomFound { get; } = new ServiceEvent<IRoom>();
     public UnityEvent Login { get; } = new UnityEvent();
     public UnityEvent Register { get; } = new UnityEvent();
 

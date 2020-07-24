@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using VrLifeAPI.Common.Core.Services.RoomService;
+using VrLifeAPI.Common.Core.Services.TickRateService;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Services.TickRateService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.API.Forwarder;
 using VrLifeServer.Core.Services.RoomService;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.TickRateService
 {
@@ -16,7 +16,7 @@ namespace VrLifeServer.Core.Services.TickRateService
     {
         private const long MAX_ACTIVITY_DELTA = 5000;
         private const long TIME_TO_INIT = 10000;
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
         private ConcurrentDictionary<uint, TickRoom> _tickRoom = new ConcurrentDictionary<uint, TickRoom>();
         private Dictionary<(uint, ulong), long> _playerLastActivity = new Dictionary<(uint, ulong), long>();
@@ -27,19 +27,19 @@ namespace VrLifeServer.Core.Services.TickRateService
             TickMsg tickMsg = msg.TickMsg;
             if(tickMsg == null || tickMsg.TickMsgTypeCase != TickMsg.TickMsgTypeOneofCase.SnapshotRequest)
             {
-                ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unhandled TickMsg request.");
+                VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Unhandled TickMsg request.");
             }
             SnapshotRequest req = tickMsg.SnapshotRequest;
             // if cached userId is not equal to userId in request, then update value and compare it again
             if(req.UserId != _api.Services.User.GetUserIdByClientId(msg.ClientId, true) &&
                 req.UserId != _api.Services.User.GetUserIdByClientId(msg.ClientId))
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Authentication error.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Authentication error.");
             }
             uint? roomId = _api.Services.Room.RoomByUserId(req.UserId);
             if(!roomId.HasValue)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Client is not connected to any Room.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Client is not connected to any Room.");
             }
             SnapshotData data = _tickRoom[roomId.Value].GetSnapshotData(req.LastTick, req.LastRTT);
             MainMessage response = new MainMessage();
@@ -48,7 +48,7 @@ namespace VrLifeServer.Core.Services.TickRateService
             return response;
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             _api = api;
             _log = api.OpenAPI.CreateLogger(this.GetType().Name);
@@ -106,7 +106,7 @@ namespace VrLifeServer.Core.Services.TickRateService
             r?.Stop();
         }
 
-        protected virtual void OnRoomCreated(Room room)
+        protected virtual void OnRoomCreated(IRoom room)
         {
             TickRoom tickRoom = new TickRoom(room, (int)room.TickRate);
             if (_tickRoom.TryAdd(room.Id, tickRoom))

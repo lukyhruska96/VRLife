@@ -5,18 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Common.Core.Utils;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Services.EventService
 {
     class EventMaskHandler
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ConcurrentQueue<EventDataMsg> _eventBuffer = new ConcurrentQueue<EventDataMsg>();
         private ulong _eventsSent = 0;
         private object _eventLock = new object();
-        public EventMaskHandler(ClosedAPI api)
+        public EventMaskHandler(IClosedAPI api)
         {
             _api = api;
         }

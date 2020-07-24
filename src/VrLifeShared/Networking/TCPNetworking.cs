@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking;
 
 namespace VrLifeShared.Networking
 {

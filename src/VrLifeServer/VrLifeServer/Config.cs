@@ -5,12 +5,15 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using VrLifeAPI.Common;
+using VrLifeAPI.Common.Database;
+using VrLifeAPI.Common.Logging.Logging;
 using VrLifeServer.Database;
 using VrLifeShared.Logging;
 
 namespace VrLifeServer
 {
-    public class Config : IDisposable
+    public class Config : IConfig
     {
         public IPAddress Listen { get => listen; }
         private IPAddress listen;
@@ -18,17 +21,14 @@ namespace VrLifeServer
         public IPAddress ServerAddress { get => serverAddress; }
         private IPAddress serverAddress;
 
-        public uint TcpPort { get => tcpport; }
-        private uint tcpport;
-
         public uint UdpPort { get => udpport; }
         private uint udpport;
 
-        public List<Core.StatisticsConf> StatisticsConf { get; } = new
-            List<Core.StatisticsConf>();
-
         public bool IsMain { get => isMain; }
         private bool isMain;
+
+        public string AppStoragePath { get => _appStoragePath; }
+        private string _appStoragePath;
 
         public IPEndPoint MainServer { get => mainServer; }
         private IPEndPoint mainServer;
@@ -68,39 +68,6 @@ namespace VrLifeServer
                 return -1;
             }
             return tmp;
-        }
-
-        private static Core.StatisticsConf ParseStatistics(JObject obj)
-        {
-            if (!obj.ContainsKey("type"))
-            {
-                throw new FormatException("'type' field not found.");
-            }
-            string type = obj["type"].Value<string>().ToLower();
-            if (Array.IndexOf(Core.Statistics.SUPPORTED_TYPES, type)
-                == -1)
-            {
-                throw new FormatException("'type' field could not be found in list of supported types.");
-            }
-            if (!obj.ContainsKey("address"))
-            {
-                throw new FormatException("'address' field not found.");
-            }
-            IPAddress address = ParseAddress(obj["address"].Value<string>());
-            if (address == null)
-            {
-                throw new FormatException("'address' field could not be parsed.");
-            }
-            if (!obj.ContainsKey("port"))
-            {
-                throw new FormatException("'port' field not found.");
-            }
-            int port = ParsePort(obj["port"].Value<string>());
-            if (port < 0)
-            {
-                throw new FormatException("'port' field could not be parsed.");
-            }
-            return new Core.StatisticsConf(type, address, (uint)port);
         }
 
         private static IPEndPoint ParseEndPoint(string str)
@@ -256,41 +223,18 @@ namespace VrLifeServer
             conf.serverAddress = IPAddress.Parse(obj["serverAddress"].Value<string>());
             #endregion
 
-            #region tcp-port field
-            if (!obj.ContainsKey("tcp-port"))
-            {
-                throw new FormatException("'tcp-port' field not found.");
-            }
-            int tmpPort = ParsePort(obj["tcp-port"].Value<string>());
-            if (tmpPort < 0)
-            {
-                throw new FormatException("'tcp-port' field could not be parsed.");
-            }
-            conf.tcpport = (uint)tmpPort;
-            #endregion
 
             #region udp-port field
             if (!obj.ContainsKey("udp-port"))
             {
                 throw new FormatException("'udp-port' field not found.");
             }
-            tmpPort = ParsePort(obj["udp-port"].Value<string>());
+            int tmpPort = ParsePort(obj["udp-port"].Value<string>());
             if (tmpPort < 0)
             {
                 throw new FormatException("'udp-port' field could not be parsed.");
             }
             conf.udpport = (uint)tmpPort;
-            #endregion
-
-            #region statistics field
-            if (obj.ContainsKey("statistics"))
-            {
-                JArray arr = obj["statistics"].Value<JArray>();
-                foreach (JObject each in arr)
-                {
-                    conf.StatisticsConf.Add(ParseStatistics(each));
-                }
-            }
             #endregion
 
             #region main field
@@ -314,8 +258,19 @@ namespace VrLifeServer
             }
             #endregion
 
-            #region log field
-            if (!obj.ContainsKey("log"))
+            #region appStoragePath field
+            if (conf.isMain) {
+                if (!obj.ContainsKey("appStoragePath"))
+                {
+                    throw new FormatException("'appStoragePath' field not found.");
+                }
+                string path = obj["appStoragePath"].Value<string>();
+                conf._appStoragePath = path;
+            }
+            #endregion
+
+                #region log field
+                if (!obj.ContainsKey("log"))
             {
                 throw new FormatException("'log' field not found.");
             }

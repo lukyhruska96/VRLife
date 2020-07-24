@@ -1,0 +1,38 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Networking.NetworkingModels;
+
+import "DataTypes.proto";
+import "SystemMsg.proto";
+
+message EventMsg {
+	oneof EventMsgType {
+		EventDataMsg eventDataMsg = 1;
+		EventResponse eventResponse = 2;
+	}
+}
+
+message EventDataMsg { // Event message from client to server
+	uint64 eventId = 1;
+	uint32 eventType = 2;
+	oneof ValueType {
+		uint64 longValue = 3;
+		double doubleValue = 4;
+		Skeleton skeletonValue = 5;
+		GameObject objectValue = 6;
+		string stringValue = 7;
+		bytes customValue = 8;
+	}
+	oneof AppType {
+		uint64 appId = 9; // Nullable<uint>
+	}
+}
+
+message EventResponse {
+	uint32 processTime = 1;
+	uint32 eventMask = 2;
+	uint64 highestEventId = 3;
+	oneof hasData {
+		bytes data = 4;
+		ErrorMsg error = 5;
+	}
+}

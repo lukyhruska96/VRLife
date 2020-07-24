@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
 using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
@@ -17,7 +19,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         private const int HEADER_FONT_SIZE = 10;
         private const int FONT_SIZE = 10;
         private const int CHARS_PER_LINE = 50;
-        private OpenAPI _api;
+        private IOpenAPI _api;
         private MenuItemGrid _root;
         private ChatObj _currChat = null;
         private MenuItemScrollable _chatItem;
@@ -32,7 +34,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         public delegate void MessageSendEventHandler(ulong to, string msg);
         public event MessageSendEventHandler MessageSend;
 
-        public ChatMessageBlockCtrl(OpenAPI api)
+        public ChatMessageBlockCtrl(IOpenAPI api)
         {
             _api = api;
             if(!_api.User.UserId.HasValue)

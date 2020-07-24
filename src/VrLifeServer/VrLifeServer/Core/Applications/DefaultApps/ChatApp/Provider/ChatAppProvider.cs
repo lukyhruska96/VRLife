@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Applications;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Core.Applications;
-using VrLifeShared.Networking.NetworkingModels;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
 using VrLifeServer.Core.Applications.DefaultApps.VoiceChatApp.Forwarder;
@@ -16,21 +14,28 @@ using System.Diagnostics;
 using VrLifeServer.Core.Services.EventService;
 using System.Threading.Tasks;
 using System.Threading;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps.ChatApp;
+using VrLifeAPI;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Common.Core.Applications;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.AppService;
+using VrLifeAPI.Common.Core.Services;
 
 namespace VrLifeServer.Core.Applications.DefaultApps.ChatApp.Provider
 {
-    class ChatAppProvider : IApplicationProvider
+    class ChatAppProvider : IChatAppProvider
     {
         public const ulong APP_ID = 4;
         private const string NAME = "ChatApp";
         private const string DESC = "Default application for chatting with all your friends.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_MENU);
         private Dictionary<ulong, Dictionary<ulong, ChatObj>> _chats = new Dictionary<ulong, Dictionary<ulong, ChatObj>>();
         private List<ChatObj> _allChats = new List<ChatObj>();
         private Dictionary<ulong, Queue<ChatObjMsg>> _newMsgs = new Dictionary<ulong, Queue<ChatObjMsg>>();
 
         private ChatAppData _chatAppData;
-        private OpenAPI _api;
+        private IOpenAPI _api;
 
         public void Dispose()
         {
@@ -157,7 +162,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.ChatApp.Provider
             return chatUpdate.ToByteArray();
         }
 
-        public void Init(OpenAPI api, AppDataService appDataService)
+        public void Init(IOpenAPI api, IAppDataService appDataService, IAppDataStorage dataStorage)
         {
             _api = api;
             _chatAppData = new ChatAppData(appDataService);

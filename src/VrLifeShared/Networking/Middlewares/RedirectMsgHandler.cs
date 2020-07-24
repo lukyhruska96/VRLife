@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking;
+using VrLifeAPI.Networking.Middlewares;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Networking.Middlewares
 {
-    public class RedirectMsgHandler : IMiddleware<MainMessage>
+    public class RedirectMsgHandler : IRedirectMsgHandler
     {
         private INetworking<MainMessage> _networking = null;
         public void SetListenner(INetworking<MainMessage> networking)

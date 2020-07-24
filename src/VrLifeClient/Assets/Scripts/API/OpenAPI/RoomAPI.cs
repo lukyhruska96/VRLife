@@ -1,45 +1,45 @@
 ﻿using Assets.Scripts.Core.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
 using VrLifeClient.Core.Services.RoomService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.API.OpenAPI
 {
-    class RoomAPI
+    class RoomAPI : IRoomAPI
+
     {
-        private RoomServiceClient _roomService;
-        public event RoomServiceClient.RoomExitEventHandler RoomExited
+        private IRoomServiceClient _roomService;
+        public event Action RoomExited
         {
             add { _roomService.RoomExited += value; }
             remove { _roomService.RoomExited -= value; }
         }
-        public event RoomServiceClient.RoomEnterEventHandler RoomEntered
+        public event Action RoomEntered
         {
             add { _roomService.RoomEntered += value; }
             remove { _roomService.RoomEntered -= value; }
         }
-        public Room CurrentRoom { get => _roomService.CurrentRoom; }
+        public IRoom CurrentRoom { get => _roomService.CurrentRoom; }
 
         public void OnRoomEnter()
         {
             _roomService.OnRoomEnter();
         }
 
-        public RoomAPI(RoomServiceClient roomService)
+        public RoomAPI(IRoomServiceClient roomService)
         {
             this._roomService = roomService;
         }
 
-        public ServiceCallback<Room> QuickJoin()
+        public IServiceCallback<IRoom> QuickJoin()
         {
-            return new ServiceCallback<Room>(() =>
+            return new ServiceCallback<IRoom>(() =>
             {
-                List<Room> rooms = _roomService.RoomList().Wait();
-                Room r;
+                List<IRoom> rooms = _roomService.RoomList().Wait();
+                IRoom r;
                 if (rooms.Count == 0)
                 {
                     r = _roomService.RoomCreate("First Room", 2).Wait();
@@ -57,12 +57,12 @@ namespace VrLifeClient.API.OpenAPI
             });
         }
 
-        public ServiceCallback<bool> RoomExit(uint roomId)
+        public IServiceCallback<bool> RoomExit(uint roomId)
         {
             return _roomService.RoomExit(roomId, _roomService.ForwarderAddress);
         }
 
-        public Room GetRoomDetails()
+        public IRoom GetRoomDetails()
         {
             return _roomService.CurrentRoom;
         }

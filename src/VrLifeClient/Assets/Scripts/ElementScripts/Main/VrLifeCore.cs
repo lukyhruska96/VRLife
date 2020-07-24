@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.API;
 using System.Net;
 using UnityEngine;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
 using VrLifeClient.API;
 using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications;
@@ -15,6 +17,13 @@ namespace VrLifeClient
         public static OpenAPI API { get => _api; }
         public static bool IsExiting { get; private set; } = false;
 
+        public static int MainThreadID { get; private set; }
+
+        public static bool IsMainThread
+        {
+            get { return System.Threading.Thread.CurrentThread.ManagedThreadId == MainThreadID; }
+        }
+
 
         void Awake()
         {
@@ -23,6 +32,11 @@ namespace VrLifeClient
             _client = new VrLifeClient(config);
             _client.Init();
             _api = _client.OpenAPI;
+        }
+
+        private void Start()
+        {
+            MainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
         }
 
         private void OnDestroy()
@@ -36,7 +50,7 @@ namespace VrLifeClient
             _client?.Dispose();
         }
 
-        public static ClosedAPI GetClosedAPI(AppInfo info)
+        public static IClosedAPI GetClosedAPI(AppInfo info)
         {
             if(Permissions.IsAllowed(info))
             {
@@ -44,6 +58,8 @@ namespace VrLifeClient
             }
             return null;
         }
+
+        
 
     }
 }

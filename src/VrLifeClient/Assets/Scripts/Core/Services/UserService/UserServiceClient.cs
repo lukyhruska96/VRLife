@@ -1,42 +1,38 @@
 ﻿using Assets.Scripts.Core.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine.Events;
-using VrLifeClient.API;
-using VrLifeClient.Core.Services.RoomService;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.SystemService;
-using VrLifeShared.Logging;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.UserService
 {
-    class UserServiceClient : IServiceClient
+    class UserServiceClient : IUserServiceClient
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         private ulong? _userId;
         public ulong? UserId { get => _userId; }
 
-        public delegate void UserLogoutEventHandler();
-        public event UserLogoutEventHandler UserLoggedOut;
+        public event Action UserLoggedOut;
 
         public void HandleMessage(MainMessage msg)
         {
 
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._api.Services.System.ProviderLost += Reset;
         }
 
-        public ServiceCallback<UserListMsg> CurrentRoomUsers()
+        public IServiceCallback<UserListMsg> CurrentRoomUsers()
         {
             return new ServiceCallback<UserListMsg>(() => {
-                Room r = _api.Services.Room.CurrentRoom;
+                IRoom r = _api.Services.Room.CurrentRoom;
                 if (r == null)
                 {
                     throw new UserException("User must be connected to some room.");
@@ -60,7 +56,7 @@ namespace VrLifeClient.Core.Services.UserService
             });
         }
 
-        public ServiceCallback<bool> Login(string username, string password)
+        public IServiceCallback<bool> Login(string username, string password)
         {
             return new ServiceCallback<bool>(() => {
                 AuthMsg auth = new AuthMsg();
@@ -86,7 +82,7 @@ namespace VrLifeClient.Core.Services.UserService
             });
         }
 
-        public ServiceCallback<bool> Register(string username, string password)
+        public IServiceCallback<bool> Register(string username, string password)
         {
             return new ServiceCallback<bool>(() =>
             {

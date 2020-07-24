@@ -1,0 +1,25 @@
+{
+    "id": 20,
+    "name": "Test",
+    "version": "1.0.0",
+    "type": "background",
+    "dependencies": [
+        {"id": 1, "minVersion": "1.2.1"},
+        {"id": 4, "minVersion": "1.5.3"}
+    ],
+    "provider" : {
+        "dllPath": "provider/app.dll",
+        "zipPath": "provider/app.zip",
+        "className": "app.test.TestAppProvider"
+    },
+    "forwarder": {
+        "dllPath": "forwarder/app.dll",
+        "zipPath": "forwarder/app.zip",
+        "className": "app.test.TestAppForwarder"
+    },
+    "client": {
+        "dllPath": "client/app.dll",
+        "zipPath": "client/app.zip",
+        "className": "app.test.TestAppClient"
+    }
+}

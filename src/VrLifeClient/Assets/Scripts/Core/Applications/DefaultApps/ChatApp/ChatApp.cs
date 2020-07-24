@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Applications.DefaultApps.ChatApp;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API.HUDAPI;
 using VrLifeClient.API.MenuAPI;
 using VrLifeClient.API.OpenAPI;
@@ -19,21 +27,21 @@ using VrLifeClient.Core.Services.EventService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
 {
-    class ChatApp : IMenuApp
+    class ChatApp : IChatApp
     {
         private const float UPDATE_INTERVAL_SEC = 2f;
         public const ulong APP_ID = 4;
         private const string LOADING_PATH = "Gifs/loading";
         private const string NAME = "ChatApp";
         private const string DESC = "Default application for chatting with all your friends.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
-        private MenuAPI _menuAPI;
-        private HUDAPI _hudAPI;
-        private OpenAPI _api;
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC,
+            new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_MENU);
+        private IMenuAPI _menuAPI;
+        private IHUDAPI _hudAPI;
+        private IOpenAPI _api;
         private MenuItemGrid _root;
         private IMenuItem _active = null;
         private ChatMessageBlockCtrl _chatBlock;
@@ -41,7 +49,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         private RecentBlockCtrl _recentBlock;
         private MenuItemGrid _leftPanel;
         private bool enabled = false;
-        private Coroutine _chatCoroutine = null;
+        private ulong _chatCoroutine = ulong.MaxValue;
         private ulong _userId;
 
         private Dictionary<ulong, ChatObj> _chats = null;
@@ -49,7 +57,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         public void Dispose()
         {
             _root.Dispose();
-            if(_chatCoroutine != null)
+            if(_chatCoroutine != ulong.MaxValue)
             {
                 _menuAPI.StopCoroutine(_chatCoroutine);
             }
@@ -65,11 +73,11 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
             return _root;
         }
 
-        public void Init(OpenAPI api, MenuAPI menuAPI, HUDAPI hudAPI)
+        public void Init(IOpenAPI api, IMenuAPI menuAPI, IHUDAPI hudAPI)
         {
             _api = api;
             _menuAPI = menuAPI;
-            _hudAPI = hudAPI;
+            _hudAPI = hudAPI; 
             _userId = _api.User.UserId.Value;
             _chatBlock = new ChatMessageBlockCtrl(api);
             _chatBlock.MessageSend += OnMessageSend;

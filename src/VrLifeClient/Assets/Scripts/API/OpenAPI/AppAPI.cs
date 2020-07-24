@@ -1,26 +1,34 @@
-﻿using Assets.Scripts.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VrLifeClient.API;
+﻿using System.Collections.Generic;
+using VrLifeAPI;
+using VrLifeAPI.Client.API.ObjectAPI;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Applications;
+using VrLifeAPI.Client.Applications.BackgroundApp;
+using VrLifeAPI.Client.Applications.GlobalApp;
+using VrLifeAPI.Client.Applications.MenuApp;
+using VrLifeAPI.Client.Applications.ObjectApp;
+using VrLifeAPI.Client.Services;
 using VrLifeClient.Core.Services.AppService;
-using VrLifeShared.Core.Applications;
 
 namespace Assets.Scripts.API.OpenAPI
 {
-    class AppAPI
+    class AppAPI : IAppAPI
     {
-        private AppServiceClient _service;
-        public AppAPI(AppServiceClient service)
+        private IAppServiceClient _service;
+        public AppAPI(IAppServiceClient service)
         {
             _service = service;
         }
 
-        public ServiceCallback<byte[]> SendAppMsg(AppInfo app, byte[] data, AppMsgRecipient recipient)
+        public IServiceCallback<byte[]> SendAppMsg(AppInfo app, byte[] data, AppMsgRecipient recipient)
         {
             return _service.SendAppMsg(app, data, recipient);
         }
+
+        public List<IMenuApp> MenuApps { get => _service.MenuApps; }
+        public List<IGlobalApp> GlobalApps { get => _service.GlobalApps; }
+        public List<IBackgroundApp> BackgroundApps { get => _service.BackgroundApps; }
+        public List<IObjectApp> ObjectApps { get => _service.ObjectApps; }
+        public Dictionary<ulong, IApplication> AllApps { get => _service.AllApps; }
     }
 }

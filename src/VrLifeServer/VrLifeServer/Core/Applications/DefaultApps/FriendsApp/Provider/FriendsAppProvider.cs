@@ -2,28 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using VrLifeAPI;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Common.Core.Applications;
+using VrLifeAPI.Common.Core.Services.UserService;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Provider.Core.Services.AppService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Applications;
-using VrLifeServer.Core.Services.AppService;
-using VrLifeServer.Core.Services.RoomService;
-using VrLifeServer.Core.Services.SystemService;
 using VrLifeServer.Core.Services.UserService;
-using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
-using VrLifeShared.Core.Applications.DefaultApps.FriendsApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Common.Core.Services;
 
 namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 {
-    class FriendsAppProvider : IApplicationProvider
+    class FriendsAppProvider : IFriendsAppProvider
     {
         public const ulong APP_ID = 1;
         private const string NAME = "Friends";
         private const string DESC = "Provides ability add some user to friend list.";
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private FriendsAppData _friendsData;
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_BACKGROUND);
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_BACKGROUND);
 
         public void Dispose()
         {
@@ -60,7 +63,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             {
                 throw new FriendsAppProviderException("Only client machine can call this event.");
             }
-            User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
+            IUser userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if(userReq == null)
             {
                 throw new FriendsAppProviderException("You must be signedIn to add some friends.");
@@ -84,7 +87,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 
         private byte[] HandleDelFriend(EventDataMsg eventMsg, MsgContext ctx)
         {
-            User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
+            IUser userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
             {
                 throw new FriendsAppProviderException("You must be signedIn to add some friends.");
@@ -116,7 +119,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 
         private byte[] HandleListFriendRequests(EventDataMsg eventMsg, MsgContext ctx)
         {
-            User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
+            IUser userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
             {
                 throw new FriendsAppProviderException("You must be signedIn to add some friends.");
@@ -126,7 +129,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
                 .Select(x => User.Get(x))
                 .Where(x => x != null)
                 .Select(x => new FriendsAppUser(x.ToMessage(), null, null))
-                .ToList();
+                .ToList<FriendsAppUser>();
             FriendsAppMsg msg = new FriendsAppMsg();
             msg.FriendRequests = new FriendsAppRequestsMsg();
             msg.FriendRequests.ToUser = userReq.Id;
@@ -136,7 +139,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 
         private byte[] HandleListFriends(EventDataMsg eventMsg, MsgContext ctx)
         {
-            User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
+            IUser userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
             {
                 throw new FriendsAppProviderException("You must be signedIn to add some friends.");
@@ -155,7 +158,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 
         private byte[] HandleGetFriend(EventDataMsg eventMsg, MsgContext ctx)
         {
-            User userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
+            IUser userReq = _api.Services.User.GetUserByClientId(ctx.senderId);
             if (userReq == null)
             {
                 throw new FriendsAppProviderException("You must be signedIn to add some friends.");
@@ -181,7 +184,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
             throw new FriendsAppProviderException("FriendsAppProvider accepts requests only through event system.");
         }
 
-        public void Init(OpenAPI api, AppDataService appDataService)
+        public void Init(IOpenAPI api, IAppDataService appDataService, IAppDataStorage dataStorage)
         {
             _api = api.GetClosedAPI(_info);
             _friendsData = new FriendsAppData(appDataService);

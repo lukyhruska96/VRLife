@@ -4,12 +4,16 @@ using System.Diagnostics;
 using VrLifeServer.API.Forwarder;
 using VrLifeServer.Core.Services.SystemService;
 using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 using VrLifeShared.Core.Services.EventService;
 using VrLifeServer.Core.Services.TickRateService;
 using System.Linq;
 using Google.Protobuf;
 using System.Reflection.Metadata;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Forwarder.Core.Services.EventService;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Common.Core.Services.TickRateService;
+using VrLifeAPI.Forwarder.API;
 
 namespace VrLifeServer.Core.Services.EventService
 {
@@ -17,7 +21,7 @@ namespace VrLifeServer.Core.Services.EventService
     {
         private EventMaskHandler _maskHandler = new EventMaskHandler();
 
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
 
         public MainMessage HandleMessage(MainMessage msg)
@@ -28,7 +32,7 @@ namespace VrLifeServer.Core.Services.EventService
             EventResponse response = new EventResponse();
             if (eventMsg == null)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Forwarder can process only EventDataMsg type.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Forwarder can process only EventDataMsg type.");
             }
             if (eventMsg.AppTypeCase != EventDataMsg.AppTypeOneofCase.None)
             {
@@ -43,7 +47,7 @@ namespace VrLifeServer.Core.Services.EventService
                 catch(EventErrorException e)
                 {
                     _log.Error(e);
-                    response = IEventService.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
+                    response = VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msg.MsgId, 0, 0, e.Message);
                 }
             }
             else
@@ -64,7 +68,7 @@ namespace VrLifeServer.Core.Services.EventService
             return responseMsg;
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
@@ -81,7 +85,7 @@ namespace VrLifeServer.Core.Services.EventService
                 case EventType.OBJECT_STATE:
                     return HandleGameObjectEvent(msg.MsgId, msg.ClientId, eventMsg);
                 default:
-                    return IEventService.CreateErrorResponse(msg.MsgId, 0, 0, "Wrong event type.");
+                    return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msg.MsgId, 0, 0, "Wrong event type.");
             }
         }
 
@@ -90,16 +94,16 @@ namespace VrLifeServer.Core.Services.EventService
             Skeleton skeleton = eventMsg.SkeletonValue;
             if(skeleton == null)
             {
-                return IEventService.CreateErrorResponse(msgId, 0, 0, "Skeleton value cannot be null.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "Skeleton value cannot be null.");
             }
             if(!_api.Services.User.FastCheckUserId(clientId, skeleton.UserId))
             {
-                return IEventService.CreateErrorResponse(msgId, 0, 0, "Authentication error.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "Authentication error.");
             }
             uint? roomId = _api.Services.Room.RoomByUserId(skeleton.UserId);
             if (!roomId.HasValue)
             {
-                return IEventService.CreateErrorResponse(msgId, 0, 0, "User is not connected to any room.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "User is not connected to any room.");
             }
             SkeletonState skelState = new SkeletonState(skeleton);
             _api.Services.TickRate.SetSkeletonState(roomId.Value, skeleton.UserId, skelState);
@@ -111,7 +115,7 @@ namespace VrLifeServer.Core.Services.EventService
             GameObject gameObject = eventMsg.ObjectValue;
             if(gameObject == null)
             {
-                return IEventService.CreateErrorResponse(msgId, 0, 0, "GameObject value cannot be null.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "GameObject value cannot be null.");
             }
             return null;
         }

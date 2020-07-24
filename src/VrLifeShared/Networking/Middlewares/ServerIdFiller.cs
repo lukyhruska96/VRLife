@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking.Middlewares;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Networking.Middlewares
 {
-    public class ServerIdFiller : IMiddleware<MainMessage>
+    public class ServerIdFiller : IServerIdFiller
     {
         private uint _id;
 

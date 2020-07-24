@@ -3,8 +3,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Common.Core.Services.TickRateService;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.TickRateService
 {

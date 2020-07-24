@@ -1,27 +1,21 @@
 ﻿using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
-using Assets.Scripts.Core.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Experimental.Networking.PlayerConnection;
-using VrLifeClient.API;
-using VrLifeClient.API.OpenAPI;
-using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
 {
     class FriendsList : IFriendsManagementView
     {
         private const int ROWS = 6;
-        private List<FriendsAppUser> _friends = null;
+        private List<IFriendsAppUser> _friends = null;
         private MenuItemGrid _root;
-        private OpenAPI _api;
+        private IOpenAPI _api;
         private const string LOADING_PATH = "Gifs/loading";
 
-        public FriendsList(OpenAPI api)
+        public FriendsList(IOpenAPI api)
         {
             _api = api;
             InitMenuItems();
@@ -67,7 +61,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                 {
                     break;
                 }
-                FriendsAppUser friend = _friends[pageNum * ROWS + i];
+                IFriendsAppUser friend = _friends[pageNum * ROWS + i];
                 MenuItemText username = new MenuItemText($"username{friend.UserId}");
                 username.SetText(friend.Username);
                 _root.AddChild(0, i, 3, 1, username);

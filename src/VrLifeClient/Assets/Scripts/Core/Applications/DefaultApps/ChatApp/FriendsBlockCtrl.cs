@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
 using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
 
@@ -12,12 +16,12 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
 {
     class FriendsBlockCtrl
     {
-        private OpenAPI _api;
+        private IOpenAPI _api;
         private MenuItemScrollable _root;
 
         public delegate void FriendSelectEventHandler(ulong userId);
         public event FriendSelectEventHandler FriendSelected;
-        public FriendsBlockCtrl(OpenAPI api)
+        public FriendsBlockCtrl(IOpenAPI api)
         {
             _api = api;
             InitMenuItems();
@@ -37,14 +41,14 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         public void Update()
         {
             _root.GetChildren().ForEach(x => { _root.RemoveChild(x); x.Dispose(); });
-            List<FriendsAppUser> friends = _api.DefaultApps.Friends.ListFriends().Wait();
-            foreach(FriendsAppUser friend in friends)
+            List<IFriendsAppUser> friends = _api.DefaultApps.Friends.ListFriends().Wait();
+            foreach(IFriendsAppUser friend in friends)
             {
                 _root.AddChildBottom(CreateBlock(friend), 20);
             }
         }
 
-        private IMenuItem CreateBlock(FriendsAppUser friend)
+        private IMenuItem CreateBlock(IFriendsAppUser friend)
         {
             MenuItemGrid item = new MenuItemGrid(friend.Username, 5, 1);
             MenuItemText username = new MenuItemText("username");

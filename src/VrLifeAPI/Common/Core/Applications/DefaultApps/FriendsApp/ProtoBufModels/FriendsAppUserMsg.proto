@@ -1,0 +1,10 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
+message FriendsAppUserMsg {
+	uint64 userId = 1;
+	string username = 2;
+	oneof InRoom {
+		uint32 roomId = 3;
+	}
+	repeated uint64 friendList = 4;
+}

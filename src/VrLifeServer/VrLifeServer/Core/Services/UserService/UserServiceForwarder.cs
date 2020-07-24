@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using VrLifeAPI.Common.Core.Services.UserService;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Services.UserService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.API.Forwarder;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeShared.Logging;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
     class UserServiceForwarder : IUserServiceForwarder
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private ILogger _log;
         private Dictionary<ulong, User> _userCache = new Dictionary<ulong, User>();
         private Dictionary<ulong, ulong?> _clientId2UserId = new Dictionary<ulong, ulong?>();
@@ -27,7 +29,7 @@ namespace VrLifeServer.Core.Services.UserService
             {
                 return HandleListRoomUsers(msg);
             }
-            return ISystemService.CreateRedirectMessage(msg, _api.OpenAPI.Config.MainServer);
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateRedirectMessage(msg, _api.OpenAPI.Config.MainServer);
         }
 
         private MainMessage HandleListRoomUsers(MainMessage msg)
@@ -35,12 +37,12 @@ namespace VrLifeServer.Core.Services.UserService
             ulong? userId = _clientId2UserId[msg.ClientId];
             if (!userId.HasValue)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Unauthorized request.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Unauthorized request.");
             }
             uint? roomId = _api.Services.Room.RoomByUserId(userId.Value);
             if (!roomId.HasValue)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "User must be connected to some Room.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "User must be connected to some Room.");
             }
             ulong[] users = _api.Services.Room.GetConnectedUsers(roomId.Value);
             if(users == null)
@@ -60,18 +62,18 @@ namespace VrLifeServer.Core.Services.UserService
         {
             if(msg.ServerId != 0)
             {
-                return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Forwarders cannot communicate with each other.");
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Forwarders cannot communicate with each other.");
             }
-            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Communication between provider and forwarder is not supported in UserService.");
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Communication between provider and forwarder is not supported in UserService.");
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
         }
 
-        public User GetUserById(ulong userId, bool cached = false)
+        public IUser GetUserById(ulong userId, bool cached = false)
         {
             if(cached && _userCache.TryGetValue(userId, out User user))
             {
@@ -86,7 +88,7 @@ namespace VrLifeServer.Core.Services.UserService
             MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
             if (response.MessageTypeCase != MainMessage.MessageTypeOneofCase.UserMngMsg)
             {
-                if(ISystemService.IsError(response))
+                if(VrLifeAPI.Common.Core.Services.ServiceUtils.IsError(response))
                 {
                     _log.Error(response.SystemMsg.ErrorMsg.ErrorMsg_);
                 }
@@ -110,7 +112,7 @@ namespace VrLifeServer.Core.Services.UserService
             msg.UserMngMsg.UserMsg = new UserMsg();
             msg.UserMngMsg.UserMsg.UserRequestMsg = userRequestMsg;
             MainMessage response = _api.OpenAPI.Networking.Send(msg, _api.OpenAPI.Config.MainServer);
-            if(ISystemService.IsError(response))
+            if(VrLifeAPI.Common.Core.Services.ServiceUtils.IsError(response))
             {
                 _log.Error(response.SystemMsg.ErrorMsg.ErrorMsg_);
                 return null;

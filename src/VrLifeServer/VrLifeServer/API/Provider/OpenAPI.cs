@@ -1,37 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI;
+using VrLifeAPI.Common;
+using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Networking;
+using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.API.APIs;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps;
 using VrLifeServer.API.Provider.APIs;
 using VrLifeServer.Core.Applications.DefaultApps;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.API.Provider
 {
-    class OpenAPI
+    class OpenAPI : IOpenAPI
     {
-        public UDPNetworking<MainMessage> Networking { get => _udpNetworking; }
-        private UDPNetworking<MainMessage> _udpNetworking;
-        public Config Config { get => _config; }
-        private Config _config;
+        public IUDPNetworking<MainMessage> Networking { get => _udpNetworking; }
+        private IUDPNetworking<MainMessage> _udpNetworking;
+        public IConfig Config { get => _config; }
+        private IConfig _config;
 
-        private ClosedAPI _closedAPI;
+        private IClosedAPI _closedAPI;
         private bool init = false;
 
-        public UserAPI User { get; private set; } = null;
+        public IUserAPI User { get; private set; } = null;
 
-        public DefaultAppsProvider Apps { get; private set; } = new DefaultAppsProvider();
+        public IDefaultAppsProvider Apps { get; private set; } = new DefaultAppsProvider();
 
-        public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config)
+        public OpenAPI(IUDPNetworking<MainMessage> udpNetworking, IConfig config)
         {
             this._udpNetworking = udpNetworking;
             this._config = config;
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             if(init)
             {
@@ -47,7 +54,7 @@ namespace VrLifeServer.API.Provider
             return new LoggerWrapper(className, this._config.Loggers);
         }
 
-        public ClosedAPI GetClosedAPI(AppInfo app)
+        public IClosedAPI GetClosedAPI(AppInfo app)
         {
             return Permissions.IsAllowed(app) ? _closedAPI : null;
         }

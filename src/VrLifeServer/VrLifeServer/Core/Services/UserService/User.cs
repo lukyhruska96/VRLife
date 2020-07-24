@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using VrLifeAPI.Common.Core.Services.UserService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.Database;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.UserService
 {
-    public class User
+    public class User : IUser
     {
         private Database.DbModels.User _dbUser;
 

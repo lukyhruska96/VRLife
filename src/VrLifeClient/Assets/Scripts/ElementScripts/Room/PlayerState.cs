@@ -1,15 +1,14 @@
-﻿using Assets.Scripts.Core.Character;
-using Assets.Scripts.Core.Services;
-using Assets.Scripts.Core.Services.EventService;
-using Assets.Scripts.Core.Wrappers;
+﻿using Assets.Scripts.Core.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
 using VrLifeClient;
 using VrLifeClient.Core.Services.RoomService;
-using VrLifeShared.Networking.NetworkingModels;
 
 public class PlayerState : MonoBehaviour
 {
@@ -51,7 +50,7 @@ public class PlayerState : MonoBehaviour
             while (true)
             {
                 SkeletonState state = Avatar.GetCurrentSkeleton();
-                ServiceCallback<byte[]> callback = VrLifeCore.API.Event.SendSkeleton(state);
+                IServiceCallback<byte[]> callback = VrLifeCore.API.Event.SendSkeleton(state);
                 yield return callback.WaitCoroutine();
                 if(callback.HasException)
                 {

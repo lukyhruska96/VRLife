@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VrLifeAPI.Common.Core.Services.RoomService;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.Core.Services.RoomService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.TickRateService
 {
     class TickRoom
     {
         private const int DEFAULT_TICKBUFF_SIZE = 32;
-        public Room Room { get; set; }
+        public IRoom Room { get; set; }
         public ConcurrentQueue<Snapshot> TickBuffer { get; set; } = null;
         private int _buffSize = 0;
 
@@ -23,7 +21,7 @@ namespace VrLifeServer.Core.Services.TickRateService
         private Task _tickTask = null;
         private bool _stopTick = false;
 
-        public TickRoom(Room room, int buffSize = DEFAULT_TICKBUFF_SIZE)
+        public TickRoom(IRoom room, int buffSize = DEFAULT_TICKBUFF_SIZE)
         {
             Room = room;
             TickBuffer = new ConcurrentQueue<Snapshot>();

@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
+
+import "FriendsAppUserMsg.proto";
+import "FriendsAppListMsg.proto";
+import "FriendsAppRequestsMsg.proto";
+
+message FriendsAppMsg {
+	oneof MsgType {
+		FriendsAppListMsg friendsList = 1;
+		FriendsAppUserMsg friendDetail = 2;
+		FriendsAppRequestsMsg friendRequests = 3;
+	}
+}

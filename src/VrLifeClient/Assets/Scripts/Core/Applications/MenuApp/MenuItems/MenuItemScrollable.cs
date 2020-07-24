@@ -1,28 +1,37 @@
 ﻿using Assets.Scripts.Core.Utils;
+using Assets.Scripts.ElementScripts.Room.Menu.MenuItems;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using VrLifeAPI;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeClient;
 
 namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 {
-    class MenuItemScrollable : IMenuItem, IGOReadable
+    class MenuItemScrollable : IMenuItemScrollable
     {
+
         private const string PREFAB_PATH = "MenuItems/MenuItemScrollable";
         private const MenuItemType _type = MenuItemType.MI_SCROLLABLE;
         private Dictionary<string, (GameObject, IMenuItem)> _items = 
             new Dictionary<string, (GameObject, IMenuItem)>();
         private MenuItemInfo _info;
-        private GameObject _gameObject;
+        private GameObject _gameObject = null;
         private ScrollRect _scroll;
         private GameObject _dataView;
         private VerticalLayoutGroup _layout;
 
-        public delegate void ScrollValueChangeEventHandler(float val);
-        public event ScrollValueChangeEventHandler ScrollValueChanged;
+        public event Action<float> ScrollValueChanged;
+        public event Action Enabled;
+        public event Action Disabled;
 
         public MenuItemScrollable(string name, TextAnchor layout)
         {
@@ -32,19 +41,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
                 Name = name,
                 Parent = null
             };
-            CreateGameObject();
-            if((int)layout < 3)
-            {
-                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 1);
-            }
-            else if((int)layout < 6)
-            {
-                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
-            }
-            else
-            {
-                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
-            }
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(CreateGameObject(layout, ev), ev);
         }
 
         public void Dispose()
@@ -73,11 +71,19 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public void Clear()
         {
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_Clear(ev), ev);
+        }
+
+        private IEnumerator _Clear(AutoResetEvent ev)
+        {
             List<IMenuItem> items = GetChildren();
-            foreach(IMenuItem item in items)
+            foreach (IMenuItem item in items)
             {
                 RemoveChild(item);
             }
+            ev.Set();
+            yield return null;
         }
 
         public void AddChildTop(IMenuItem child, float height)
@@ -105,8 +111,15 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             {
                 throw new MenuItemException("Index out of range.");
             }
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_AddChild(child, height, idx, ev), ev);
+        }
+
+        private IEnumerator _AddChild(IMenuItem child, float height, int idx, AutoResetEvent ev)
+        {
+            MenuItemInfo info = child.GetInfo();
             GameObject go = ((IGOReadable)child).GetGameObject();
-            if(go == null)
+            if (go == null)
             {
                 throw new MenuItemException("Object was already destroyed.");
             }
@@ -114,6 +127,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             wrapper.transform.SetSiblingIndex(idx);
             info.Parent = this;
             _items.Add(info.Name, (wrapper, child));
+            ev.Set();
+            yield return null;
         }
 
         public IMenuItem RemoveChild(IMenuItem child)
@@ -128,24 +143,41 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
                 return null;
             }
             var item = _items[info.Name];
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_RemoveChild(child, item, ev), ev);
+            return item.Item2;
+        }
+
+        private IEnumerator _RemoveChild(IMenuItem child, (UnityEngine.GameObject, IMenuItem) item, AutoResetEvent ev)
+        {
+            MenuItemInfo info = child.GetInfo();
             GameObject go = ((IGOReadable)item.Item2).GetGameObject();
-            if(go != null)
+            if (go != null)
             {
                 go.SetActive(false);
                 go.transform.SetParent(null);
             }
-            if(item.Item1 != null)
+            if (item.Item1 != null)
             {
                 GameObject.Destroy(item.Item1);
             }
             _items.Remove(info.Name);
-            return item.Item2;
+            ev.Set();
+            yield return null;
         }
 
         public void SetPadding(float left, float top, float right, float bottom)
         {
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_SetPadding(left, top, right, bottom, ev), ev);
+        }
+
+        private IEnumerator _SetPadding(float left, float top, float right, float bottom, AutoResetEvent ev)
+        {
             RectTransform rect = _gameObject.GetComponent<RectTransform>();
             rect.SetLTRB(left, top, right, bottom);
+            ev.Set();
+            yield return null;
         }
 
         public void SetPadding(float horizontal, float vertical)
@@ -155,11 +187,19 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public void SetRectTransform(Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot)
         {
-            RectTransform local = _gameObject.GetComponent<RectTransform>();
-            this.SetRectTransform(local, anchorMin, anchorMax, pivot);
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_SetRectTransform(anchorMin, anchorMax, pivot, ev), ev);
         }
 
-        private void CreateGameObject()
+        private IEnumerator _SetRectTransform(Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, AutoResetEvent ev)
+        {
+            RectTransform local = _gameObject.GetComponent<RectTransform>();
+            this.SetRectTransform(local, anchorMin, anchorMax, pivot);
+            ev.Set();
+            yield return null;
+        }
+
+        private IEnumerator CreateGameObject(TextAnchor layout, AutoResetEvent ev)
         {
             GameObject prefab = Resources.Load<GameObject>(PREFAB_PATH);
             if (prefab == null)
@@ -169,10 +209,26 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             prefab.SetActive(false);
             _gameObject = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
             _gameObject.name = _info.Name;
+            _gameObject.GetComponent<MenuItemScrollableController>().Enabled += OnEnabled;
+            _gameObject.GetComponent<MenuItemScrollableController>().Disabled += OnDisabled;
             _scroll = _gameObject.GetComponent<ScrollRect>();
             _scroll.onValueChanged.AddListener(OnValueChanged);
             _dataView = _gameObject.transform.Find("DataView").gameObject;
             _layout = _dataView.GetComponent<VerticalLayoutGroup>();
+            if ((int)layout < 3)
+            {
+                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 1);
+            }
+            else if ((int)layout < 6)
+            {
+                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+            }
+            else
+            {
+                _dataView.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            }
+            ev.Set();
+            yield return null;
         }
 
         private void OnValueChanged(Vector2 value)
@@ -203,6 +259,15 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             item.transform.localPosition =
                 new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0);
             return obj;
+        }
+
+        private void OnEnabled()
+        {
+            Enabled?.Invoke();
+        }
+        private void OnDisabled()
+        {
+            Disabled?.Invoke();
         }
     }
 }

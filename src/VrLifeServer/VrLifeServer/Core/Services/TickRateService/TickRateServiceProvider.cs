@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using VrLifeAPI.Networking.NetworkingModels;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.TickRateService;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Services.TickRateService
 {
@@ -11,10 +9,10 @@ namespace VrLifeServer.Core.Services.TickRateService
     {
         public MainMessage HandleMessage(MainMessage msg)
         {
-            return ISystemService.CreateErrorMessage(msg.MsgId, 0, 0, "Provider cannot receive TickRateMsg.");
+            return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorMessage(msg.MsgId, 0, 0, "Provider cannot receive TickRateMsg.");
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
         }
     }

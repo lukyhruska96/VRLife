@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Forwarder.API;
 
 namespace VrLifeServer.API.Forwarder
 {
-    class ClosedAPI
+    class ClosedAPI : IClosedAPI
     {
-        private OpenAPI _openApi;
-        public OpenAPI OpenAPI { get => _openApi; }
+        private IOpenAPI _openApi;
+        public IOpenAPI OpenAPI { get => _openApi; }
 
-        private ServiceProvider _services;
-        public ServiceProvider Services { get => _services; }
+        private IServiceProvider _services;
+        public IServiceProvider Services { get => _services; }
 
-        public ClosedAPI(OpenAPI openAPI, ServiceProvider serviceProvider)
+        public ClosedAPI(IOpenAPI openAPI, IServiceProvider serviceProvider)
         {
             this._openApi = openAPI;
             this._services = serviceProvider;

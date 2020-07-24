@@ -1,30 +1,27 @@
-﻿using Assets.Scripts.Core.Applications.BackgroundApp;
-using Assets.Scripts.Core.Services;
+﻿using Assets.Scripts.Core.Services;
 using Assets.Scripts.Core.Services.EventService;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using VrLifeClient.API;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Applications.BackgroundApp;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
+using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API.OpenAPI;
-using VrLifeClient.Core.Services.EventService;
-using VrLifeClient.Core.Services.SystemService;
-using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
-using VrLifeShared.Core.Applications.DefaultApps.FriendsApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
 {
-    class FriendsApp : IBackgroundApp
+    class FriendsApp : IFriendsApp
     {
         public const ulong APP_ID = 1;
         private const string NAME = "Friends";
         private const string DESC = "Provides ability add some user to friend list.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_BACKGROUND);
-        private OpenAPI _api;
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_BACKGROUND);
+        private IOpenAPI _api;
 
         public void Dispose()
         {
@@ -36,39 +33,39 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
             return _info;
         }
 
-        public void Init(OpenAPI api)
+        public void Init(IOpenAPI api)
         {
             _api = api;
         }
 
-        public ServiceCallback<bool> SendFriendRequest(ulong userId)
+        public IServiceCallback<bool> SendFriendRequest(ulong userId)
         {
             return SendAddFriend(userId);
         }
 
-        public ServiceCallback<bool> AcceptFriendRequest(ulong userId)
+        public IServiceCallback<bool> AcceptFriendRequest(ulong userId)
         {
             return SendAddFriend(userId);
         }
 
-        public ServiceCallback<bool> RemoveFriend(ulong userId)
+        public IServiceCallback<bool> RemoveFriend(ulong userId)
         {
             return SendRmFriend(userId);
         }
 
-        public ServiceCallback<bool> UndoFriendRequest(ulong userId)
+        public IServiceCallback<bool> UndoFriendRequest(ulong userId)
         {
             return SendRmFriend(userId);
         }
 
-        public ServiceCallback<bool> DeleteFriendRequest(ulong userId)
+        public IServiceCallback<bool> DeleteFriendRequest(ulong userId)
         {
             return SendRmFriend(userId);
         }
 
-        public ServiceCallback<FriendsAppUser> GetFriendDetails(ulong userId)
+        public IServiceCallback<IFriendsAppUser> GetFriendDetails(ulong userId)
         {
-            return new ServiceCallback<FriendsAppUser>(() => 
+            return new ServiceCallback<IFriendsAppUser>(() => 
             {
                 EventDataMsg msg = new EventDataMsg();
                 msg.AppId = APP_ID;
@@ -92,9 +89,9 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
             });
         }
 
-        public ServiceCallback<List<FriendsAppUser>> ListFriends()
+        public IServiceCallback<List<IFriendsAppUser>> ListFriends()
         {
-            return new ServiceCallback<List<FriendsAppUser>>(() =>
+            return new ServiceCallback<List<IFriendsAppUser>>(() =>
             {
                 EventDataMsg msg = new EventDataMsg();
                 msg.AppId = APP_ID;
@@ -116,13 +113,13 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 return friendsAppMsg.FriendsList.FriendsList
                     .Where(x => x != null)
                     .Select(x => new FriendsAppUser(x))
-                    .ToList();
+                    .ToList<IFriendsAppUser>();
             });
         }
 
-        public ServiceCallback<List<FriendsAppUser>> GetFriendRequests()
+        public IServiceCallback<List<IFriendsAppUser>> GetFriendRequests()
         {
-            return new ServiceCallback<List<FriendsAppUser>>(() => {
+            return new ServiceCallback<List<IFriendsAppUser>>(() => {
                 EventDataMsg msg = new EventDataMsg();
                 msg.AppId = APP_ID;
                 msg.EventType = (uint)FriendsAppEvents.LIST_FRIEND_REQUESTS;
@@ -142,11 +139,11 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
                 }
                 return friendsAppMsg.FriendRequests.FriendRequestsList
                 .Select(x => new FriendsAppUser(x))
-                .Where(x => x != null).ToList();
+                .Where(x => x != null).ToList<IFriendsAppUser>();
             });
         }
 
-        private ServiceCallback<bool> SendAddFriend(ulong userId)
+        private IServiceCallback<bool> SendAddFriend(ulong userId)
         {
             return new ServiceCallback<bool>(() =>
             {
@@ -166,7 +163,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsApp
             });
         }
 
-        private ServiceCallback<bool> SendRmFriend(ulong userId)
+        private IServiceCallback<bool> SendRmFriend(ulong userId)
         {
             return new ServiceCallback<bool>(() =>
             {

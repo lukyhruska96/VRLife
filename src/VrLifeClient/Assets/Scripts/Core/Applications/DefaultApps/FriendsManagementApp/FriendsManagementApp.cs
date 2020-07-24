@@ -1,31 +1,24 @@
 ﻿using Assets.Scripts.API.HUDAPI;
-using Assets.Scripts.Core.Applications.DefaultApps.FriendsApp;
-using Assets.Scripts.Core.Applications.MenuApp;
 using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using VrLifeClient.API;
+using VrLifeAPI;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsManagementApp;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
 using VrLifeClient.API.HUDAPI;
-using VrLifeClient.API.MenuAPI;
-using VrLifeClient.API.OpenAPI;
-using VrLifeShared.Core.Applications;
-using VrLifeShared.Core.Applications.DefaultApps.FriendsApp;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
 {
-    class FriendsManagementApp : IMenuApp
+    class FriendsManagementApp : IFriendsManagementApp
     {
         public const ulong APP_ID = 3;
         private const string NAME = "Friends Management";
         private const string DESC = "Provides ability manage friends in menu UI.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_MENU);
-        private MenuAPI _menuAPI;
-        private OpenAPI _api;
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC,
+            new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_MENU);
+        private IMenuAPI _menuAPI;
+        private IOpenAPI _api;
         private MenuItemGrid _root;
         private CurrentRoom _currentRoom;
         private FriendsList _friendsList;
@@ -61,7 +54,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             return _root;
         }
 
-        public void Init(OpenAPI api, MenuAPI menuAPI, HUDAPI hudAPI)
+        public void Init(IOpenAPI api, IMenuAPI menuAPI, IHUDAPI hudAPI)
         {
             _api = api;
             _menuAPI = menuAPI;

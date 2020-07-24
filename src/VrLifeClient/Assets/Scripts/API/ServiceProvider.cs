@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Services;
 using VrLifeClient.Core.Services.AppService;
 using VrLifeClient.Core.Services.EventService;
 using VrLifeClient.Core.Services.RoomService;
@@ -12,25 +13,25 @@ using VrLifeClient.Core.Services.UserService;
 
 namespace Assets.Scripts.API
 {
-    class ServiceProvider
+    class ServiceProvider : IServiceProvider
     {
         private AppServiceClient _appServiceClient;
-        public AppServiceClient App { get => _appServiceClient; }
+        public IAppServiceClient App { get => _appServiceClient; }
 
         private EventServiceClient _eventServiceClient;
-        public EventServiceClient Event { get => _eventServiceClient; }
+        public IEventServiceClient Event { get => _eventServiceClient; }
 
         private RoomServiceClient _roomServiceClient;
-        public RoomServiceClient Room { get => _roomServiceClient; }
+        public IRoomServiceClient Room { get => _roomServiceClient; }
 
         private SystemServiceClient _systemServiceClient;
-        public SystemServiceClient System { get => _systemServiceClient; }
+        public ISystemServiceClient System { get => _systemServiceClient; }
 
         private TickRateServiceClient _tickRateServiceClient;
-        public TickRateServiceClient TickRate { get => _tickRateServiceClient; }
+        public ITickRateServiceClient TickRate { get => _tickRateServiceClient; }
 
         private UserServiceClient _userServiceClient;
-        public UserServiceClient User { get => _userServiceClient; }
+        public IUserServiceClient User { get => _userServiceClient; }
 
         public ServiceProvider(
             AppServiceClient app,

@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
+using VrLifeAPI.Client.Core.Character;
 using VrLifeClient.API.DeviceAPI.MicrophoneDevice;
 
 namespace Assets.Scripts.Core.Character
 {
     [RequireComponent(typeof(AudioSource))]
-    public class SoundPlayer : MonoBehaviour
+    public class SoundPlayer : MonoBehaviour, ISoundPlayer
     {
 
         private AudioSource _source;

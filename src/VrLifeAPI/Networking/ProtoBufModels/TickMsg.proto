@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Networking.NetworkingModels;
+
+import "DataTypes.proto";
+
+message TickMsg { // Tick information for client
+	oneof TickMsgType {
+		SnapshotRequest snapshotRequest = 1;
+		SnapshotData snapshotData = 2;
+	}
+}
+
+message SnapshotData {
+	uint64 tickNum = 1;
+	repeated Skeleton skeletons = 2;
+	repeated GameObject objects = 3;
+
+}
+
+message SnapshotRequest {
+	uint64 userId = 1;
+	uint32 lastRTT = 2;
+	uint64 lastTick = 3;
+}

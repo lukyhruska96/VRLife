@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Networking.Middlewares;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeShared.Networking.Middlewares;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.API
 {
-    class MiddlewareProvider
+    class MiddlewareProvider : IMiddlewareProvider
     {
         private ClientIdFiller _clientIdFiller;
-        public ClientIdFiller ClientIdFiller { get => _clientIdFiller; }
+        public IClientIdFiller ClientIdFiller { get => _clientIdFiller; }
 
         private MsgIdIncrement _msgIdIncrement;
-        public MsgIdIncrement MsgIdIncrement { get => _msgIdIncrement; }
+        public IMsgIdIncrement MsgIdIncrement { get => _msgIdIncrement; }
 
         private RedirectMsgHandler _redirectMsgHandler;
-        public RedirectMsgHandler RedirectMsgHandler { get => _redirectMsgHandler; }
+        public IRedirectMsgHandler RedirectMsgHandler { get => _redirectMsgHandler; }
 
         public MiddlewareProvider(
             ClientIdFiller clientIdFiller,

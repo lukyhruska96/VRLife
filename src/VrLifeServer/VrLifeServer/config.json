@@ -2,15 +2,8 @@
   "debug": true,
   "listen": "0.0.0.0",
   "serverAddress": "127.0.0.1",
-  "tcp-port": 8865,
   "udp-port": 8866,
-  "statistics": [
-    {
-      "type": "mqtt",
-      "address": "127.0.0.1",
-      "port": "65535"
-    }
-  ],
+  "appDataPath": "C:\Users\lukyh\Documents\VRLife\src\AppData",
   "main": true,
   "mainServer": "127.0.0.1:8766",
   "database": {

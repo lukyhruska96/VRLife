@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Networking
 {

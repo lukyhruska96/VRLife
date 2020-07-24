@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
 using VrLifeClient.API.OpenAPI;
 using VrLifeClient.Core.Services;
@@ -13,7 +15,6 @@ using VrLifeClient.Core.Services.TickRateService;
 using VrLifeClient.Core.Services.UserService;
 using VrLifeShared.Networking;
 using VrLifeShared.Networking.Middlewares;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient
 {

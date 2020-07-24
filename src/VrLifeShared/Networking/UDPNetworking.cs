@@ -1,14 +1,16 @@
 ﻿using Google.Protobuf;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using VrLifeAPI.Networking;
+using VrLifeAPI.Networking.Middlewares;
 using VrLifeShared.Networking.Middlewares;
 
 namespace VrLifeShared.Networking
 {
+
     /// <summary>
     /// Protobuff message based UDP Server
     /// </summary>
@@ -21,8 +23,10 @@ namespace VrLifeShared.Networking
         public List<IMiddleware<T>> Middlewares;
     }
 
-    public class UDPNetworking<T> : INetworking<T> where T: IMessage<T>, new()
+    public class UDPNetworking<T> : IUDPNetworking<T> where T : IMessage<T>, new()
     {
+        private bool _debug = false;
+
         private UdpClient socket;
         private UDPSocketState<T> socketState = new UDPSocketState<T>();
         private List<IMiddleware<T>> _middlewares;
@@ -53,15 +57,34 @@ namespace VrLifeShared.Networking
             socket.BeginReceive(new AsyncCallback(OnUdpData), this.socketState);
         }
 
+        public void SetDebug(bool status)
+        {
+            _debug = status;
+        }
+
         private static void OnUdpData(IAsyncResult result)
         {
             UDPSocketState<T> state = result.AsyncState as UDPSocketState<T>;
             UdpClient socket = state.Socket;
             IPEndPoint source = new IPEndPoint(0, 0);
-            byte[] message = socket.EndReceive(result, ref source);
-
-            // listen for next request
-            socket.BeginReceive(new AsyncCallback(OnUdpData), state);
+            byte[] message;
+            try
+            {
+                message = socket.EndReceive(result, ref source);
+            }
+            catch (SocketException) 
+            {
+                IPEndPoint endPoint = socket.Client.LocalEndPoint as IPEndPoint;
+                state.Socket.Close();
+                state.Socket = new UdpClient(endPoint);
+                socket = state.Socket;
+                return;
+            }
+            finally
+            {
+                // listen for next request
+                socket.BeginReceive(new AsyncCallback(OnUdpData), state);
+            }
 
             //handle received message and send response
             T msg = state.MsgParser.ParseFrom(message);
@@ -77,8 +100,8 @@ namespace VrLifeShared.Networking
         {
             Task.Run(() =>
             {
-            try
-            {
+                try
+                {
                     callback(Send(req, address));
                 }
                 catch(Exception e)
@@ -95,8 +118,11 @@ namespace VrLifeShared.Networking
                 req = middleware.TransformOutputMsg(req);
             }
             UdpClient socket = new UdpClient();
-            socket.Client.ReceiveTimeout = 5000;
-            socket.Client.SendTimeout = 5000;
+            if(!_debug)
+            {
+                socket.Client.ReceiveTimeout = 5000;
+                socket.Client.SendTimeout = 5000;
+            }
             byte[] data = req.ToByteArray();
             socket.Send(data, data.Length, address);
             byte[] response = socket.Receive(ref address);

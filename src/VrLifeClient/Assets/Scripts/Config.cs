@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using VrLifeShared.Logging;
+﻿using System.Net;
+using VrLifeAPI.Client;
+using VrLifeAPI.Common.Logging.Logging;
 
 namespace VrLifeClient
 {
-    class Config
+    class Config : IConfig
     {
         public ILogger Loggers { get; set; }
-        public IPEndPoint MainServer { get; set; } // unsafe
+        public IPEndPoint MainServer { get; set; }
         
     }
 }

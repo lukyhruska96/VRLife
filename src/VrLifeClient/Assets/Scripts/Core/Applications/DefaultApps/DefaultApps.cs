@@ -5,20 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.Applications.DefaultApps;
+using VrLifeAPI.Client.Applications.DefaultApps.AppManager;
+using VrLifeAPI.Client.Applications.DefaultApps.ChatApp;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
+using VrLifeAPI.Client.Applications.DefaultApps.FriendsManagementApp;
+using VrLifeAPI.Client.Applications.DefaultApps.RoomListApp;
+using VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp;
 using VrLifeClient.API;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps
 {
-    class DefaultApps : IEnumerable
+    class DefaultApps : IDefaultApps
     {
-        public RoomListApp.RoomListApp RoomList { get; private set; } = new RoomListApp.RoomListApp();
-        public AppManager.AppManager AppManager { get; private set; } = new AppManager.AppManager();
-        public FriendsApp.FriendsApp Friends { get; private set; } = new FriendsApp.FriendsApp();
-        public VoiceChatApp.VoiceChatApp VoiceChat { get; private set; } = new VoiceChatApp.VoiceChatApp();
-        public FriendsManagementApp.FriendsManagementApp FriendsManagement { get; private set; } = 
+        public IRoomListApp RoomList { get; private set; } = new RoomListApp.RoomListApp();
+        public IAppManager AppManager { get; private set; } = new AppManager.AppManager();
+        public IFriendsApp Friends { get; private set; } = new FriendsApp.FriendsApp();
+        public IVoiceChatApp VoiceChat { get; private set; } = new VoiceChatApp.VoiceChatApp();
+        public IFriendsManagementApp FriendsManagement { get; private set; } = 
             new FriendsManagementApp.FriendsManagementApp();
-        public ChatApp.ChatApp Chat { get; private set; } = new ChatApp.ChatApp();
+        public IChatApp Chat { get; private set; } = new ChatApp.ChatApp();
 
         IEnumerator IEnumerable.GetEnumerator()
         {

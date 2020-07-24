@@ -2,22 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps.ChatApp;
+using VrLifeAPI.Provider.Core.Applications.DefaultApps.FriendsApp;
 using VrLifeServer.API.Provider;
-using VrLifeServer.Core.Applications.DefaultApps.AppManager.Provider;
 using VrLifeServer.Core.Applications.DefaultApps.ChatApp.Provider;
 using VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider;
 
 namespace VrLifeServer.Core.Applications.DefaultApps
 {
-    class DefaultAppsProvider : IEnumerable
+    class DefaultAppsProvider : IDefaultAppsProvider
     {
-        public AppManagerProvider AppManager { get; private set; } = new AppManagerProvider();
-        public FriendsAppProvider Friends { get; private set; } = new FriendsAppProvider();
-        public ChatAppProvider Chat { get; private set; } = new ChatAppProvider();
+        public IFriendsAppProvider Friends { get; private set; } = new FriendsAppProvider();
+        public IChatAppProvider Chat { get; private set; } = new ChatAppProvider();
 
         public IEnumerator GetEnumerator()
         {
-            yield return AppManager;
             yield return Friends;
             yield return Chat;
         }

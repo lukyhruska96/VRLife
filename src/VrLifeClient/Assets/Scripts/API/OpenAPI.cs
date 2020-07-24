@@ -6,43 +6,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI;
+using VrLifeAPI.Client;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Applications.DefaultApps;
+using VrLifeAPI.Networking;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.AppService;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.API.OpenAPI
 {
-    class OpenAPI
+    class OpenAPI : IOpenAPI
     {
-        public UDPNetworking<MainMessage> Networking { get => _udpNetworking; }
-        private UDPNetworking<MainMessage> _udpNetworking;
+        public IUDPNetworking<MainMessage> Networking { get => _udpNetworking; }
+        private IUDPNetworking<MainMessage> _udpNetworking;
 
-        public Config Config { get => _config; }
+        public IConfig Config { get => _config; }
         private Config _config;
 
-        public UserAPI User { get => _user; }
+        public IUserAPI User { get => _user; }
         private UserAPI _user;
 
-        public RoomAPI Room { get => _room; }
+        public IRoomAPI Room { get => _room; }
         private RoomAPI _room;
 
-        public EventAPI Event { get => _event; }
+        public IEventAPI Event { get => _event; }
         private EventAPI _event;
 
-        public TickAPI TickRate { get => _tick; }
+        public ITickAPI TickRate { get => _tick; }
         private TickAPI _tick;
 
-        public SystemAPI System { get => _system; }
+        public ISystemAPI System { get => _system; }
         private SystemAPI _system;
 
-        public DefaultApps DefaultApps { get => _defaultApps; }
+        public IDefaultApps DefaultApps { get => _defaultApps; }
         private DefaultApps _defaultApps;
 
-        public AppAPI App { get => _app; }
+        public IAppAPI App { get => _app; }
         private AppAPI _app;
 
         private ServiceProvider _serviceProvider;
+
+        public IClosedAPI GetClosedAPI(AppInfo info)
+        {
+            return VrLifeCore.GetClosedAPI(info);
+        }
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config, ServiceProvider serviceProvider)
         {

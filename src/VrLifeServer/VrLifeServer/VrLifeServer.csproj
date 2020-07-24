@@ -21,6 +21,7 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\VrLifeAPI\VrLifeAPI.csproj" />
     <ProjectReference Include="..\..\VrLifeShared\VrLifeShared.csproj" />
   </ItemGroup>
   <ItemGroup>

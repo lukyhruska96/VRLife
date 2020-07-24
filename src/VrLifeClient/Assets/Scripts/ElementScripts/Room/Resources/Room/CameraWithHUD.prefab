@@ -2011,7 +2011,7 @@ GameObject:
   - component: {fileID: 8202871911254771818}
   - component: {fileID: 1431163053120858321}
   - component: {fileID: 296319622435817038}
-  - component: {fileID: 398032930}
+  - component: {fileID: 4998464511198598217}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2153,7 +2153,7 @@ MonoBehaviour:
     type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
---- !u!114 &398032930
+--- !u!114 &4998464511198598217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Networking.Middlewares;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Networking.Middlewares
 {
-    public class MsgIdIncrement : IMiddleware<MainMessage>
+    public class MsgIdIncrement : IMsgIdIncrement
     {
         private long msgId = 0;
         public MainMessage TransformInputMsg(MainMessage msg)

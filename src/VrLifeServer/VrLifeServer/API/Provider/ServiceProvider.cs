@@ -1,16 +1,17 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Text;
-using VrLifeServer.Core.Services.AppService;
-using VrLifeServer.Core.Services.EventService;
-using VrLifeServer.Core.Services.RoomService;
-using VrLifeServer.Core.Services.SystemService;
-using VrLifeServer.Core.Services.TickRateService;
-using VrLifeServer.Core.Services.UserService;
+using VrLifeAPI.Provider.API;
+using VrLifeAPI.Provider.Core.Services.AppService;
+using VrLifeAPI.Provider.Core.Services.EventService;
+using VrLifeAPI.Provider.Core.Services.RoomService;
+using VrLifeAPI.Provider.Core.Services.SystemService;
+using VrLifeAPI.Provider.Core.Services.TickRateService;
+using VrLifeAPI.Provider.Core.Services.UserService;
 
 namespace VrLifeServer.API.Provider
 {
-    class ServiceProvider
+    class ServiceProvider : IServiceProvider
     {
         private ISystemServiceProvider _systemService;
         public ISystemServiceProvider System { get => _systemService; }

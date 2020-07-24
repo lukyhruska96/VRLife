@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VrLifeAPI.Provider.Core.Services.AppService;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeShared.Core.Applications.DefaultApps.ChatApp;
 
@@ -9,9 +10,9 @@ namespace VrLifeServer.Core.Applications.DefaultApps.ChatApp.Provider
 {
     class ChatAppData
     {
-        private AppDataService _appData;
+        private IAppDataService _appData;
         private object _lock = new object();
-        public ChatAppData(AppDataService appData)
+        public ChatAppData(IAppDataService appData)
         {
             _appData = appData;
         }

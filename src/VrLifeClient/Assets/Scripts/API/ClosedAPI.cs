@@ -1,37 +1,42 @@
 ﻿using Assets.Scripts.API;
-using System;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.API.ClosedAPI;
+using VrLifeAPI.Client.API.GlobalAPI;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.API.ObjectAPI;
+using VrLifeClient.API.HUDAPI;
 
 namespace VrLifeClient.API
 {
-    class ClosedAPI : IDisposable
+    class ClosedAPI : IClosedAPI
     {
-        private OpenAPI.OpenAPI _openApi;
-        public OpenAPI.OpenAPI OpenAPI { get => _openApi; }
+        private IOpenAPI _openApi;
+        public IOpenAPI OpenAPI { get => _openApi; }
 
         private ServiceProvider _serviceProvider;
-        public ServiceProvider Services { get => _serviceProvider; }
+        public IServiceProvider Services { get => _serviceProvider; }
 
         private MiddlewareProvider _middlewareProvider;
-        public MiddlewareProvider Middlewares { get => _middlewareProvider; }
+        public IMiddlewareProvider Middlewares { get => _middlewareProvider; }
 
         private MenuAPI.MenuAPI _menuAPI;
-        public MenuAPI.MenuAPI MenuAPI { get => _menuAPI; }
+        public IMenuAPI MenuAPI { get => _menuAPI; }
 
         private HUDAPI.HUDAPI _hudAPI;
-        public HUDAPI.HUDAPI HUDAPI { get => _hudAPI; }
+        public IHUDAPI HUDAPI { get => _hudAPI; }
 
         private GlobalAPI.GlobalAPI _globalAPI;
-        public GlobalAPI.GlobalAPI GlobalAPI { get => _globalAPI; }
+        public IGlobalAPI GlobalAPI { get => _globalAPI; }
 
         private ObjectAPI.ObjectAPI _objectAPI;
-        public ObjectAPI.ObjectAPI ObjectAPI { get => _objectAPI; }
+        public IObjectAPI ObjectAPI { get => _objectAPI; }
 
         private DeviceAPI.DeviceAPI _deviceAPI;
-        public DeviceAPI.DeviceAPI DeviceAPI { get => _deviceAPI; }
+        public IDeviceAPI DeviceAPI { get => _deviceAPI; }
 
         public SceneController SceneController { get => SceneController.current; }
 
-        public ClosedAPI(OpenAPI.OpenAPI openAPI, ServiceProvider serviceProvider, MiddlewareProvider middlewareProvider)
+        public ClosedAPI(IOpenAPI openAPI, ServiceProvider serviceProvider, MiddlewareProvider middlewareProvider)
         {
             this._openApi = openAPI;
             this._serviceProvider = serviceProvider;

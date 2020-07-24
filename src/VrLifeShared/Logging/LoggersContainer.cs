@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VrLifeAPI.Common.Logging.Logging;
 
 namespace VrLifeShared.Logging
 {

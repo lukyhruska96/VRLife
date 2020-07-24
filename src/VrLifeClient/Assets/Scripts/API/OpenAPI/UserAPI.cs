@@ -4,32 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VrLifeAPI.Client.API.OpenAPI;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.UserService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.API.OpenAPI
 {
-    class UserAPI
+    class UserAPI : IUserAPI
     {
-        private UserServiceClient _userService;
+        private IUserServiceClient _userService;
         public ulong? UserId { get => _userService.UserId; }
 
-        public UserAPI(UserServiceClient userService)
+        public UserAPI(IUserServiceClient userService)
         {
             this._userService = userService;
         }
 
-        public ServiceCallback<bool> Register(string username, string password)
+        public IServiceCallback<bool> Register(string username, string password)
         {
             return this._userService.Register(username, password);
         }
 
-        public ServiceCallback<bool> Login(string username, string password)
+        public IServiceCallback<bool> Login(string username, string password)
         {
             return this._userService.Login(username, password);
         }
 
-        public ServiceCallback<UserListMsg> CurrentRoomUsers()
+        public IServiceCallback<UserListMsg> CurrentRoomUsers()
         {
             return this._userService.CurrentRoomUsers();
         }

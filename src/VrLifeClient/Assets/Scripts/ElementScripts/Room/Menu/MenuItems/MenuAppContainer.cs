@@ -1,11 +1,5 @@
-﻿using Assets.Scripts.Core.Applications.MenuApp.MenuItems;
-using Assets.Scripts.Core.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.InputSystem.Composites;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
 
 public class MenuAppContainer : MonoBehaviour
 {

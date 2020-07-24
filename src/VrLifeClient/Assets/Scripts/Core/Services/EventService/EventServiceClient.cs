@@ -12,21 +12,17 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
-using VrLifeClient.Core.Services.SystemService;
-using VrLifeShared.Core.Services.EventService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.EventService
 {
-    public enum EventRecipient
+    class EventServiceClient : IEventServiceClient
     {
-        FORWARDER,
-        PROVIDER
-    }
-    class EventServiceClient : IServiceClient
-    {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         private uint _lastRTT = 0;
         private EventMaskHandler _providerHandler;
@@ -39,7 +35,7 @@ namespace VrLifeClient.Core.Services.EventService
             throw new NotImplementedException();
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             _api = api;
             _providerHandler = new EventMaskHandler(_api);
@@ -47,7 +43,7 @@ namespace VrLifeClient.Core.Services.EventService
             _api.Services.Room.RoomExited += Reset;
         }
 
-        public ServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
+        public IServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
         {
             if(!_api.Services.User.UserId.HasValue)
             {
@@ -60,7 +56,7 @@ namespace VrLifeClient.Core.Services.EventService
             return SendEvent(eventData, EventRecipient.FORWARDER);
         }
 
-        public ServiceCallback<byte[]> SendEvent(EventDataMsg eventData, EventRecipient recipient)
+        public IServiceCallback<byte[]> SendEvent(EventDataMsg eventData, EventRecipient recipient)
         {
             return new ServiceCallback<byte[]>(() =>
             {

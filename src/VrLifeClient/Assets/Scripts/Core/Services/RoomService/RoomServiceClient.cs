@@ -8,43 +8,44 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.RoomService
 {
-    class RoomServiceClient : IServiceClient
+    class RoomServiceClient : IRoomServiceClient
     {
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         private IPEndPoint _forwarderAddress = null;
         public IPEndPoint ForwarderAddress { get => _forwarderAddress; }
 
-        public Room CurrentRoom { get => _currentRoom; }
+        public IRoom CurrentRoom { get => _currentRoom; }
         private Room _currentRoom = null;
 
-        public delegate void RoomExitEventHandler();
-        public event RoomExitEventHandler RoomExited;
+        public event Action RoomExited;
 
-        public delegate void RoomEnterEventHandler();
-        public event RoomEnterEventHandler RoomEntered;
+        public event Action RoomEntered;
 
         public void HandleMessage(MainMessage msg)
         {
             throw new NotImplementedException();
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._api.Services.System.ForwarderLost += Reset;
             this._api.Services.User.UserLoggedOut += Reset;
         }
 
-        public ServiceCallback<Room> RoomDetail(uint roomId)
+        public IServiceCallback<IRoom> RoomDetail(uint roomId)
         {
-            return new ServiceCallback<Room>(() =>
+            return new ServiceCallback<IRoom>(() =>
             {
                 RoomQuery roomQuery = new RoomQuery();
                 roomQuery.RoomDetailId = roomId;
@@ -57,9 +58,9 @@ namespace VrLifeClient.Core.Services.RoomService
             });
         }
 
-        public ServiceCallback<List<Room>> RoomList(string contains = "", bool notEmpty = false, bool notFull = false)
+        public IServiceCallback<List<IRoom>> RoomList(string contains = "", bool notEmpty = false, bool notFull = false)
         {
-            return new ServiceCallback<List<Room>>(() =>
+            return new ServiceCallback<List<IRoom>>(() =>
             {
                 RoomListQuery query = new RoomListQuery();
                 query.Search = contains;
@@ -81,13 +82,13 @@ namespace VrLifeClient.Core.Services.RoomService
                 }
                 ErrorMsgCheck(response);
                 RoomList list = response.RoomMsg.RoomList;
-                return list == null ? new List<Room>() : list.RoomList_.Select(x => new Room(x)).ToList();
+                return list == null ? new List<IRoom>() : list.RoomList_.Select(x => new Room(x)).ToList<IRoom>();
             });
         }
 
-        public ServiceCallback<Room> RoomCreate(string name, uint capacity)
+        public IServiceCallback<IRoom> RoomCreate(string name, uint capacity)
         {
-            return new ServiceCallback<Room>(() =>
+            return new ServiceCallback<IRoom>(() =>
             {
                 RoomCreate roomCreate = new RoomCreate();
                 roomCreate.Name = name;
@@ -102,14 +103,14 @@ namespace VrLifeClient.Core.Services.RoomService
             });
         }
 
-        public ServiceCallback<Room> RoomEnter(uint roomId)
+        public IServiceCallback<IRoom> RoomEnter(uint roomId)
         {
             return RoomEnter(roomId, _api.OpenAPI.Config.MainServer);
         }
 
-        public ServiceCallback<Room> RoomEnter(uint roomId, IPEndPoint address)
+        public IServiceCallback<IRoom> RoomEnter(uint roomId, IPEndPoint address)
         {
-            return new ServiceCallback<Room>(() =>
+            return new ServiceCallback<IRoom>(() =>
             {
                 RoomEnter roomEnter = new RoomEnter();
                 roomEnter.RoomId = roomId;
@@ -130,12 +131,12 @@ namespace VrLifeClient.Core.Services.RoomService
             });
         }
 
-        public ServiceCallback<bool> RoomExit(uint roomId)
+        public IServiceCallback<bool> RoomExit(uint roomId)
         {
             return RoomExit(roomId, _api.OpenAPI.Config.MainServer);
         }
 
-        public ServiceCallback<bool> RoomExit(uint roomId, IPEndPoint address)
+        public IServiceCallback<bool> RoomExit(uint roomId, IPEndPoint address)
         {
             return new ServiceCallback<bool>(() =>
             {

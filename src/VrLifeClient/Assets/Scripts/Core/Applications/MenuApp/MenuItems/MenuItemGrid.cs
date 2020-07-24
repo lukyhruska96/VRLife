@@ -1,31 +1,35 @@
 ﻿using Assets.Scripts.Core.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VrLifeAPI;
+using VrLifeAPI.Client.API.MenuAPI;
+using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
+using VrLifeClient;
 
 namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 {
-    class MenuItemGrid : IMenuItem, IGOReadable
+    class MenuItemGrid : IMenuItemGrid
     {
-        public delegate void ItemClickEventHandler(IMenuItem item, int x, int y);
-        public event ItemClickEventHandler ItemClicked;
 
-        public delegate void EnableEventHandler();
-        public event EnableEventHandler Enabled;
+        public event Action<IMenuItem, int, int> ItemClicked;
 
-        public delegate void DisableEventHandler();
-        public event DisableEventHandler Disabled;
+        public event Action Enabled;
+
+        public event Action Disabled;
 
         private const string PREFAB_PATH = "MenuItems/MenuItemGrid";
         private const MenuItemType _type = MenuItemType.MI_GRID;
         private MenuItemInfo _info;
-        private GameObject _gameObject;
+        private GameObject _gameObject = null;
         private IMenuItem[,] _grid;
         private Dictionary<string, IMenuItem> _itemDict = new Dictionary<string, IMenuItem>();
         private int width, height;
@@ -45,7 +49,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             width = xNum;
             height = yNum;
             _grid = new IMenuItem[height, width];
-            CreateGameObject();
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(CreateGameObject(ev), ev);
         }
 
         public GameObject GetGameObject()
@@ -83,22 +88,30 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public void SetRectTransform(Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot)
         {
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_SetRectTransform(anchorMin, anchorMax, pivot, ev), ev);
+        }
+
+        private IEnumerator _SetRectTransform(Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, AutoResetEvent ev)
+        {
             RectTransform local = _gameObject.GetComponent<RectTransform>();
             this.SetRectTransform(local, anchorMin, anchorMax, pivot);
+            ev.Set();
+            yield return null;
         }
 
         public void AddChild(int x, int y, int colWidth, int colHeight, IMenuItem item)
         {
-            if(x < 0 || y < 0 || x+colWidth-1 >= width || 
-                y+colHeight-1 >= height || colWidth <= 0 || colHeight <= 0)
+            if (x < 0 || y < 0 || x + colWidth - 1 >= width ||
+                y + colHeight - 1 >= height || colWidth <= 0 || colHeight <= 0)
             {
                 throw new ArgumentException("Coordinates out of range.");
             }
-            if(item == null)
+            if (item == null)
             {
                 throw new ArgumentException("Item can not be null.");
             }
-            if(!IsEmptyGrid(x, y, colWidth, colHeight))
+            if (!IsEmptyGrid(x, y, colWidth, colHeight))
             {
                 throw new MenuItemException("Intersection with another menu item.");
             }
@@ -108,16 +121,24 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
                 throw new MenuItemException("Name must be unique inside same layer.");
             }
             _itemDict.Add(info.Name, item);
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_AddChild(x, y, colWidth, colHeight, item, ev), ev);
+        }
+
+        private IEnumerator _AddChild(int x, int y, int colWidth, int colHeight, IMenuItem item, AutoResetEvent ev)
+        {
             AddItemGrid(x, y, colWidth, colHeight, item);
             ((IGOReadable)item).GetGameObject().transform.SetParent(_gameObject.transform);
             item.GetInfo().Parent = this;
             (Vector2 anchorMin, Vector2 anchorMax) = GridToRect(x, y, colWidth, colHeight);
             item.SetRectTransform(
                 anchorMin,
-                anchorMax, 
+                anchorMax,
                 new Vector2(0f, 0f));
             // everything must be set before OnEnable is called inside inserted prefab
             ((IGOReadable)item).GetGameObject().SetActive(true);
+            ev.Set();
+            yield return null;
         }
 
         private (Vector2 anchorMin, Vector2 anchorMax) GridToRect(int x, int y, int width, int height)
@@ -135,14 +156,23 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             {
                 RemoveObjectInGrid(child);
                 _itemDict.Remove(info.Name);
-                ((IGOReadable)child).GetGameObject()?.transform.SetParent(null);
-                child.GetInfo().Parent = null;
+                AutoResetEvent ev = new AutoResetEvent(false);
+                MenuItemUtils.RunCoroutineSync(_RemoveChild(child, ev), ev);
             }
             else
             {
                 return null;
             }
             return child;
+        }
+
+        public IEnumerator _RemoveChild(IMenuItem child, AutoResetEvent ev)
+        {
+            yield return new WaitUntil(() => _gameObject == null);
+            ((IGOReadable)child).GetGameObject()?.transform.SetParent(null);
+            child.GetInfo().Parent = null;
+            ev.Set();
+            yield return null;
         }
 
         private bool IsEmptyGrid(int x, int y, int width, int height)
@@ -185,7 +215,7 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             }
         }
 
-        private void CreateGameObject()
+        private IEnumerator CreateGameObject(AutoResetEvent ev)
         {
             GameObject prefab = Resources.Load<GameObject>(PREFAB_PATH);
             if (prefab == null)
@@ -199,6 +229,8 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
             controller.PointerClicked += OnPointerClick;
             controller.Enabled += OnEnabled;
             controller.Disabled += OnDisabled;
+            ev.Set();
+            yield return null;
         }
 
         private (int x, int y) PositionToGridIdx(Vector2 localPosition)
@@ -222,8 +254,16 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
 
         public void SetPadding(float left, float top, float right, float bottom)
         {
+            AutoResetEvent ev = new AutoResetEvent(false);
+            MenuItemUtils.RunCoroutineSync(_SetPadding(left, top, right, bottom, ev), ev);
+        }
+
+        private IEnumerator _SetPadding(float left, float top, float right, float bottom, AutoResetEvent ev)
+        {
             RectTransform rect = _gameObject.GetComponent<RectTransform>();
             rect.SetLTRB(left, top, right, bottom);
+            ev.Set();
+            yield return null;
         }
 
         public void SetPadding(float horizontal, float vertical)

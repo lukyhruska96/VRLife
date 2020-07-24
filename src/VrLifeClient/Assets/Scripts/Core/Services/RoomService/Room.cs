@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using VrLifeShared.Networking.NetworkingModels;
+using VrLifeAPI.Client.Core.Wrappers;
+using VrLifeAPI.Common.Core.Utils;
+using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.RoomService
 {
-    public class Room
+    public class Room : IRoom
     {
         private const uint DEFAULT_TICKRATE = 32;
         public uint Id { get; set; }

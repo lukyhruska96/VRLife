@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading;
+using VrLifeAPI.Provider.Core.Services.AppService;
 using VrLifeServer.Core.Services.AppService;
 using VrLifeServer.Core.Utils;
 using VrLifeServer.Database.DbModels;
@@ -13,11 +14,11 @@ namespace VrLifeServer.Core.Applications.DefaultApps.FriendsApp.Provider
 {
     class FriendsAppData
     {
-        private AppDataService _appDataService;
+        private IAppDataService _appDataService;
         private const string FRIEND_REQUESTS_FIELD = "FriendRequests";
         private const string FRIENDS_LIST_FIELD = "FriendsList";
         private Dictionary<ulong, object> _friendLocks = new Dictionary<ulong, object>();
-        public FriendsAppData(AppDataService appDataService)
+        public FriendsAppData(IAppDataService appDataService)
         {
             _appDataService = appDataService;
         }

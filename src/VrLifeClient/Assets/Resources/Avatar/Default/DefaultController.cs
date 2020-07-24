@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using VrLifeAPI.Client.Core.Character;
+using VrLifeAPI.Common.Core.Utils;
 using VrLifeClient;
 using VrLifeClient.Core.Services.RoomService;
 

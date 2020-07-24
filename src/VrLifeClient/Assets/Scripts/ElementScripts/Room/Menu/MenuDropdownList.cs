@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using VrLifeAPI.Client.Applications.MenuApp;
 using VrLifeClient;
 
 public class MenuDropdownList : MonoBehaviour
@@ -24,7 +25,7 @@ public class MenuDropdownList : MonoBehaviour
 
     private void OnEnable()
     {
-        _apps = VrLifeCore.API.DefaultApps.AppManager.MenuApps;
+        _apps = VrLifeCore.API.App.MenuApps;
         _dropdown.onValueChanged.AddListener(OnValueChanged);
         _dropdown.options.Clear();
         _dropdown.AddOptions(_apps.Select(x => x.GetInfo().Name).ToList());

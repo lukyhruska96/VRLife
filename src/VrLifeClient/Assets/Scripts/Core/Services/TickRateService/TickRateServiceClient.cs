@@ -6,17 +6,20 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Services;
+using VrLifeAPI.Common.Core.Utils;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeClient.Core.Services.TickRateService
 {
-    class TickRateServiceClient : IServiceClient
+    class TickRateServiceClient : ITickRateServiceClient
     {
         private const uint SNAPSHOT_BUFFER_SIZE = 16;
 
-        private ClosedAPI _api;
+        private IClosedAPI _api;
 
         private ulong _lastTick = 0;
         public ulong LastTick { get => _lastTick; }
@@ -30,13 +33,13 @@ namespace VrLifeClient.Core.Services.TickRateService
             throw new NotImplementedException();
         }
 
-        public void Init(ClosedAPI api)
+        public void Init(IClosedAPI api)
         {
             this._api = api;
             this._api.Services.Room.RoomExited += Reset;
         }
 
-        public ServiceCallback<SnapshotData> GetSnapshot()
+        public IServiceCallback<SnapshotData> GetSnapshot()
         {
             return new ServiceCallback<SnapshotData>(() =>
             {

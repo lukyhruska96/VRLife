@@ -3,24 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VrLifeAPI;
+using VrLifeAPI.Common.Core.Applications;
+using VrLifeAPI.Common.Core.Services;
+using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Forwarder.Core.Applications.VoiceChatApp;
+using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeServer.API.Forwarder;
-using VrLifeServer.Applications;
 using VrLifeServer.Core.Services.UserService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
-using VrLifeShared.Networking.NetworkingModels;
 
 namespace VrLifeServer.Core.Applications.DefaultApps.VoiceChatApp.Forwarder
 {
-    class VoiceChatAppForwarder : IApplicationForwarder
+    class VoiceChatAppForwarder : IVoiceChatAppForwarder
     {
 
         public static readonly ulong APP_ID = 5;
         private const string NAME = "VoiceChatApp";
         private const string DESC = "Default application for room voice chat.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, AppType.APP_GLOBAL);
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_GLOBAL);
         private Dictionary<ulong, (ulong, float[])> _lastData = new Dictionary<ulong, (ulong, float[])>();
-        private ClosedAPI _api;
+        private IClosedAPI _api;
         private uint _roomId;
 
         public void Dispose()
@@ -77,7 +81,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.VoiceChatApp.Forwarder
             return response.ToByteArray();
         }
 
-        public void Init(uint roomId, OpenAPI api)
+        public void Init(uint roomId, IOpenAPI api, IAppDataStorage dataStorage)
         {
             _roomId = roomId;
             _api = api.GetClosedAPI(_info);

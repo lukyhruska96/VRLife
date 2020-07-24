@@ -1,0 +1,75 @@
+﻿syntax = "proto3";
+package VrLifeAPI.Networking.NetworkingModels;
+
+message AppMsg { 
+	oneof appMsgType {
+		AppDataMsg appData = 1;
+		AppPackageMsg appPackage = 2;
+	}
+}
+
+message AppDataMsg { // the simplest message with data for specific app by its ID
+	uint64 appId = 1;
+	bytes data = 2;
+}
+
+message AppPackageMsg {
+	oneof appPackageMsgType {
+		AppPackageRequest packageRequest = 1;
+		AppPackageInfoMsg packageInfo = 2;
+		AppPackageDataMsg packageData = 3;
+		AppPackageListMsg packageList = 4;
+	}
+}
+
+message AppPackageListMsg {
+	repeated AppPackageListEl packages = 1;
+}
+
+message AppPackageListEl {
+	uint64 appId = 1;
+	string name = 2;
+	string desc = 3;
+}
+
+message AppPackageRequest {
+	oneof requestType {
+		uint64 packageInfo = 1;
+		AppPackageDataRequest dllDataRequest = 2;
+		AppPackageDataRequest zipDataRequest = 3;
+		bool packageList = 4;
+	}
+}
+
+message AppPackageDataRequest {
+	enum PackageDeviceType {
+		FORWARDER = 0;
+		CLIENT = 1;
+	}
+	uint64 appId = 1;
+	uint32 packetSize = 2;
+	uint32 packetId = 3;
+	PackageDeviceType packageType = 4;
+}
+
+message AppPackageInfoMsg {
+	uint64 appId = 1;
+	string name = 2;
+	string desc = 3;
+	repeated int32 version = 4;
+	repeated AppPackageDependency dependencies = 5;
+	bool forwarderDll = 6;
+	bool forwarderZip = 7;
+	bool clientDll = 8;
+	bool clientZip = 9;
+}
+
+message AppPackageDependency {
+	uint64 appId = 1;
+	repeated int32 minVersion = 2;
+}
+
+message AppPackageDataMsg {
+	uint64 checksum = 1;
+	bytes data = 2;
+}
