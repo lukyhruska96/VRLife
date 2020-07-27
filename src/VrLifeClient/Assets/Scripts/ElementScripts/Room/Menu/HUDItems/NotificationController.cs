@@ -21,7 +21,7 @@ public class NotificationController : MonoBehaviour,
 
     public IEnumerator AutoDestruction()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(NOTIFICATION_TIMEOUT);
         GameObject.Destroy(gameObject);
     }
 

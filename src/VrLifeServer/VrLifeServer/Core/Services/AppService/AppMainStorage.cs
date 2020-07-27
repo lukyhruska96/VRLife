@@ -77,7 +77,7 @@ namespace VrLifeServer.Core.Services.AppService
             AppPackageInfo appInfo = GetAppPackageInfo(appId);
             if (appInfo == null)
             {
-                Directory.Delete(Path.Combine(_path, appId.ToString()));
+                Directory.Delete(Path.Combine(_path, appId.ToString()), true);
                 return;
             }
             if (_appService.Apps.TryGetValue(appId, out IApplicationProvider app))
@@ -110,7 +110,7 @@ namespace VrLifeServer.Core.Services.AppService
             }
             catch(UnauthorizedAccessException)
             {
-                Directory.Delete(Path.Combine(_path, appId.ToString()));
+                Directory.Delete(Path.Combine(_path, appId.ToString()), true);
                 return;
             }
             AppDataStorage storage = null;
@@ -123,7 +123,7 @@ namespace VrLifeServer.Core.Services.AppService
                 }
                 catch(Exception)
                 {
-                    Directory.Delete(Path.Combine(_path, appId.ToString()));
+                    Directory.Delete(Path.Combine(_path, appId.ToString()), true);
                     return;
                 }
             }

@@ -81,10 +81,5 @@ namespace VrLifeServer.Core.Services.SystemService
         {
             return ServiceUtils.CreateHelloMessage(_api.OpenAPI.Config);
         }
-
-        public IPEndPoint GetAddressById(uint serverId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

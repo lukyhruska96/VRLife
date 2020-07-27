@@ -1,7 +1,7 @@
 ﻿using VrLifeAPI.Client.Core.Character;
 using VrLifeAPI.Networking.NetworkingModels;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public enum EventRecipient
     {

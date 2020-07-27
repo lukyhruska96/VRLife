@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using VrLifeAPI.Client.API.OpenAPI;
 using VrLifeAPI.Client.Core.Wrappers;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient.Core.Services.RoomService;
 
 namespace VrLifeClient.API.OpenAPI

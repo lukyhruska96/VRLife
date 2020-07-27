@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.Core.Wrappers;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;

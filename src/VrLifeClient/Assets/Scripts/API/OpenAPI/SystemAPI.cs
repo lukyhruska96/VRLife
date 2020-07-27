@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VrLifeAPI.Client.API.OpenAPI;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient.Core.Services.SystemService;
 
 namespace VrLifeClient.API.OpenAPI

@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using VrLifeAPI.Client.Core.Character;
 using VrLifeAPI.Client.Core.Wrappers;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient;
 using VrLifeClient.Core.Services.RoomService;
 

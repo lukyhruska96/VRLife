@@ -6,8 +6,8 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VrLifeAPI.Common;
-using VrLifeAPI.Common.Database;
 using VrLifeAPI.Common.Logging.Logging;
+using VrLifeAPI.Provider.Database;
 using VrLifeServer.Database;
 using VrLifeShared.Logging;
 

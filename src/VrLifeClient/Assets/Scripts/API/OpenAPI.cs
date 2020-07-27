@@ -1,19 +1,14 @@
 ﻿using Assets.Scripts.API;
 using Assets.Scripts.API.OpenAPI;
 using Assets.Scripts.Core.Applications.DefaultApps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VrLifeAPI;
 using VrLifeAPI.Client;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.API.OpenAPI;
 using VrLifeAPI.Client.Applications.DefaultApps;
+using VrLifeAPI.Common.Logging.Logging;
 using VrLifeAPI.Networking;
 using VrLifeAPI.Networking.NetworkingModels;
-using VrLifeClient.Core.Services.AppService;
 using VrLifeShared.Logging;
 using VrLifeShared.Networking;
 
@@ -53,6 +48,15 @@ namespace VrLifeClient.API.OpenAPI
         public IClosedAPI GetClosedAPI(AppInfo info)
         {
             return VrLifeCore.GetClosedAPI(info);
+        }
+
+        public ILogger CreateLogger(string className)
+        {
+            if(_config.Loggers == null)
+            {
+                return null;
+            }
+            return new LoggerWrapper(className, _config.Loggers);
         }
 
         public OpenAPI(UDPNetworking<MainMessage> udpNetworking, Config config, ServiceProvider serviceProvider)

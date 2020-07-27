@@ -3,8 +3,9 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using VrLifeAPI.Client.Core.Wrappers;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient;
+using System.Net.Sockets;
 
 public class Login : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class Login : MonoBehaviour
 
     void Start()
     {
-        _errorEvent.AddListener(LogError);
+        _errorEvent.AddListener(OnError);
         MenuEventSystem.current.SignedIn.AddListener(_ => LoggedIn());
         MenuEventSystem.current.RoomFound.AddListener(RoomFound);
         _usernameField = GameObject.Find("LoginGroup/Username")?.GetComponent<InputField>();
@@ -50,6 +51,7 @@ public class Login : MonoBehaviour
     private void LoggedIn()
     {
         Debug.Log("Succesfuly logged in.");
+        UILogger.current.Info("Succesfuly logged in.");
         VrLifeCore.API.Room.QuickJoin().SetSucc(MenuEventSystem.current.RoomFound)
             .SetErr(_errorEvent).Exec();
     }
@@ -62,8 +64,16 @@ public class Login : MonoBehaviour
         MenuEventSystem.current.AddMainThreadCallback(SceneController.current.ToRoom);
     }
 
-    private void LogError(Exception e)
+    private void OnError(Exception ex)
     {
-        Debug.Log(e);
+        Debug.Log(ex);
+        if(ex.GetType() == typeof(SocketException))
+        {
+            UILogger.current?.Error("Server is not available.");
+        }
+        else
+        {
+            UILogger.current?.Error(ex);
+        }
     }
 }

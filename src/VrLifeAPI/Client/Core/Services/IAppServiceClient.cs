@@ -7,7 +7,7 @@ using VrLifeAPI.Client.Applications.MenuApp;
 using VrLifeAPI.Client.Applications.ObjectApp;
 using VrLifeAPI.Common.Core.Services.AppService;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public enum AppMsgRecipient
     {

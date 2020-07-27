@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.UI;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient;
 
 public class Register : MonoBehaviour
@@ -19,6 +21,7 @@ public class Register : MonoBehaviour
         _usernameField = GameObject.Find("RegisterGroup/Username")?.GetComponent<InputField>();
         _passwordField = GameObject.Find("RegisterGroup/Password")?.GetComponent<InputField>();
         _serverAddress = GameObject.Find("MainServer")?.GetComponent<InputField>();
+        ErrorEvent.AddListener(OnError);
         if(_usernameField != null && _passwordField != null && _serverAddress != null)
         {
             MenuEventSystem.current.Register.AddListener(SignUp);
@@ -33,6 +36,7 @@ public class Register : MonoBehaviour
     public void SignedUp()
     {
         Debug.Log("Signed Up");
+        UILogger.current.Info("Signed Up.");
     }
 
     private void SignUp()
@@ -45,5 +49,18 @@ public class Register : MonoBehaviour
             .SetSucc(MenuEventSystem.current.SignedUp)
             .SetErr(_errorEvent)
             .Exec();
+    }
+
+    private void OnError(Exception ex)
+    {
+        Debug.Log(ex);
+        if (ex.GetType() == typeof(SocketException))
+        {
+            UILogger.current?.Error("Server is not available.");
+        }
+        else
+        {
+            UILogger.current?.Error(ex);
+        }
     }
 }

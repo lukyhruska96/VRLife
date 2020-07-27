@@ -19,7 +19,7 @@ using VrLifeShared.Networking;
 using VrLifeShared.Networking.Middlewares;
 using VrLifeAPI.Provider.API;
 using VrLifeAPI.Common.Logging.Logging;
-using VrLifeAPI.Common.Database;
+using VrLifeAPI.Provider.Database;
 using VrLifeAPI.Networking.Middlewares;
 
 namespace VrLifeServer

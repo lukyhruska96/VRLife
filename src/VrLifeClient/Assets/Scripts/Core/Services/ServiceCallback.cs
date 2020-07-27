@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Events;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 
 namespace Assets.Scripts.Core.Services
 {

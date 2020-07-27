@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using VrLifeAPI.Client.Core.Wrappers;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public interface IRoomServiceClient : IServiceClient
     {

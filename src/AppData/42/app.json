@@ -1,13 +1,12 @@
 {
-    "id": 20,
+    "id": 42,
     "name": "TestApp",
-    "desc": "Super secret app.",
-    "version": "1.0.3",
+    "desc": "Super useful app.",
+    "version": "1.0.0",
     "type": "menu",
     "dependencies": [],
     "provider" : {
-        "dllPath": "TestApp.dll",
-        "zipPath": "app.zip"
+        "dllPath": "TestApp.dll"
     },
     "client": {
         "dllPath": "TestAppClient.dll",

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using VrLifeAPI.Networking.NetworkingModels;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public interface ITickRateServiceClient : IServiceClient
     {

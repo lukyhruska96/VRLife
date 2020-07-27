@@ -6,7 +6,7 @@ using VrLifeAPI;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.Applications.BackgroundApp;
 using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Applications.DefaultApps.FriendsApp.NetworkingModels;
 using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
 using VrLifeAPI.Networking.NetworkingModels;

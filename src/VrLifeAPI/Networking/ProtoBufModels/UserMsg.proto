@@ -1,12 +1,10 @@
 ﻿syntax = "proto3";
 package VrLifeAPI.Networking.NetworkingModels;
 
-message UserMngMsg	{ // user, lobby and group management message
+message UserMngMsg	{
 	oneof UserMngMsgType {
 		AuthMsg authMsg = 1;
 		UserMsg userMsg = 2;
-		//GroupMsg groupMsg = 3;
-		//LobbyMsg lobbyMsg = 4;
 	}
 }
 

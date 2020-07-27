@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using VrLifeAPI.Client.Applications.BackgroundApp;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Core.Applications.DefaultApps.FriendsApp;
 
 namespace VrLifeAPI.Client.Applications.DefaultApps.FriendsApp

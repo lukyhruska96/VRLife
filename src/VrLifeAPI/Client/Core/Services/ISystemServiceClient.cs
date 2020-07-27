@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public interface ISystemServiceClient : IServiceClient
     {

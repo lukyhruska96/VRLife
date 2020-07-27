@@ -1,6 +1,6 @@
 ﻿using System;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Client.Core.Wrappers;
-using VrLifeAPI.Client.Services;
 
 namespace VrLifeAPI.Client.API.OpenAPI
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VrLifeAPI.Client.API.OpenAPI;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.Core.Services.TickRateService;
 

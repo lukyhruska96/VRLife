@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 
 namespace VrLifeAPI.Client.API
 {

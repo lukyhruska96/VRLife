@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using VrLifeAPI.Common.Database;
+using VrLifeAPI.Provider.Database;
 using VrLifeServer.Database.DbModels;
 
 namespace VrLifeServer.Database

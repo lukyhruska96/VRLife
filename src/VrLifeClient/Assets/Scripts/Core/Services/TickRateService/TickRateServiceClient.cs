@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VrLifeAPI.Client.API;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Core.Utils;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;

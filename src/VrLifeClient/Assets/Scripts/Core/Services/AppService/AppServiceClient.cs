@@ -16,7 +16,7 @@ using VrLifeAPI.Client.Applications.BackgroundApp;
 using VrLifeAPI.Client.Applications.GlobalApp;
 using VrLifeAPI.Client.Applications.MenuApp;
 using VrLifeAPI.Client.Applications.ObjectApp;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Core.Services.AppService;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;

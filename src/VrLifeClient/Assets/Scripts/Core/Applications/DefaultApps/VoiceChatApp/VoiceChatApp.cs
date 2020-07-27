@@ -7,7 +7,7 @@ using VrLifeAPI;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.API.GlobalAPI;
 using VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient;
 using VrLifeClient.API;
 using VrLifeClient.API.GlobalAPI;

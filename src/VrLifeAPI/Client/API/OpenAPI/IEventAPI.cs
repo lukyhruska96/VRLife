@@ -1,5 +1,5 @@
 ﻿using VrLifeAPI.Client.Core.Character;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeAPI.Client.API.OpenAPI

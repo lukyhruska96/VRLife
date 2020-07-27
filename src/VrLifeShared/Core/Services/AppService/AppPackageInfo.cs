@@ -185,7 +185,10 @@ namespace VrLifeShared.Core.Services.AppService
         public AppPackageItemInfo(JObject obj)
         {
             DLLPath = AppPackageInfo.LoadJsonValue<string>(obj, "dllPath");
-            ZipPath = AppPackageInfo.LoadJsonValue<string>(obj, "zipPath");
+            if (obj.ContainsKey("zipPath"))
+            {
+                ZipPath = AppPackageInfo.LoadJsonValue<string>(obj, "zipPath");
+            }
         }
 
         public AppPackageItemInfo(bool dll, bool zip)

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace VrLifeAPI.Common.Database
+namespace VrLifeAPI.Provider.Database
 {
     public struct DatabaseConnectionStruct
     {

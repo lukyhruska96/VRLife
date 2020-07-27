@@ -17,7 +17,7 @@ using VrLifeAPI.Client.API.MenuAPI;
 using VrLifeAPI.Client.API.OpenAPI;
 using VrLifeAPI.Client.Applications.DefaultApps.ChatApp;
 using VrLifeAPI.Client.Applications.MenuApp.MenuItems;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API.HUDAPI;
 using VrLifeClient.API.MenuAPI;
@@ -189,7 +189,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.ChatApp
         private void OnEnabled()
         {
             enabled = true;
-            if(_chatCoroutine == null)
+            if(_chatCoroutine == ulong.MaxValue)
             {
                 InitChats();
             }

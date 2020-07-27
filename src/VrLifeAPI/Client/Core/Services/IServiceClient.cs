@@ -4,7 +4,7 @@ using System.Text;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Networking.NetworkingModels;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public interface IServiceClient
     {

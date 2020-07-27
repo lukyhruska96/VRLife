@@ -1,7 +1,7 @@
 ﻿using System;
 using VrLifeAPI.Networking.NetworkingModels;
 
-namespace VrLifeAPI.Client.Services
+namespace VrLifeAPI.Client.Core.Services
 {
     public interface IUserServiceClient : IServiceClient
     {

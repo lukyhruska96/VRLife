@@ -6,7 +6,7 @@ namespace VrLifeClient
 {
     class Config : IConfig
     {
-        public ILogger Loggers { get; set; }
+        public ILogger Loggers { get => UILogger.current; }
         public IPEndPoint MainServer { get; set; }
         
     }

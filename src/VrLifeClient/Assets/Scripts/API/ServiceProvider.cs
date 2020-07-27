@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VrLifeAPI.Client.API;
-using VrLifeAPI.Client.Services;
+using VrLifeAPI.Client.Core.Services;
 using VrLifeClient.Core.Services.AppService;
 using VrLifeClient.Core.Services.EventService;
 using VrLifeClient.Core.Services.RoomService;

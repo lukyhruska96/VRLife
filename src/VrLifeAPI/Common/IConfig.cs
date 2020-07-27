@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using VrLifeAPI.Common.Database;
+using VrLifeAPI.Provider.Database;
 using VrLifeAPI.Common.Logging.Logging;
 
 namespace VrLifeAPI.Common
