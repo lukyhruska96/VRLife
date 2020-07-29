@@ -67,12 +67,11 @@ namespace VrLifeServer.Core.Services.TickRateService
             return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - value < MAX_ACTIVITY_DELTA;
         }
 
-        public void SetObjectState(uint roomId, ulong objectInstanceId, ObjectState obj)
+        public void SetObjectState(uint roomId, ulong appId, ulong appInstanceId, ObjectState obj)
         {
-            // TODO Add ObjectService App
             if(_tickRoom.TryGetValue(roomId, out TickRoom tickRoom))
             {
-                tickRoom.CurrentTick.ObjectStates[objectInstanceId] = obj;
+                tickRoom.CurrentTick.ObjectStates.AddOrUpdate((appId, appInstanceId), _ => obj, (_, __) => obj);
             }
         }
 

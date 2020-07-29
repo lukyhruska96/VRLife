@@ -28,10 +28,6 @@ namespace VrLifeClient.Core.Services.TickRateService
 
         private object _tickLock = new object();
 
-        public void HandleMessage(MainMessage msg)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Init(IClosedAPI api)
         {

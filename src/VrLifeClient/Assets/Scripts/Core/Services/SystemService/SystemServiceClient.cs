@@ -16,10 +16,6 @@ namespace VrLifeClient.Core.Services.SystemService
 
         public event Action ProviderLost;
 
-        public void HandleMessage(MainMessage msg)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Init(IClosedAPI api)
         {

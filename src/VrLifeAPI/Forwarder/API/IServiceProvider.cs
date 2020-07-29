@@ -10,13 +10,39 @@ using VrLifeAPI.Forwarder.Core.Services.UserService;
 
 namespace VrLifeAPI.Forwarder.API
 {
+    /// <summary>
+    /// Interface poskytovatele služeb na straně Forwardera
+    /// </summary>
     public interface IServiceProvider
     {
+        /// <summary>
+        /// Instance systémové služby
+        /// </summary>
         ISystemServiceForwarder System { get; }
+
+        /// <summary>
+        /// Instance služby událostí
+        /// </summary>
         IEventServiceForwarder Event { get; }
+
+        /// <summary>
+        /// Instance TickRate služby
+        /// </summary>
         ITickRateServiceForwarder TickRate { get; }
+
+        /// <summary>
+        /// Instance služby místností
+        /// </summary>
         IRoomServiceForwarder Room { get; }
+
+        /// <summary>
+        /// Instance uživatelské služby
+        /// </summary>
         IUserServiceForwarder User { get; }
+
+        /// <summary>
+        /// Instance aplikační služby.
+        /// </summary>
         IAppServiceForwarder App { get; }
     }
 }

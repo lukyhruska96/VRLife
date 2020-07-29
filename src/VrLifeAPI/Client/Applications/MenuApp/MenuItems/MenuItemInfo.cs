@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace VrLifeAPI.Client.Applications.MenuApp.MenuItems
 {
+    /// <summary>
+    /// Enum typu menu objektu
+    /// </summary>
     public enum MenuItemType
     {
         MI_MAINFRAME,
@@ -20,10 +23,25 @@ namespace VrLifeAPI.Client.Applications.MenuApp.MenuItems
         MI_CHECKBOX,
         MI_SCROLLABLE
     }
+    
+    /// <summary>
+    /// Informační objekt pro daný menu objekt
+    /// </summary>
     public class MenuItemInfo
     {
+        /// <summary>
+        /// Typ objektu.
+        /// </summary>
         public MenuItemType Type { get; set; }
+
+        /// <summary>
+        /// Název objektu v hierarchii GameObjectů
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Rodič daného objektu.
+        /// </summary>
         public IMenuItem Parent { get; set; }
     }
 }

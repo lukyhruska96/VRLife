@@ -49,6 +49,14 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""de4552f6-b022-4868-a61c-87ee1441f0c0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -436,6 +444,28 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""150fb6f1-dbd2-492a-abff-0cd0e6f9dd96"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d6f4be7-dc25-497f-a26e-809fee7734ff"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -453,17 +483,6 @@ public class @InputController : IInputActionCollection, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""656a69d7-7ab5-4fd9-988d-6d8dddda7bc6"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""OpenMenu"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""b8591383-0cd8-4adc-b737-5e59c7ae1431"",
@@ -494,6 +513,33 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Oculus VR"",
                     ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ObjectAPI"",
+            ""id"": ""0f9fd7b2-1fe4-40a0-9ff8-585f8211d2b2"",
+            ""actions"": [
+                {
+                    ""name"": ""ExitPlacing"",
+                    ""type"": ""Button"",
+                    ""id"": ""cdcf6204-97aa-4f3d-95ca-ac019ad483dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f7162474-9541-4e83-8090-5ab758f9746a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitPlacing"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -541,9 +587,13 @@ public class @InputController : IInputActionCollection, IDisposable
         m_BasicMovements_Look = m_BasicMovements.FindAction("Look", throwIfNotFound: true);
         m_BasicMovements_Freelook = m_BasicMovements.FindAction("Free look", throwIfNotFound: true);
         m_BasicMovements_Sprint = m_BasicMovements.FindAction("Sprint", throwIfNotFound: true);
+        m_BasicMovements_Select = m_BasicMovements.FindAction("Select", throwIfNotFound: true);
         // HUD
         m_HUD = asset.FindActionMap("HUD", throwIfNotFound: true);
         m_HUD_OpenMenu = m_HUD.FindAction("OpenMenu", throwIfNotFound: true);
+        // ObjectAPI
+        m_ObjectAPI = asset.FindActionMap("ObjectAPI", throwIfNotFound: true);
+        m_ObjectAPI_ExitPlacing = m_ObjectAPI.FindAction("ExitPlacing", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -597,6 +647,7 @@ public class @InputController : IInputActionCollection, IDisposable
     private readonly InputAction m_BasicMovements_Look;
     private readonly InputAction m_BasicMovements_Freelook;
     private readonly InputAction m_BasicMovements_Sprint;
+    private readonly InputAction m_BasicMovements_Select;
     public struct BasicMovementsActions
     {
         private @InputController m_Wrapper;
@@ -605,6 +656,7 @@ public class @InputController : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_BasicMovements_Look;
         public InputAction @Freelook => m_Wrapper.m_BasicMovements_Freelook;
         public InputAction @Sprint => m_Wrapper.m_BasicMovements_Sprint;
+        public InputAction @Select => m_Wrapper.m_BasicMovements_Select;
         public InputActionMap Get() { return m_Wrapper.m_BasicMovements; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -626,6 +678,9 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Sprint.started -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSprint;
+                @Select.started -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSelect;
+                @Select.performed -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSelect;
+                @Select.canceled -= m_Wrapper.m_BasicMovementsActionsCallbackInterface.OnSelect;
             }
             m_Wrapper.m_BasicMovementsActionsCallbackInterface = instance;
             if (instance != null)
@@ -642,6 +697,9 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
             }
         }
     }
@@ -679,6 +737,39 @@ public class @InputController : IInputActionCollection, IDisposable
         }
     }
     public HUDActions @HUD => new HUDActions(this);
+
+    // ObjectAPI
+    private readonly InputActionMap m_ObjectAPI;
+    private IObjectAPIActions m_ObjectAPIActionsCallbackInterface;
+    private readonly InputAction m_ObjectAPI_ExitPlacing;
+    public struct ObjectAPIActions
+    {
+        private @InputController m_Wrapper;
+        public ObjectAPIActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ExitPlacing => m_Wrapper.m_ObjectAPI_ExitPlacing;
+        public InputActionMap Get() { return m_Wrapper.m_ObjectAPI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ObjectAPIActions set) { return set.Get(); }
+        public void SetCallbacks(IObjectAPIActions instance)
+        {
+            if (m_Wrapper.m_ObjectAPIActionsCallbackInterface != null)
+            {
+                @ExitPlacing.started -= m_Wrapper.m_ObjectAPIActionsCallbackInterface.OnExitPlacing;
+                @ExitPlacing.performed -= m_Wrapper.m_ObjectAPIActionsCallbackInterface.OnExitPlacing;
+                @ExitPlacing.canceled -= m_Wrapper.m_ObjectAPIActionsCallbackInterface.OnExitPlacing;
+            }
+            m_Wrapper.m_ObjectAPIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ExitPlacing.started += instance.OnExitPlacing;
+                @ExitPlacing.performed += instance.OnExitPlacing;
+                @ExitPlacing.canceled += instance.OnExitPlacing;
+            }
+        }
+    }
+    public ObjectAPIActions @ObjectAPI => new ObjectAPIActions(this);
     private int m_KeyboardandmouseSchemeIndex = -1;
     public InputControlScheme KeyboardandmouseScheme
     {
@@ -712,9 +803,14 @@ public class @InputController : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFreelook(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
     public interface IHUDActions
     {
         void OnOpenMenu(InputAction.CallbackContext context);
+    }
+    public interface IObjectAPIActions
+    {
+        void OnExitPlacing(InputAction.CallbackContext context);
     }
 }

@@ -14,13 +14,12 @@ public class PlayerState : MonoBehaviour
 {
     public IAvatar Avatar { get; set; }
     private Coroutine _skeletonStateEvent = null;
-    // Start is called before the first frame update
+
     void Start()
     {
         _skeletonStateEvent = StartCoroutine(SkeletonStateEvent());
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -47,14 +46,28 @@ public class PlayerState : MonoBehaviour
     {
         if (Avatar != null)
         {
+            while (VrLifeCore.API == null)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
             while (true)
             {
-                SkeletonState state = Avatar.GetCurrentSkeleton();
-                IServiceCallback<byte[]> callback = VrLifeCore.API.Event.SendSkeleton(state);
+                SkeletonState state;
+                IServiceCallback<byte[]> callback = null;
+                try
+                {
+                    state = Avatar.GetCurrentSkeleton();
+                    callback = VrLifeCore.API.Event.SendSkeleton(state);
+                }
+                catch(Exception e)
+                {
+                    UILogger.current?.Error(e);
+                }
                 yield return callback.WaitCoroutine();
                 if(callback.HasException)
                 {
-                    yield break;
+                    UILogger.current?.Error(callback.Exception);
+                    yield return null;
                 }
                 yield return null;
             }

@@ -4,26 +4,102 @@ using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeAPI.Common.Core.Services.TickRateService
 {
+    /// <summary>
+    /// Struktura popisující lokální rotace individuálních kloubů
+    /// kostry postavy.
+    /// </summary>
     public struct SkeletonState
     {
+
+        /// <summary>
+        /// ID uživatele používajícího danou postavu.
+        /// </summary>
         public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Globální pozice postavy.
+        /// </summary>
         public Vector3 BodyLocation { get; set; }
+
+        /// <summary>
+        /// Globální rotace celé postavy.
+        /// </summary>
         public Vector3 BodyRotation { get; set; }
+
+        /// <summary>
+        /// Lokální rotace hlavy.
+        /// </summary>
         public Vector3 Head { get; set; }
+
+        /// <summary>
+        /// Lokální rotace krku.
+        /// </summary>
         public Vector3 Neck { get; set; }
+
+        /// <summary>
+        /// Lokální rotace středu páteře.
+        /// </summary>
         public Vector3 Spine { get; set; }
+
+        /// <summary>
+        /// Lokální rotace středu pánve.
+        /// </summary>
         public Vector3 Hips { get; set; }
+
+        /// <summary>
+        /// Lokální rotace levého ramene.
+        /// </summary>
         public Vector3 LeftShoulder { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém loktu.
+        /// </summary>
         public Vector3 LeftArm { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém zápěstí.
+        /// </summary>
         public Vector3 LeftHand { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém rameni.
+        /// </summary>
         public Vector3 RightShoulder { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém loktu.
+        /// </summary>
         public Vector3 RightArm { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém zápěstí.
+        /// </summary>
         public Vector3 RightHand { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém koleni.
+        /// </summary>
         public Vector3 LeftKnee { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém kotníku.
+        /// </summary>
         public Vector3 LeftFoot { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém koleni.
+        /// </summary>
         public Vector3 RightKnee { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém kotníku.
+        /// </summary>
         public Vector3 RightFoot { get; set; }
 
+        /// <summary>
+        /// Konstruktor pomocí síťového objektu.
+        /// </summary>
+        /// <param name="skeleton">Síťový objekt kostry.</param>
         public SkeletonState(Skeleton skeleton)
         {
             UserId = skeleton.UserId;
@@ -45,6 +121,10 @@ namespace VrLifeAPI.Common.Core.Services.TickRateService
             RightFoot = skeleton.RightFoot.ToVector();
         }
 
+        /// <summary>
+        /// Převod na síťový objekt.
+        /// </summary>
+        /// <returns>Instance síťového objektu kostry k odeslání.</returns>
         public Skeleton ToNetworkModel()
         {
             Skeleton s = new Skeleton();
@@ -68,6 +148,12 @@ namespace VrLifeAPI.Common.Core.Services.TickRateService
             return s;
         }
 
+        /// <summary>
+        /// Operace odčítání úhlů mezi danými klouby dvou koster k výpočtu delta kostry.
+        /// </summary>
+        /// <param name="a">Původní kostra.</param>
+        /// <param name="b">Nová kostra.</param>
+        /// <returns>Delta dvou koster.</returns>
         public static SkeletonState operator-(SkeletonState a, SkeletonState b)
         {
             SkeletonState val = new SkeletonState();

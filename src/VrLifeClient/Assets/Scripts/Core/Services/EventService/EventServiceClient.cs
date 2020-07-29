@@ -30,10 +30,6 @@ namespace VrLifeClient.Core.Services.EventService
         public uint LastRTT { get => _lastRTT; }
         
 
-        public void HandleMessage(MainMessage msg)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Init(IClosedAPI api)
         {
@@ -96,7 +92,7 @@ namespace VrLifeClient.Core.Services.EventService
             });
         }
 
-        public EventResponse SendEventData(EventDataMsg eventData, EventRecipient recipient)
+        private EventResponse SendEventData(EventDataMsg eventData, EventRecipient recipient)
         {
             IPEndPoint address = recipient == EventRecipient.FORWARDER ? 
                 _api.Services.Room.ForwarderAddress : _api.OpenAPI.Config.MainServer;

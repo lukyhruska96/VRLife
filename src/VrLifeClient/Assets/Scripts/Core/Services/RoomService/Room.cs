@@ -56,7 +56,7 @@ namespace VrLifeClient.Core.Services.RoomService
             roomDetail.Name = this.Name;
             roomDetail.Capacity = this.Capacity;
             roomDetail.Players.AddRange(this.Players);
-            roomDetail.ServerAddress = Address.Address.ToInt();
+            roomDetail.ServerAddress = (uint)Address.Address.ToInt();
             roomDetail.Port = Address.Port;
             return roomDetail;
         }

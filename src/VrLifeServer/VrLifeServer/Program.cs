@@ -80,17 +80,18 @@ namespace VrLifeServer
 
         private static void OnDebug()
         {
+            Console.WriteLine("Starting in Debug mode...");
+            Console.WriteLine("Ignoring conf.json file.");
+            string appDir = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\..\AppData"));
+            Console.WriteLine($"AppStorage dir: {appDir}");
             JObject consoleLog = new JObject();
             consoleLog["type"] = "console";
-
-
             JObject mainConf = new JObject();
-            mainConf["debug"] = true;
+            mainConf["debug"] = false;
             mainConf["listen"] = "0.0.0.0";
-            mainConf["serverAddress"] = "127.0.0.1";
-            mainConf["tcp-port"] = 8765;
+            mainConf["serverAddress"] = "192.168.50.101";
             mainConf["udp-port"] = 8766;
-            mainConf["appStoragePath"] = @"C:\Users\lukyh\Documents\VRLife\src\AppData";
+            mainConf["appStoragePath"] = appDir;
             mainConf["main"] = true;
             JObject database = new JObject();
             database["type"] = "mysql";
@@ -110,13 +111,12 @@ namespace VrLifeServer
 
 
             JObject compConf = new JObject();
-            compConf["debug"] = true;
+            compConf["debug"] = false;
             compConf["listen"] = "0.0.0.0";
-            compConf["serverAddress"] = "127.0.0.1";
-            compConf["tcp-port"] = 8865;
+            compConf["serverAddress"] = "192.168.50.101";
             compConf["udp-port"] = 8866;
             compConf["main"] = false;
-            compConf["mainServer"] = "127.0.0.1:8766";
+            compConf["mainServer"] = "192.168.50.101:8766";
             JArray compLogs = new JArray();
             JObject compLog = new JObject();
             compLog["type"] = "file";

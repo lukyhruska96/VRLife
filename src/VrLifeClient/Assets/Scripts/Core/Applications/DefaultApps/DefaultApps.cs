@@ -10,6 +10,7 @@ using VrLifeAPI.Client.Applications.DefaultApps.AppManager;
 using VrLifeAPI.Client.Applications.DefaultApps.ChatApp;
 using VrLifeAPI.Client.Applications.DefaultApps.FriendsApp;
 using VrLifeAPI.Client.Applications.DefaultApps.FriendsManagementApp;
+using VrLifeAPI.Client.Applications.DefaultApps.PlaceObjectApp;
 using VrLifeAPI.Client.Applications.DefaultApps.RoomListApp;
 using VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp;
 using VrLifeClient.API;
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps
         public IFriendsManagementApp FriendsManagement { get; private set; } = 
             new FriendsManagementApp.FriendsManagementApp();
         public IChatApp Chat { get; private set; } = new ChatApp.ChatApp();
+        public IPlaceObjectApp PlaceObject { get; private set; } = new PlaceObjectApp.PlaceObjectApp();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -34,6 +36,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps
             yield return FriendsManagement;
             yield return VoiceChat;
             yield return Chat;
+            yield return PlaceObject;
         }
     }
 }

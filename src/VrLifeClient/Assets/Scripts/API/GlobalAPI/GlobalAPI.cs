@@ -14,7 +14,6 @@ namespace VrLifeClient.API.GlobalAPI
 
         public IPlayersAPI Players { get; private set; }
 
-
         public GlobalAPI(ClosedAPI api)
         {
             this._api = api;

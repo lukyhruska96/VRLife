@@ -60,9 +60,6 @@ namespace VrLifeAPI.Networking.NetworkingModels {
 
   }
   #region Messages
-  /// <summary>
-  ///  user, lobby and group management message
-  /// </summary>
   public sealed partial class UserMngMsg : pb::IMessage<UserMngMsg> {
     private static readonly pb::MessageParser<UserMngMsg> _parser = new pb::MessageParser<UserMngMsg>(() => new UserMngMsg());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -116,10 +113,6 @@ namespace VrLifeAPI.Networking.NetworkingModels {
 
     /// <summary>Field number for the "userMsg" field.</summary>
     public const int UserMsgFieldNumber = 2;
-    /// <summary>
-    /// GroupMsg groupMsg = 3;
-    /// LobbyMsg lobbyMsg = 4;
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeAPI.Networking.NetworkingModels.UserMsg UserMsg {
       get { return userMngMsgTypeCase_ == UserMngMsgTypeOneofCase.UserMsg ? (global::VrLifeAPI.Networking.NetworkingModels.UserMsg) userMngMsgType_ : null; }

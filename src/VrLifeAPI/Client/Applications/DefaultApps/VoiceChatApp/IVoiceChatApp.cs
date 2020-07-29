@@ -2,7 +2,10 @@
 
 namespace VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp
 {
-    public interface IVoiceChatApp : IGlobalApp
+    /// <summary>
+    /// Interface pro výchozí aplikaci VoiceChatApp
+    /// </summary>
+    public interface IVoiceChatApp : IGlobalAPp
     {
 
     }

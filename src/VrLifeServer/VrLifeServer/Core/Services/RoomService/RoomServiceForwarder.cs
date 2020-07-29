@@ -65,10 +65,7 @@ namespace VrLifeServer.Core.Services.RoomService
             this._api = api;
             this._log = api.OpenAPI.CreateLogger(this.GetType().Name);
             InitRoomListInfo();
-            if(!_api.OpenAPI.Config.Debug)
-            {
-                InitActivityWatch();
-            }
+            InitActivityWatch();
             InitRoomGC();
         }
 

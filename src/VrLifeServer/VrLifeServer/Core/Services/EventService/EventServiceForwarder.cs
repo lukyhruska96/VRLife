@@ -14,6 +14,7 @@ using VrLifeAPI.Forwarder.Core.Services.EventService;
 using VrLifeAPI.Common.Logging.Logging;
 using VrLifeAPI.Common.Core.Services.TickRateService;
 using VrLifeAPI.Forwarder.API;
+using VrLifeAPI.Common.Core.Utils;
 
 namespace VrLifeServer.Core.Services.EventService
 {
@@ -117,6 +118,18 @@ namespace VrLifeServer.Core.Services.EventService
             {
                 return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "GameObject value cannot be null.");
             }
+            ulong? userId = _api.Services.User.GetUserIdByClientId(clientId);
+            if (!userId.HasValue)
+            {
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "Authentication error.");
+            }
+            uint? roomId = _api.Services.Room.RoomByUserId(userId.Value);
+            if (!roomId.HasValue)
+            {
+                return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateErrorResponse(msgId, 0, 0, "User is not connected to any room.");
+            }
+            ObjectState state = new ObjectState { AppId = gameObject.AppId, AppInstanceId = gameObject.AppInstanceId, Center = gameObject.Center.ToVector() };
+            _api.Services.TickRate.SetObjectState(roomId.Value, gameObject.AppId, gameObject.AppInstanceId, state);
             return null;
         }
     }

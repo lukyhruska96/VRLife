@@ -6,6 +6,9 @@ using VrLifeClient.API.HUDAPI;
 
 namespace VrLifeAPI.Client.Applications.MenuApp
 {
+    /// <summary>
+    /// Interface menu aplikace
+    /// </summary>
     public interface IMenuApp : IApplication
     {
         IMenuItem GetRootItem();

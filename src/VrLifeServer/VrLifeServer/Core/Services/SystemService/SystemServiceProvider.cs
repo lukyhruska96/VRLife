@@ -86,7 +86,7 @@ namespace VrLifeServer.Core.Services.SystemService
             computingServers[(int)serverId].cpuUsage = statMsg.CpuUsage;
             computingServers[(int)serverId].ramUsage = statMsg.MemoryUsed;
             computingServers[(int)serverId].lastResponse = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            _log.Debug($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
+            _log.Info($"server {serverId} status: CPU: {statMsg.CpuUsage}%, RAM: {statMsg.MemoryUsed} MB");
             return VrLifeAPI.Common.Core.Services.ServiceUtils.CreateOkMessage((uint)msg.MsgId);
         }
 

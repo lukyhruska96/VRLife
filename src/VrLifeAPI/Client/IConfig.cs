@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace VrLifeAPI.Client
 {
+    /// <summary>
+    /// Interface konfigurace na straně klienta
+    /// </summary>
     public interface IConfig
     {
+        /// <summary>
+        /// Adresa hlavního serveru.
+        /// </summary>
         IPEndPoint MainServer { get; set; }
         
     }

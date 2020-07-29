@@ -5,6 +5,10 @@ using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeAPI.Client.Core.Character
 {
+    /// <summary>
+    /// Enum k získání určité části kostry
+    /// postavy ve formě GameObjectu z IAvatar interface
+    /// </summary>
     public enum SkeletonEnum
     {
         BODY_LOCATION,
@@ -13,9 +17,11 @@ namespace VrLifeAPI.Client.Core.Character
         SPINE,
         HIPS,
         L_SHOULDER,
+        L_UPPER_ARM,
         L_ARM,
         L_HAND,
         R_SHOULDER,
+        R_UPPER_ARM,
         R_ARM,
         R_HAND,
         L_KNEE,
@@ -24,28 +30,107 @@ namespace VrLifeAPI.Client.Core.Character
         R_FOOT
     }
 
+    /// <summary>
+    /// Struktura popisující lokální rotace individuálních kloubů
+    /// kostry postavy.
+    /// </summary>
     public struct SkeletonState
     {
+        /// <summary>
+        /// ID uživatele používajícího danou postavu.
+        /// </summary>
         public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Globální pozice postavy.
+        /// </summary>
         public Vector3 BodyLocation { get; set; }
+
+        /// <summary>
+        /// Globální rotace celé postavy.
+        /// </summary>
         public Vector3 BodyRotation { get; set; }
+
+        /// <summary>
+        /// Lokální rotace hlavy.
+        /// </summary>
         public Vector3 Head { get; set; }
+
+        /// <summary>
+        /// Lokální rotace krku.
+        /// </summary>
         public Vector3 Neck { get; set; }
+
+        /// <summary>
+        /// Lokální rotace středu páteře.
+        /// </summary>
         public Vector3 Spine { get; set; }
+
+        /// <summary>
+        /// Lokální rotace středu pánve.
+        /// </summary>
         public Vector3 Hips { get; set; }
+
+        /// <summary>
+        /// Lokální rotace levého ramene.
+        /// </summary>
         public Vector3 LeftShoulder { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém loktu.
+        /// </summary>
         public Vector3 LeftArm { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém zápěstí.
+        /// </summary>
         public Vector3 LeftHand { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém rameni.
+        /// </summary>
         public Vector3 RightShoulder { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém loktu.
+        /// </summary>
         public Vector3 RightArm { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém zápěstí.
+        /// </summary>
         public Vector3 RightHand { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém koleni.
+        /// </summary>
         public Vector3 LeftKnee { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v levém kotníku.
+        /// </summary>
         public Vector3 LeftFoot { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém koleni.
+        /// </summary>
         public Vector3 RightKnee { get; set; }
+
+        /// <summary>
+        /// Lokální rotace v pravém kotníku.
+        /// </summary>
         public Vector3 RightFoot { get; set; }
 
+        /// <summary>
+        /// Počet kostí v daném objektu.
+        /// </summary>
         public static int PartCount = Enum.GetNames(typeof(SkeletonEnum)).Length;
 
+
+        /// <summary>
+        /// Konstruktor pomocí síťového objektu.
+        /// </summary>
+        /// <param name="skeleton">Síťový objekt kostry.</param>
         public SkeletonState(Skeleton skeleton)
         {
             UserId = skeleton.UserId;
@@ -67,6 +152,10 @@ namespace VrLifeAPI.Client.Core.Character
             RightFoot = skeleton.RightFoot.ToVector();
         }
 
+        /// <summary>
+        /// Převod na síťový objekt.
+        /// </summary>
+        /// <returns>Instance síťového objektu kostry k odeslání.</returns>
         public Skeleton ToNetworkModel()
         {
             Skeleton s = new Skeleton();
@@ -90,6 +179,13 @@ namespace VrLifeAPI.Client.Core.Character
             return s;
         }
 
+        /// <summary>
+        /// Lineární interpolace ohybu mezi dvěma stavy a procentuálním posunem.
+        /// </summary>
+        /// <param name="from">Původní rotace.</param>
+        /// <param name="to">Nové rotace.</param>
+        /// <param name="percent">Procentuální posun mezi stavy.</param>
+        /// <returns></returns>
         public static SkeletonState Interpolate(SkeletonState from, SkeletonState to, float percent)
         {
             SkeletonState s = new SkeletonState();
@@ -113,6 +209,12 @@ namespace VrLifeAPI.Client.Core.Character
             return s;
         }
 
+        /// <summary>
+        /// Operace sčítání úhlů mezi danými klouby dvou koster.
+        /// </summary>
+        /// <param name="a">Původní kostra.</param>
+        /// <param name="b">Delta nových úhlů k přičtení.</param>
+        /// <returns></returns>
         public static SkeletonState operator +(SkeletonState a, SkeletonState b)
         {
             SkeletonState val = new SkeletonState();

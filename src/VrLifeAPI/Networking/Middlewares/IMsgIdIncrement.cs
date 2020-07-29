@@ -7,6 +7,9 @@ using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeShared.Networking.Middlewares
 {
+    /// <summary>
+    /// Interface MsgIdIncrement middlewaru.
+    /// </summary>
     public interface IMsgIdIncrement : IMiddleware<MainMessage>
     {
     }

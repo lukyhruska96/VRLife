@@ -46,16 +46,16 @@ namespace VrLifeAPI.Networking.NetworkingModels {
             "ZUFQSS5OZXR3b3JraW5nLk5ldHdvcmtpbmdNb2RlbHMuQ29vcmQSPwoJcmln",
             "aHRLbmVlGBAgASgLMiwuVnJMaWZlQVBJLk5ldHdvcmtpbmcuTmV0d29ya2lu",
             "Z01vZGVscy5Db29yZBI/CglyaWdodEZvb3QYESABKAsyLC5WckxpZmVBUEku",
-            "TmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkIngKCkdhbWVPYmpl",
-            "Y3QSGAoQb2JqZWN0SW5zdGFuY2VJZBgBIAEoBBI8CgZjZW50ZXIYAiABKAsy",
-            "LC5WckxpZmVBUEkuTmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3Jk",
-            "EhIKCm9iamVjdERhdGEYAyABKAwiKAoFQ29vcmQSCQoBeBgBIAEoAhIJCgF5",
-            "GAIgASgCEgkKAXoYAyABKAJiBnByb3RvMw=="));
+            "TmV0d29ya2luZy5OZXR3b3JraW5nTW9kZWxzLkNvb3JkInAKCkdhbWVPYmpl",
+            "Y3QSDQoFYXBwSWQYASABKAQSFQoNYXBwSW5zdGFuY2VJZBgCIAEoBBI8CgZj",
+            "ZW50ZXIYAyABKAsyLC5WckxpZmVBUEkuTmV0d29ya2luZy5OZXR3b3JraW5n",
+            "TW9kZWxzLkNvb3JkIigKBUNvb3JkEgkKAXgYASABKAISCQoBeRgCIAEoAhIJ",
+            "CgF6GAMgASgCYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeAPI.Networking.NetworkingModels.Skeleton), global::VrLifeAPI.Networking.NetworkingModels.Skeleton.Parser, new[]{ "UserId", "BodyLocation", "BodyRotation", "Head", "Neck", "Spine", "Hips", "LeftShoulder", "LeftArm", "LeftHand", "RightShoulder", "RightArm", "RightHand", "LeftKnee", "LeftFoot", "RightKnee", "RightFoot" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeAPI.Networking.NetworkingModels.GameObject), global::VrLifeAPI.Networking.NetworkingModels.GameObject.Parser, new[]{ "ObjectInstanceId", "Center", "ObjectData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeAPI.Networking.NetworkingModels.GameObject), global::VrLifeAPI.Networking.NetworkingModels.GameObject.Parser, new[]{ "AppId", "AppInstanceId", "Center" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::VrLifeAPI.Networking.NetworkingModels.Coord), global::VrLifeAPI.Networking.NetworkingModels.Coord.Parser, new[]{ "X", "Y", "Z" }, null, null, null)
           }));
     }
@@ -748,9 +748,9 @@ namespace VrLifeAPI.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GameObject(GameObject other) : this() {
-      objectInstanceId_ = other.objectInstanceId_;
+      appId_ = other.appId_;
+      appInstanceId_ = other.appInstanceId_;
       Center = other.center_ != null ? other.Center.Clone() : null;
-      objectData_ = other.objectData_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -758,36 +758,36 @@ namespace VrLifeAPI.Networking.NetworkingModels {
       return new GameObject(this);
     }
 
-    /// <summary>Field number for the "objectInstanceId" field.</summary>
-    public const int ObjectInstanceIdFieldNumber = 1;
-    private ulong objectInstanceId_;
+    /// <summary>Field number for the "appId" field.</summary>
+    public const int AppIdFieldNumber = 1;
+    private ulong appId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ulong ObjectInstanceId {
-      get { return objectInstanceId_; }
+    public ulong AppId {
+      get { return appId_; }
       set {
-        objectInstanceId_ = value;
+        appId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "appInstanceId" field.</summary>
+    public const int AppInstanceIdFieldNumber = 2;
+    private ulong appInstanceId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong AppInstanceId {
+      get { return appInstanceId_; }
+      set {
+        appInstanceId_ = value;
       }
     }
 
     /// <summary>Field number for the "center" field.</summary>
-    public const int CenterFieldNumber = 2;
+    public const int CenterFieldNumber = 3;
     private global::VrLifeAPI.Networking.NetworkingModels.Coord center_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::VrLifeAPI.Networking.NetworkingModels.Coord Center {
       get { return center_; }
       set {
         center_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "objectData" field.</summary>
-    public const int ObjectDataFieldNumber = 3;
-    private pb::ByteString objectData_ = pb::ByteString.Empty;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ObjectData {
-      get { return objectData_; }
-      set {
-        objectData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -804,18 +804,18 @@ namespace VrLifeAPI.Networking.NetworkingModels {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (ObjectInstanceId != other.ObjectInstanceId) return false;
+      if (AppId != other.AppId) return false;
+      if (AppInstanceId != other.AppInstanceId) return false;
       if (!object.Equals(Center, other.Center)) return false;
-      if (ObjectData != other.ObjectData) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ObjectInstanceId != 0UL) hash ^= ObjectInstanceId.GetHashCode();
+      if (AppId != 0UL) hash ^= AppId.GetHashCode();
+      if (AppInstanceId != 0UL) hash ^= AppInstanceId.GetHashCode();
       if (center_ != null) hash ^= Center.GetHashCode();
-      if (ObjectData.Length != 0) hash ^= ObjectData.GetHashCode();
       return hash;
     }
 
@@ -826,31 +826,31 @@ namespace VrLifeAPI.Networking.NetworkingModels {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ObjectInstanceId != 0UL) {
+      if (AppId != 0UL) {
         output.WriteRawTag(8);
-        output.WriteUInt64(ObjectInstanceId);
+        output.WriteUInt64(AppId);
+      }
+      if (AppInstanceId != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(AppInstanceId);
       }
       if (center_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Center);
-      }
-      if (ObjectData.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(ObjectData);
+        output.WriteMessage(Center);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ObjectInstanceId != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ObjectInstanceId);
+      if (AppId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(AppId);
+      }
+      if (AppInstanceId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(AppInstanceId);
       }
       if (center_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Center);
-      }
-      if (ObjectData.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ObjectData);
       }
       return size;
     }
@@ -860,17 +860,17 @@ namespace VrLifeAPI.Networking.NetworkingModels {
       if (other == null) {
         return;
       }
-      if (other.ObjectInstanceId != 0UL) {
-        ObjectInstanceId = other.ObjectInstanceId;
+      if (other.AppId != 0UL) {
+        AppId = other.AppId;
+      }
+      if (other.AppInstanceId != 0UL) {
+        AppInstanceId = other.AppInstanceId;
       }
       if (other.center_ != null) {
         if (center_ == null) {
           center_ = new global::VrLifeAPI.Networking.NetworkingModels.Coord();
         }
         Center.MergeFrom(other.Center);
-      }
-      if (other.ObjectData.Length != 0) {
-        ObjectData = other.ObjectData;
       }
     }
 
@@ -883,18 +883,18 @@ namespace VrLifeAPI.Networking.NetworkingModels {
             input.SkipLastField();
             break;
           case 8: {
-            ObjectInstanceId = input.ReadUInt64();
+            AppId = input.ReadUInt64();
             break;
           }
-          case 18: {
+          case 16: {
+            AppInstanceId = input.ReadUInt64();
+            break;
+          }
+          case 26: {
             if (center_ == null) {
               center_ = new global::VrLifeAPI.Networking.NetworkingModels.Coord();
             }
             input.ReadMessage(center_);
-            break;
-          }
-          case 26: {
-            ObjectData = input.ReadBytes();
             break;
           }
         }

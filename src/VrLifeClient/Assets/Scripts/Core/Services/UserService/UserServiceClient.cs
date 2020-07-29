@@ -18,10 +18,6 @@ namespace VrLifeClient.Core.Services.UserService
 
         public event Action UserLoggedOut;
 
-        public void HandleMessage(MainMessage msg)
-        {
-
-        }
 
         public void Init(IClosedAPI api)
         {

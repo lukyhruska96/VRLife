@@ -22,9 +22,9 @@ message Skeleton {
 }
 
 message GameObject {
-	uint64 objectInstanceId = 1;
-	Coord center = 2;
-	bytes objectData = 3;
+    uint64 appId = 1;
+    uint64 appInstanceId = 2;
+	Coord center = 3;
 }
 
 message Coord {

@@ -28,11 +28,13 @@ namespace Assets.Prefab.Avatar.Default
             SkeletonParts[(int)SkeletonEnum.NECK] = gameObject.GetChildGameObject("Neck");
             SkeletonParts[(int)SkeletonEnum.SPINE] = gameObject.GetChildGameObject("Ribs");
             SkeletonParts[(int)SkeletonEnum.L_SHOULDER] = gameObject.GetChildGameObject("Left_Shoulder_Joint_01");
-            SkeletonParts[(int)SkeletonEnum.L_ARM] = gameObject.GetChildGameObject("Left_Upper_Arm_Joint_01");
-            SkeletonParts[(int)SkeletonEnum.L_HAND] = gameObject.GetChildGameObject("Left_Forearm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.L_UPPER_ARM] = gameObject.GetChildGameObject("Left_Upper_Arm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.L_ARM] = gameObject.GetChildGameObject("Left_Forearm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.L_HAND] = gameObject.GetChildGameObject("Left_Wrist_Joint_01");
             SkeletonParts[(int)SkeletonEnum.R_SHOULDER] = gameObject.GetChildGameObject("Right_Shoulder_Joint_01");
-            SkeletonParts[(int)SkeletonEnum.R_ARM] = gameObject.GetChildGameObject("Right_Upper_Arm_Joint_01");
-            SkeletonParts[(int)SkeletonEnum.R_HAND] = gameObject.GetChildGameObject("Right_Forearm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.R_UPPER_ARM] = gameObject.GetChildGameObject("Right_Upper_Arm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.R_ARM] = gameObject.GetChildGameObject("Right_Forearm_Joint_01");
+            SkeletonParts[(int)SkeletonEnum.R_HAND] = gameObject.GetChildGameObject("Right_Wrist_Joint_01");
             SkeletonParts[(int)SkeletonEnum.L_KNEE] = gameObject.GetChildGameObject("Left_Thigh_Joint_01");
             SkeletonParts[(int)SkeletonEnum.L_FOOT] = gameObject.GetChildGameObject("Left_Knee_Joint_01");
             SkeletonParts[(int)SkeletonEnum.R_KNEE] = gameObject.GetChildGameObject("Right_Thigh_Joint_01");
@@ -60,6 +62,11 @@ namespace Assets.Prefab.Avatar.Default
                 RightKnee = SkeletonParts[(int)SkeletonEnum.R_KNEE].transform.localEulerAngles.ToNumeric(),
                 RightFoot = SkeletonParts[(int)SkeletonEnum.R_FOOT].transform.localEulerAngles.ToNumeric()
             };
+        }
+
+        public GameObject[] GetSkeletonParts()
+        {
+            return SkeletonParts;
         }
 
         public void SetSkeleton(SkeletonState skeleton)

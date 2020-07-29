@@ -1,11 +1,13 @@
 ﻿using Assets.Scripts.Core.Services;
 using Assets.Scripts.Core.Services.AppService;
+using Assets.Scripts.Core.Services.EventService;
 using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +20,13 @@ using VrLifeAPI.Client.Applications.MenuApp;
 using VrLifeAPI.Client.Applications.ObjectApp;
 using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Core.Services.AppService;
+using VrLifeAPI.Common.Core.Utils;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient.API;
 using VrLifeClient.Core.Services.SystemService;
 using VrLifeShared.Core.Applications;
 using VrLifeShared.Core.Services.AppService;
+using VrLifeShared.Core.Services.EventService;
 
 namespace VrLifeClient.Core.Services.AppService
 {
@@ -32,9 +36,13 @@ namespace VrLifeClient.Core.Services.AppService
         public Dictionary<ulong, IApplication> AllApps { get; set; } = new Dictionary<ulong, IApplication>();
         public List<IMenuApp> MenuApps { get; private set; } = new List<IMenuApp>();
         public List<IBackgroundApp> BackgroundApps { get; private set; } = new List<IBackgroundApp>();
-        public List<IGlobalApp> GlobalApps { get; private set; } = new List<IGlobalApp>();
+        public List<IGlobalAPp> GlobalApps { get; private set; } = new List<IGlobalAPp>();
         public List<IObjectApp> ObjectApps { get; private set; } = new List<IObjectApp>();
+        public Dictionary<ulong, List<IObjectAppInstance>> ObjectAppInstances { get; private set; } = new Dictionary<ulong, List<IObjectAppInstance>>();
+
         public event Action<AppInfo> AddedNewApp;
+
+        public event Action<IObjectAppInstance> AddedNewObjectAppInstance;
 
         private AppServiceDataStorage _dataStorage = new AppServiceDataStorage("VrLifeClient");
         private AppDataStorage _appStorage;
@@ -46,11 +54,6 @@ namespace VrLifeClient.Core.Services.AppService
         public AppServiceClient()
         {
             _appStorage = _dataStorage.AppStorage;
-        }
-
-        public void HandleMessage(MainMessage msg)
-        {
-
         }
 
         public void Init(IClosedAPI api)
@@ -83,7 +86,7 @@ namespace VrLifeClient.Core.Services.AppService
                         RegisterMenuApp((IMenuApp)app);
                         break;
                     case AppType.APP_GLOBAL:
-                        RegisterGlobalApp((IGlobalApp)app);
+                        RegisterGlobalApp((IGlobalAPp)app);
                         break;
                     case AppType.APP_OBJECT:
                         RegisterObjectApp((IObjectApp)app);
@@ -185,7 +188,7 @@ namespace VrLifeClient.Core.Services.AppService
             BackgroundApps.Add(app);
         }
 
-        private void RegisterGlobalApp(IGlobalApp app)
+        private void RegisterGlobalApp(IGlobalAPp app)
         {
             app.Init(_api.OpenAPI, _api.GlobalAPI);
             GlobalApps.Add(app);
@@ -194,6 +197,7 @@ namespace VrLifeClient.Core.Services.AppService
         private void RegisterObjectApp(IObjectApp app)
         {
             app.Init(_api.OpenAPI, _api.ObjectAPI);
+            ObjectApps.Add(app);
         }
 
         private void Reset()
@@ -213,6 +217,11 @@ namespace VrLifeClient.Core.Services.AppService
             GlobalApps.Clear();
             BackgroundApps.Clear();
             ObjectApps.Clear();
+            foreach(var appList in ObjectAppInstances.Values)
+            {
+                appList.ForEach(x => x.Dispose());
+            }
+            ObjectAppInstances.Clear();
         }
 
         private void OnRoomEnter()
@@ -302,6 +311,83 @@ namespace VrLifeClient.Core.Services.AppService
                 }
                 return appMsg.AppData.Data.ToByteArray();
             });
+        }
+
+        public void CreateObjectAppInstance(ulong appId, Vector3 center)
+        {
+            if(!AllApps.TryGetValue(appId, out IApplication app))
+            {
+                throw new AppServiceException("Could not find app with this ID.");
+            }
+            if(app.GetInfo().Type != AppType.APP_OBJECT)
+            {
+                throw new AppServiceException("Not a object app.");
+            }
+            CreateObjectAppInstance((IObjectApp)app, center);
+        }
+
+        public void CreateObjectAppInstance(IObjectApp app, Vector3 center)
+        {
+            ulong appId = app.GetInfo().ID;
+            if (!ObjectAppInstances.TryGetValue(appId, out var list))
+            {
+                list = new List<IObjectAppInstance>();
+                ObjectAppInstances.Add(appId, list);
+            }
+            CreateObjectAppInstance(app, (ulong)list.Count, center);
+        }
+
+        public void CreateObjectAppInstance(ulong appId, ulong appInstanceId, Vector3 center)
+        {
+            if (!AllApps.TryGetValue(appId, out IApplication app))
+            {
+                throw new AppServiceException("Could not find app with this ID.");
+            }
+            if (app.GetInfo().Type != AppType.APP_OBJECT)
+            {
+                throw new AppServiceException("Not a object app.");
+            }
+            CreateObjectAppInstance((IObjectApp)app, appInstanceId, center);
+        }
+
+        public void CreateObjectAppInstance(IObjectApp app, ulong appInstanceId, Vector3 center)
+        {
+            ulong appId = app.GetInfo().ID;
+            if (!ObjectAppInstances.TryGetValue(appId, out var list))
+            {
+                list = new List<IObjectAppInstance>();
+                ObjectAppInstances.Add(appId, list);
+            }
+            if (list.Count > (int)appInstanceId && list[(int)appInstanceId] != null)
+            {
+                return;
+            }
+            while(list.Count <= (int)appInstanceId)
+            {
+                list.Add(null);
+            }
+            IObjectAppInstance instance = app.CreateInstance(appInstanceId, center);
+            if (instance == null)
+            {
+                throw new AppServiceException("Could not create an instance of the app.");
+            }
+            list[(int)appInstanceId] = instance;
+            EventDataMsg eventData = new EventDataMsg();
+            eventData.ObjectValue = new GameObject();
+            eventData.EventType = (uint)EventType.OBJECT_STATE;
+            eventData.ObjectValue.AppId = appId;
+            eventData.ObjectValue.AppInstanceId = appInstanceId;
+            eventData.ObjectValue.Center = center.ToCoord();
+            try
+            {
+                _api.Services.Event.SendEvent(eventData, EventRecipient.FORWARDER).Wait();
+                AddedNewObjectAppInstance?.Invoke(instance);
+            }
+            catch (EventServiceException e)
+            {
+                instance.Dispose();
+                ObjectAppInstances[appId][(int)appInstanceId] = null;
+            }
         }
     }
 }

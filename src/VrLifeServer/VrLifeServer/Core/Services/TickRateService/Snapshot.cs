@@ -12,21 +12,21 @@ namespace VrLifeServer.Core.Services.TickRateService
     {
         public ulong Tick { get; set; }
         public ConcurrentDictionary<ulong, SkeletonState> SkeletonStates { get; set; }
-        public ConcurrentDictionary<ulong, ObjectState> ObjectStates { get; set; }
+        public ConcurrentDictionary<(ulong, ulong), ObjectState> ObjectStates { get; set; }
         public static Snapshot Empty = new Snapshot();
 
         private Snapshot()
         {
             Tick = 0;
             SkeletonStates = new ConcurrentDictionary<ulong, SkeletonState>();
-            ObjectStates = new ConcurrentDictionary<ulong, ObjectState>();
+            ObjectStates = new ConcurrentDictionary<(ulong, ulong), ObjectState>();
         }
 
         public Snapshot(Snapshot prevState)
         {
             Tick = prevState.Tick + 1;
             SkeletonStates = new ConcurrentDictionary<ulong, SkeletonState>(prevState.SkeletonStates);
-            ObjectStates = new ConcurrentDictionary<ulong, ObjectState>(prevState.ObjectStates);
+            ObjectStates = new ConcurrentDictionary<(ulong, ulong), ObjectState>(prevState.ObjectStates);
         }
 
         public SnapshotData ToNetworkModel()
@@ -51,7 +51,7 @@ namespace VrLifeServer.Core.Services.TickRateService
             }
             foreach(var keypair in to.ObjectStates)
             {
-                while (!val.ObjectStates.TryAdd(keypair.Key, keypair.Value)) ;
+                while (!val.ObjectStates.TryAdd(keypair.Key, keypair.Value));
             }
             return val;
         }

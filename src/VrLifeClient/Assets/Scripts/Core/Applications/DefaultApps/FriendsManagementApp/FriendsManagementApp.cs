@@ -22,7 +22,6 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
         private MenuItemGrid _root;
         private CurrentRoom _currentRoom;
         private FriendsList _friendsList;
-        private FriendsSearch _friendSearch;
         private FriendRequests _friendRequests;
         private MenuItemButton _currentRoomButton;
         private MenuItemButton _friendsListButton;
@@ -40,7 +39,6 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             _root.Dispose();
             _currentRoom.GetRoot().Dispose();
             _friendsList.GetRoot().Dispose();
-            _friendSearch.GetRoot().Dispose();
             _friendRequests.GetRoot().Dispose();
         }
 
@@ -65,7 +63,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
         private void InitMenuItems()
         {
             // MAIN BODY
-            _root = new MenuItemGrid("friendsManagement", 4, 7);
+            _root = new MenuItemGrid("friendsManagement", 3, 7);
             _currentRoomButton = new MenuItemButton("currentRoomButton");
             _currentRoomButton.SetText("Current Room");
             _currentRoomButton.Clicked += SetCurrentRoomActive;
@@ -75,18 +73,14 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             _friendsListButton.Clicked += SetFriendsListActive;
             _root.AddChild(1, 0, 1, 1, _friendsListButton);
             _friendSearchButton = new MenuItemButton("friendSearchButton");
-            _friendSearchButton.SetText("Find Friends");
-            _friendSearchButton.Clicked += SetFriendSearchActive;
-            _root.AddChild(2, 0, 1, 1, _friendSearchButton);
             _friendRequestsButton = new MenuItemButton("friendRequestsButton");
             _friendRequestsButton.SetText("Friend Requests");
             _friendRequestsButton.Clicked += SetFriendRequestsActive;
-            _root.AddChild(3, 0, 1, 1, _friendRequestsButton);
+            _root.AddChild(2, 0, 1, 1, _friendRequestsButton);
 
             _currentRoom = new CurrentRoom(_api);
             _friendRequests = new FriendRequests(_api);
             _friendsList = new FriendsList(_api);
-            _friendSearch = new FriendsSearch(_api);
             SetCurrentRoomActive();
         }
 
@@ -116,7 +110,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             {
                 _root.RemoveChild(_active.GetRoot());
             }
-            _root.AddChild(0, 1, 4, 6, item.GetRoot());
+            _root.AddChild(0, 1, 3, 6, item.GetRoot());
             _active = item;
         }
 
@@ -142,18 +136,6 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
             SetActive(_friendsListButton);
             SetActive(_friendsList);
             _friendsList.Refresh();
-        }
-
-        private void SetFriendSearchActive()
-        {
-            if (_active == _friendSearch)
-            {
-                return;
-            }
-            SetAllInactive();
-            SetActive(_friendSearchButton);
-            SetActive(_friendSearch);
-            _friendSearch.Refresh();
         }
 
         private void SetFriendRequestsActive()

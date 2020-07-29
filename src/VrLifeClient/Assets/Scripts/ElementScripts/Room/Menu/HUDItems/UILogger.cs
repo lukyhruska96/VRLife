@@ -27,6 +27,7 @@ public class UILogger : MonoBehaviour, VrLifeAPI.Common.Logging.Logging.ILogger
     {
         if(_debug)
         {
+            UnityEngine.Debug.LogError(msg);
             CreateLog("Debug", msg, Color.cyan);
         }
     }
@@ -35,6 +36,7 @@ public class UILogger : MonoBehaviour, VrLifeAPI.Common.Logging.Logging.ILogger
     {
         if (_debug)
         {
+            UnityEngine.Debug.LogError(ex);
             CreateLog("Debug Exception", $"{ex.GetType().FullName}: {ex.Message}\n{ex.StackTrace}", Color.cyan);
         }
     }
@@ -46,16 +48,19 @@ public class UILogger : MonoBehaviour, VrLifeAPI.Common.Logging.Logging.ILogger
 
     public void Error(string msg)
     {
+        UnityEngine.Debug.LogError(msg);
         CreateLog("Error", msg, Color.red);
     }
 
     public void Error(Exception ex)
     {
+        UnityEngine.Debug.LogError(ex);
         CreateLog("Error Exception", $"{ex.GetType().FullName}: {ex.Message}\n{ex.StackTrace}", Color.red);
     }
 
     public void Info(string msg)
     {
+        UnityEngine.Debug.Log(msg);
         CreateLog("Info", msg, Color.white);
     }
 
@@ -66,6 +71,7 @@ public class UILogger : MonoBehaviour, VrLifeAPI.Common.Logging.Logging.ILogger
 
     public void Warn(string msg)
     {
+        UnityEngine.Debug.LogWarning(msg);
         CreateLog("Warn", msg, Color.yellow);
     }
 

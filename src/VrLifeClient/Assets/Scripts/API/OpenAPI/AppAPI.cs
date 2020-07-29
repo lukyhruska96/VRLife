@@ -26,9 +26,10 @@ namespace Assets.Scripts.API.OpenAPI
         }
 
         public List<IMenuApp> MenuApps { get => _service.MenuApps; }
-        public List<IGlobalApp> GlobalApps { get => _service.GlobalApps; }
+        public List<IGlobalAPp> GlobalApps { get => _service.GlobalApps; }
         public List<IBackgroundApp> BackgroundApps { get => _service.BackgroundApps; }
         public List<IObjectApp> ObjectApps { get => _service.ObjectApps; }
         public Dictionary<ulong, IApplication> AllApps { get => _service.AllApps; }
+        public Dictionary<ulong, List<IObjectAppInstance>> ObjectAppInstances => throw new System.NotImplementedException();
     }
 }

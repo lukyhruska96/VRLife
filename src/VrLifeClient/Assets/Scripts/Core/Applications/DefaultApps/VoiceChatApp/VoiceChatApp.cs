@@ -8,10 +8,6 @@ using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.API.GlobalAPI;
 using VrLifeAPI.Client.Applications.DefaultApps.VoiceChatApp;
 using VrLifeAPI.Client.Core.Services;
-using VrLifeClient;
-using VrLifeClient.API;
-using VrLifeClient.API.GlobalAPI;
-using VrLifeClient.API.OpenAPI;
 using VrLifeShared.Core.Applications.DefaultApps.VoiceChatApp.NetworkingModels;
 
 namespace Assets.Scripts.Core.Applications.DefaultApps.VoiceChatApp
@@ -21,7 +17,7 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.VoiceChatApp
         public static readonly ulong APP_ID = 5;
         private const string NAME = "VoiceChatApp";
         private const string DESC = "Default application for room voice chat.";
-        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, 
+        private AppInfo _info = new AppInfo(APP_ID, NAME, DESC,
             new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_GLOBAL);
         private Dictionary<ulong, ulong> _lastSamples = new Dictionary<ulong, ulong>();
         private IClosedAPI _api;

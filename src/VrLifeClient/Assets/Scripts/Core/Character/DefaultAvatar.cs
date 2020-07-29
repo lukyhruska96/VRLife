@@ -77,5 +77,10 @@ namespace Assets.Scripts.Core.Character
         {
             return _defaultController.SkeletonParts[(int)SkeletonEnum.HEAD];
         }
+
+        public GameObject[] GetSkeletonParts()
+        {
+            return _defaultController.GetSkeletonParts();
+        }
     }
 }

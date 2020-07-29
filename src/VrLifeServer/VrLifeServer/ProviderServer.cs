@@ -21,6 +21,8 @@ using VrLifeAPI.Provider.API;
 using VrLifeAPI.Common.Logging.Logging;
 using VrLifeAPI.Provider.Database;
 using VrLifeAPI.Networking.Middlewares;
+using MySql.Data.MySqlClient;
+using System;
 
 namespace VrLifeServer
 {
@@ -59,8 +61,17 @@ namespace VrLifeServer
         {
             using(var db = new VrLifeDbContext())
             {
-                if(!db.Database.CanConnect())
+                try
                 {
+                    if (!db.Database.CanConnect())
+                    {
+                        _log.Error("Cannot connect to database.");
+                        throw new DatabaseException("Cannot connect to database.");
+                    }
+                }
+                catch(InvalidOperationException)
+                {
+                    _log.Error("Cannot connect to database.");
                     throw new DatabaseException("Cannot connect to database.");
                 }
                 if(!(db.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())

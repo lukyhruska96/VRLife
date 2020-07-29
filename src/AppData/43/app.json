@@ -1,0 +1,11 @@
+{
+    "id": 43,
+    "name": "TestObjectApp",
+    "desc": "Testing object app.",
+    "version": "1.0.0",
+    "type": "object",
+    "dependencies": [],
+    "client": {
+        "dllPath": "TestObjectApp.dll"
+    }
+}

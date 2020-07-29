@@ -6,6 +6,9 @@ using VrLifeAPI.Client.Applications.ObjectApp;
 
 namespace VrLifeAPI.Client.Applications.DefaultApps.AppManager
 {
+    /// <summary>
+    /// Interface pro výchozí aplikaci AppManager
+    /// </summary>
     public interface IAppManager : IMenuApp
     {
 

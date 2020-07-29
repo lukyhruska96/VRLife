@@ -101,8 +101,8 @@
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendRequests.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsList.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsManagementApp.cs" />
-    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\FriendsSearch.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\FriendsManagementApp\IFriendsManagementView.cs" />
+    <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\PlaceObjectApp\PlaceObjectApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListApp.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\RoomListApp\RoomListAppException.cs" />
     <Compile Include="Assets\Scripts\Core\Applications\DefaultApps\VoiceChatApp\VoiceChatApp.cs" />
@@ -156,6 +156,7 @@
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemImageController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemInputController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemScrollableController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\ObjectAPIController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\RoomState.cs" />
@@ -730,14 +731,26 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.InputSystem">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
@@ -747,6 +760,12 @@
     </Reference>
     <Reference Include="Unity.2D.Path.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
@@ -759,6 +778,9 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
@@ -775,8 +797,14 @@
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
@@ -789,33 +817,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ShaderGraph.Editor">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>C:/Users/lukyh/Documents/VRLife/src/VrLifeClient/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>

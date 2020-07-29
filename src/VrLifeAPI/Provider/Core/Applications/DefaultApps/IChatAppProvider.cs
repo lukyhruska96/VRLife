@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace VrLifeAPI.Provider.Core.Applications.DefaultApps.ChatApp
 {
+    /// <summary>
+    /// Interface ChatApp na straně Providera.
+    /// </summary>
     public interface IChatAppProvider : IApplicationProvider
     {
 

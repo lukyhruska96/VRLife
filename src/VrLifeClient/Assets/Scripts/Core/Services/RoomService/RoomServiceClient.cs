@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using TMPro;
-using UnityEngine;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.Core.Wrappers;
 using VrLifeAPI.Client.Core.Services;
@@ -31,10 +28,6 @@ namespace VrLifeClient.Core.Services.RoomService
 
         public event Action RoomEntered;
 
-        public void HandleMessage(MainMessage msg)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Init(IClosedAPI api)
         {

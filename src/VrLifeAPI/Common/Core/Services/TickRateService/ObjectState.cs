@@ -5,18 +5,36 @@ using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeAPI.Common.Core.Services.TickRateService
 {
+    /// <summary>
+    /// Informace o stavu objektu ve snapshotu.
+    /// </summary>
     public struct ObjectState
     {
-        public ulong ObjectInstanceId { get; set; }
-        public Vector3 Center { get; set; }
-        public byte[] ObjectData { get; set; }
+        /// <summary>
+        /// ID objektové aplikace.
+        /// </summary>
+        public ulong AppId { get; set; }
 
+        /// <summary>
+        /// ID instance objektové aplikace.
+        /// </summary>
+        public ulong AppInstanceId { get; set; }
+
+        /// <summary>
+        /// Souřadnice středu aplikace v místnosti.
+        /// </summary>
+        public Vector3 Center { get; set; }
+
+        /// <summary>
+        /// Převod na síťovací objekt k odeslání.
+        /// </summary>
+        /// <returns>Síťovací objekt.</returns>
         public GameObject ToNetworkModel()
         {
             GameObject o = new GameObject();
-            o.ObjectInstanceId = ObjectInstanceId;
+            o.AppId = AppId;
+            o.AppInstanceId = AppInstanceId;
             o.Center = Center.ToCoord();
-            o.ObjectData = ByteString.CopyFrom(ObjectData);
             return o;
         }
 

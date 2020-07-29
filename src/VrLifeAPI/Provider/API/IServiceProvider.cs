@@ -7,6 +7,9 @@ using VrLifeAPI.Provider.Core.Services.UserService;
 
 namespace VrLifeAPI.Provider.API
 {
+    /// <summary>
+    /// Interface poskytovatele služeb na straně Providera.
+    /// </summary>
     public interface IServiceProvider
     {
         ISystemServiceProvider System { get; }

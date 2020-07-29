@@ -6,10 +6,16 @@ using VrLifeAPI.Networking.NetworkingModels;
 
 namespace VrLifeAPI.Client.Core.Services
 {
+    /// <summary>
+    /// Interface pro všechny služby na straně klienta.
+    /// </summary>
     public interface IServiceClient
     {
-        void HandleMessage(MainMessage msg);
 
+        /// <summary>
+        /// Inicializace služby.
+        /// </summary>
+        /// <param name="api">Instance ClosedAPI.</param>
         void Init(IClosedAPI api);
     }
 }

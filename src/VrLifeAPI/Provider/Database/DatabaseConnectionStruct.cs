@@ -1,6 +1,10 @@
 ﻿using System;
 namespace VrLifeAPI.Provider.Database
 {
+
+    /// <summary>
+    /// Informace nutné k připojení se do DB
+    /// </summary>
     public struct DatabaseConnectionStruct
     {
         public string Type;
