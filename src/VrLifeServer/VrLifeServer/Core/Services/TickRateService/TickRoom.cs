@@ -80,6 +80,10 @@ namespace VrLifeServer.Core.Services.TickRateService
             }
             else
             {
+                int tickId = snapshots.Length - tickDiff - 1;
+                if(tickId > snapshots.Length) {
+                    return null;
+                }
                 Snapshot lastTickSnapshot = snapshots[snapshots.Length - tickDiff - 1];
                 return Snapshot.MakeDiff(lastTickSnapshot, snapshot).ToNetworkModel();
             }

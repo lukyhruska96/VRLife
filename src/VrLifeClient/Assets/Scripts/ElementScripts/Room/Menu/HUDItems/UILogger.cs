@@ -13,7 +13,7 @@ public class UILogger : MonoBehaviour, VrLifeAPI.Common.Logging.Logging.ILogger
     private bool _debug = false;
     private ConcurrentQueue<(string, string, Color)> _logs = 
         new ConcurrentQueue<(string, string, Color)>();
-    private void Awake()
+    private void OnEnable()
     {
         current = this;
     }

@@ -33,6 +33,7 @@ namespace VrLifeClient.Core.Services.TickRateService
         {
             this._api = api;
             this._api.Services.Room.RoomExited += Reset;
+            this._api.Services.Room.RoomEntered += Reset;
         }
 
         public IServiceCallback<SnapshotData> GetSnapshot()
@@ -78,7 +79,7 @@ namespace VrLifeClient.Core.Services.TickRateService
             });
         }
 
-        private void Reset()
+        public void Reset()
         {
             lock (_tickLock)
             {

@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.VoiceChatApp.Forwarder
         private const string NAME = "VoiceChatApp";
         private const string DESC = "Default application for room voice chat.";
         private AppInfo _info = new AppInfo(APP_ID, NAME, DESC, new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_GLOBAL);
-        private Dictionary<ulong, (ulong, float[])> _lastData = new Dictionary<ulong, (ulong, float[])>();
+        private ConcurrentDictionary<ulong, (ulong, float[])> _lastData = new ConcurrentDictionary<ulong, (ulong, float[])>();
         private IClosedAPI _api;
         private uint _roomId;
 
@@ -92,7 +93,7 @@ namespace VrLifeServer.Core.Applications.DefaultApps.VoiceChatApp.Forwarder
         {
             if(roomId == _roomId)
             {
-                _lastData.Remove(userId);
+                _lastData.TryRemove(userId, out _);
             }
         }
     }

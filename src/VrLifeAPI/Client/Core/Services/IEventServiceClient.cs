@@ -36,5 +36,10 @@ namespace VrLifeAPI.Client.Core.Services
         /// <param name="recipient">Příjemce události.</param>
         /// <returns>ServiceCallback s návratovou hodnotou typu byte array z pole 'data' v odpovědi.</returns>
         IServiceCallback<byte[]> SendEvent(EventDataMsg eventData, EventRecipient recipient);
+
+        /// <summary>
+        /// Reset služby.
+        /// </summary>
+        void Reset();
     }
 }

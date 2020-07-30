@@ -37,6 +37,7 @@ namespace VrLifeClient.Core.Services.EventService
             _providerHandler = new EventMaskHandler(_api);
             _forwarderHandler = new EventMaskHandler(_api);
             _api.Services.Room.RoomExited += Reset;
+            _api.Services.Room.RoomEntered += Reset;
         }
 
         public IServiceCallback<byte[]> SendSkeleton(SkeletonState skeleton)
@@ -104,7 +105,7 @@ namespace VrLifeClient.Core.Services.EventService
                 MainMessage response = _api.OpenAPI.Networking.Send(msg, address);
                 return response.EventMsg.EventResponse;
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 _api.Services.System.OnForwarderLost();
                 throw;
@@ -112,7 +113,7 @@ namespace VrLifeClient.Core.Services.EventService
             
         }
 
-        private void Reset()
+        public void Reset()
         {
             _forwarderHandler.Reset();
         }

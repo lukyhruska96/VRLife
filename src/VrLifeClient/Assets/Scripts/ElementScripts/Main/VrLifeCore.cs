@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.API;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Net;
 using UnityEngine;
 using VrLifeAPI;
@@ -18,6 +20,12 @@ namespace VrLifeClient
         public static bool IsExiting { get; private set; } = false;
 
         public static int MainThreadID { get; private set; }
+
+
+        private static ulong coroutines = 0;
+        private static ConcurrentDictionary<ulong, Coroutine> _coroutines = new ConcurrentDictionary<ulong, Coroutine>();
+        private static ConcurrentQueue<(ulong, IEnumerator)> _startCoroutines = new ConcurrentQueue<(ulong, IEnumerator)>();
+        private static ConcurrentQueue<Coroutine> _stopCoroutines = new ConcurrentQueue<Coroutine>();
 
         public static bool IsMainThread
         {
@@ -59,7 +67,33 @@ namespace VrLifeClient
             return null;
         }
 
-        
 
+
+        public static void DelCoroutine(ulong id)
+        {
+            if (_coroutines.TryGetValue(id, out Coroutine c))
+            {
+                _stopCoroutines.Enqueue(c);
+            }
+        }
+
+        public static ulong AddCoroutine(IEnumerator coroutine)
+        {
+            _startCoroutines.Enqueue((coroutines, coroutine));
+            return coroutines++;
+        }
+
+        private void Update()
+        {
+            while (_startCoroutines.TryDequeue(out (ulong, IEnumerator) en))
+            {
+                Coroutine c = StartCoroutine(en.Item2);
+                _coroutines.TryAdd(en.Item1, c);
+            }
+            while (_stopCoroutines.TryDequeue(out Coroutine c))
+            {
+                StopCoroutine(c);
+            }
+        }
     }
 }

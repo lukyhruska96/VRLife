@@ -2,7 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 using VrLifeAPI;
 using VrLifeAPI.Client.API;
 using VrLifeAPI.Client.Applications.ObjectApp;
@@ -11,11 +13,11 @@ using VrLifeClient;
 
 public class ObjectAPIController : MonoBehaviour
 {
+
     private AppInfo _info = new AppInfo(ulong.MaxValue, "ObjectAPIController", null,
            new AppVersion(new int[] { 1, 0, 0 }), AppType.APP_GLOBAL);
     private IClosedAPI _api;
 
-    public int speed;
     public static ObjectAPIController current = null;
     private bool _placing = false;
     private float _width = 0;
@@ -29,6 +31,10 @@ public class ObjectAPIController : MonoBehaviour
 
     private const string PREFAB_PATH = "Room/AppField";
     private GameObject _prefab = null;
+
+    private Shader _foundShader;
+
+    public Material DefaultMaterial;
 
     private bool _start = false;
 
@@ -129,6 +135,7 @@ public class ObjectAPIController : MonoBehaviour
         ObjectAppInfo info = instance.GetObjectAppInfo();
         Vector3 center = instance.GetCenter();
         GameObject appPlace = GameObject.Instantiate(_prefab);
+        appPlace.GetComponent<ObjectAppInstanceHolder>().SetInstance(instance);
         center.y = 0.01f;
         appPlace.transform.position = center;
         Vector3 scale = appPlace.transform.localScale;
@@ -137,5 +144,24 @@ public class ObjectAPIController : MonoBehaviour
         appPlace.transform.localScale = scale;
         instance.GetGameObject().transform.SetParent(appPlace.transform);
         instance.FixGameObject();
+    }
+
+    public Shader FindShader(string path)
+    {
+        if(path == null)
+        {
+            return null;
+        }
+        AutoResetEvent ev = new AutoResetEvent(false);
+        StartCoroutine(FindShaderCoroutine(path, ev));
+        ev.WaitOne();
+        return _foundShader;
+    }
+
+    private IEnumerator FindShaderCoroutine(string path, AutoResetEvent ev)
+    {
+        _foundShader = Shader.Find(path);
+        ev.Set();
+        yield return null;
     }
 }

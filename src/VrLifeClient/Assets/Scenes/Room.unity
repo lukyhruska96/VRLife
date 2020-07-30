@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d77e909613eee4f997a0335193a3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  DefaultMaterial: {fileID: 2100000, guid: a5f49163a2325064d8bab7b28b8e3476, type: 2}
 --- !u!4 &745725510
 Transform:
   m_ObjectHideFlags: 0

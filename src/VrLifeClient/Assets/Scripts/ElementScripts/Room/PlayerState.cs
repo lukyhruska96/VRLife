@@ -12,8 +12,10 @@ using VrLifeClient.Core.Services.RoomService;
 
 public class PlayerState : MonoBehaviour
 {
+    private const int TIMEOUT_MS = 2000;
     public IAvatar Avatar { get; set; }
     private Coroutine _skeletonStateEvent = null;
+    private long _lastUpdate = 0;
 
     void Start()
     {
@@ -22,7 +24,15 @@ public class PlayerState : MonoBehaviour
 
     void Update()
     {
+        if(_lastUpdate == 0)
+        {
+            return;
+        }
 
+        if(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - _lastUpdate > TIMEOUT_MS)
+        {
+            _skeletonStateEvent = StartCoroutine(SkeletonStateEvent());
+        }
     }
 
     private void OnEnable()
@@ -34,6 +44,15 @@ public class PlayerState : MonoBehaviour
     }
 
     private void OnDisable()
+    {
+        if (_skeletonStateEvent != null)
+        {
+            StopCoroutine(_skeletonStateEvent);
+            _skeletonStateEvent = null;
+        }
+    }
+
+    private void OnDestroy()
     {
         if (_skeletonStateEvent != null)
         {

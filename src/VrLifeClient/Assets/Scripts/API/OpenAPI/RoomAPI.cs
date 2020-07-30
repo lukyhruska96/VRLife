@@ -42,7 +42,7 @@ namespace VrLifeClient.API.OpenAPI
                 IRoom r;
                 if (rooms.Count == 0)
                 {
-                    r = _roomService.RoomCreate("First Room", 2).Wait();
+                    r = _roomService.RoomCreate($"Small Room No. {new Random().Next()}", 2).Wait();
                     return _roomService.RoomEnter(r.Id, r.Address).Wait();
                 }
                 foreach(Room room in rooms)
@@ -53,7 +53,7 @@ namespace VrLifeClient.API.OpenAPI
                     }
                 }
                 r = _roomService.RoomCreate($"Generated No. {new Random().Next()}", 10).Wait();
-                return _roomService.RoomEnter(r.Id).Wait();
+                return _roomService.RoomEnter(r.Id, r.Address).Wait();
             });
         }
 

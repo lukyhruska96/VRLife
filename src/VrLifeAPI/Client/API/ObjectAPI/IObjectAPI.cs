@@ -13,5 +13,24 @@ namespace VrLifeAPI.Client.API.ObjectAPI
     /// </summary>
     public interface IObjectAPI
     {
+        /// <summary>
+        /// Vyhledávání shaderu na straně klienta.
+        /// </summary>
+        /// <param name="shaderPath">Cesta k shaderu.</param>
+        /// <returns>Hledaný shader.</returns>
+        Shader FindShader(string shaderPath);
+
+        /// <summary>
+        /// Cesta k výchozímu shaderu
+        /// </summary>
+        /// <returns>Cesta k shaderu.</returns>
+        string DefaltShaderPath();
+
+        /// <summary>
+        /// Getter výchozího materiálu pro aplikace.
+        /// </summary>
+        /// <returns>Výchozí materiál.</returns>
+        Material GetDefaultMaterial();
+        
     }
 }

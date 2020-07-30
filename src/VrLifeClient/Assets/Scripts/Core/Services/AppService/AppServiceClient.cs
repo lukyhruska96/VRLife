@@ -3,6 +3,7 @@ using Assets.Scripts.Core.Services.AppService;
 using Assets.Scripts.Core.Services.EventService;
 using Google.Protobuf;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -202,30 +203,54 @@ namespace VrLifeClient.Core.Services.AppService
 
         private void Reset()
         {
-            if(_appPackageInterval != null && _appPackageInterval.Status == TaskStatus.Running)
+            AutoResetEvent ev = new AutoResetEvent(false);
+            IEnumerator en = ResetCoroutine(ev);
+            if(VrLifeCore.IsMainThread)
             {
-                _stopAppPackageInterval = true;
-                _appPackageInterval.Wait();
-                _stopAppPackageInterval = false;
+                while (en.MoveNext()) ;
             }
-            foreach(IApplication app in AllApps.Values)
+            else
             {
-                app.Dispose();
+                VrLifeCore.AddCoroutine(en);
+                ev.WaitOne();
             }
-            AllApps.Clear();
-            MenuApps.Clear();
-            GlobalApps.Clear();
-            BackgroundApps.Clear();
-            ObjectApps.Clear();
-            foreach(var appList in ObjectAppInstances.Values)
+        }
+
+        private IEnumerator ResetCoroutine(AutoResetEvent ev)
+        {
+            try
             {
-                appList.ForEach(x => x.Dispose());
+                if (_appPackageInterval != null && _appPackageInterval.Status == TaskStatus.Running)
+                {
+                    _stopAppPackageInterval = true;
+                    _appPackageInterval.Wait();
+                    _stopAppPackageInterval = false;
+                }
+                foreach (IApplication app in AllApps.Values)
+                {
+                    app.Dispose();
+                }
+                foreach (var appList in ObjectAppInstances.Values)
+                {
+                    appList.ForEach(x => x.Dispose());
+                }
             }
-            ObjectAppInstances.Clear();
+            finally
+            {
+                AllApps.Clear();
+                MenuApps.Clear();
+                GlobalApps.Clear();
+                BackgroundApps.Clear();
+                ObjectApps.Clear();
+                ObjectAppInstances.Clear();
+                ev.Set();
+            }
+            yield return null;
         }
 
         private void OnRoomEnter()
         {
+            Reset();
             InitDefaultApps();
             _loader = new AppLoader(_appStorage, _api.Services.Room.ForwarderAddress, _api.OpenAPI.Networking);
             InitRoomAppsInterval();

@@ -28,6 +28,10 @@ namespace Assets.Scripts.Core.Character
 
         public void Play(AudioClip clip)
         {
+            if(_source == null)
+            {
+                return;
+            }
             if(clip != null)
             {
                 _source.PlayOneShot(clip);

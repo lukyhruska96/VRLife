@@ -57,7 +57,6 @@ public class SceneController : MonoBehaviour
         }
         _sceneLoaded = false;
         var scene = SceneManager.LoadSceneAsync(sceneIdx, LoadSceneMode.Additive);
-        
         SceneManager.UnloadSceneAsync(currentScene);
         currentScene = sceneIdx;
     }
@@ -77,7 +76,7 @@ public class SceneController : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
             }
             int sceneIdx;
-            while (!_sceneQueue.TryDequeue(out sceneIdx));
+            _sceneQueue.TryDequeue(out sceneIdx);
             ChangeScene(sceneIdx);
             while(!_sceneLoaded)
             {

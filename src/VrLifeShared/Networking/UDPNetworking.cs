@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using VrLifeAPI.Common.Logging.Logging;
 using VrLifeAPI.Networking;
 using VrLifeAPI.Networking.Middlewares;
+using VrLifeShared.Logging;
 using VrLifeShared.Networking.Middlewares;
 
 namespace VrLifeShared.Networking
@@ -72,7 +74,7 @@ namespace VrLifeShared.Networking
             {
                 message = socket.EndReceive(result, ref source);
             }
-            catch (SocketException) 
+            catch (SocketException e)
             {
                 IPEndPoint endPoint = socket.Client.LocalEndPoint as IPEndPoint;
                 state.Socket.Close();
@@ -93,6 +95,7 @@ namespace VrLifeShared.Networking
             }
             T response = state.MsgHandler(msg);
             byte[] rawResponse = response.ToByteArray();
+
             socket.Send(rawResponse, rawResponse.Length, source);
         }
 

@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Core.Character;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using VrLifeAPI.Client.API.GlobalAPI;
 using VrLifeAPI.Client.Core.Wrappers;
 
@@ -19,6 +21,7 @@ namespace VrLifeClient.API.GlobalAPI
         {
             this._api = api;
             this._api.Services.Room.RoomExited += Reset;
+            this._api.Services.Room.RoomEntered += Reset;
         }
 
         public ReadOnlyDictionary<ulong, IAvatar> GetAvatars()
@@ -83,12 +86,33 @@ namespace VrLifeClient.API.GlobalAPI
             avatar.Destroy();
         }
 
-        private void Reset()
+        public void Reset()
         {
-            _mainAvatar.Destroy();
-            _mainAvatar = null;
-            _avatars.Values.ToList().ForEach(x => x.Destroy());
+            AutoResetEvent ev = new AutoResetEvent(false);
+            IEnumerator en = DestroyCoroutine(ev);
+            if (VrLifeCore.IsMainThread)
+            {
+                while (en.MoveNext()) ;
+            }
+            else
+            {
+                VrLifeCore.AddCoroutine(en);
+                ev.WaitOne();
+            }
+        }
+
+        private IEnumerator DestroyCoroutine(AutoResetEvent ev)
+        {
+            try
+            {
+                _mainAvatar?.Destroy();
+                _avatars.Values.ToList().ForEach(x => x.Destroy());
+            }
+            catch (Exception) { }
             _avatars.Clear();
+            _mainAvatar = null;
+            ev.Set();
+            yield return null;
         }
     }
 }

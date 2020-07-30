@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts.Core.Utils;
 using System;
+using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
 using VrLifeAPI;
 using VrLifeAPI.Client.API;
+using VrLifeAPI.Client.Applications.ObjectApp;
 using VrLifeAPI.Client.Core.Character;
 using VrLifeAPI.Client.Core.Wrappers;
 using VrLifeClient;
@@ -32,6 +34,8 @@ namespace Assets.Scripts.ElementScripts.Room
         private Vector3 _headAngles;
         private Vector3 _lookingVector;
         private float _horizontalMovement = 0f;
+
+        private IObjectAppInstance _currentInstance = null;
 
         private Vector3? _pointAt = null;
 
@@ -90,6 +94,15 @@ namespace Assets.Scripts.ElementScripts.Room
                 Vector3 requiredVector = _pointAt.Value - upArm.transform.position;
                 upArm.transform.rotation = Quaternion.FromToRotation(currentVector, requiredVector) * upArm.transform.rotation;
                 arm.transform.localEulerAngles = new Vector3(140, 0, 0);
+            }
+        }
+
+        public void Update()
+        {
+            if(_currentInstance != null)
+            {
+                Ray r = new Ray(_avatar.GetHead().transform.position, _lookingVector);
+                _currentInstance.PlayerPointAt(_api.Services.User.UserId.Value, r);
             }
         }
 
@@ -174,7 +187,31 @@ namespace Assets.Scripts.ElementScripts.Room
 
         private void OnSelect(CallbackContext ctx)
         {
+            if(_currentInstance != null)
+            {
+                Ray r = new Ray(_avatar.GetHead().transform.position, _lookingVector);
+                _currentInstance.PlayerSelect(_api.Services.User.UserId.Value, r);
+            }
             Selected?.Invoke(_lookingVector);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.layer == 8)
+            {
+                Vector3 pos = GetComponent<Rigidbody>().position;
+                pos.y += 0.001f;
+                GetComponent<Rigidbody>().position = pos;
+                _currentInstance = collision.gameObject.GetComponent<ObjectAppInstanceHolder>()?.GetInstance();
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if(collision.gameObject.layer == 8)
+            {
+                _currentInstance = null;
+            }
         }
     }
 }

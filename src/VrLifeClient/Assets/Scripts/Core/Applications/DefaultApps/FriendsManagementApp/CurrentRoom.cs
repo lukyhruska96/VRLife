@@ -76,10 +76,12 @@ namespace Assets.Scripts.Core.Applications.DefaultApps.FriendsManagementApp
                     addFriend.Clicked += () =>
                     {
                         _api.DefaultApps.Friends.SendFriendRequest(user.UserId).Wait();
-                        MenuItemText requestSent = new MenuItemText("requestSent");
                         _root.RemoveChild(addFriend);
+                        MenuItemText requestSent = new MenuItemText("requestSent");
+                        _root.AddChild(3, i-1, 1, 1, requestSent);
+                        requestSent.SetText("Sent");
+                        requestSent.SetFontSize(5, 18);
                         addFriend.Dispose();
-                        _root.AddChild(3, i, 1, 1, requestSent);
                     };
                     _root.AddChild(3, i, 1, 1, addFriend);
                 }

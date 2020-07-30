@@ -157,6 +157,7 @@
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemInputController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\Menu\MenuItems\MenuItemScrollableController.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\ObjectAPIController.cs" />
+    <Compile Include="Assets\Scripts\ElementScripts\Room\ObjectAppInstanceHolder.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ElementScripts\Room\RoomState.cs" />

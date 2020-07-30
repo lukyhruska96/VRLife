@@ -54,5 +54,11 @@ namespace VrLifeAPI.Client.API.GlobalAPI
         /// </summary>
         /// <param name="userId">Identifikační číslo uživatele.</param>
         void DeleteAvatar(ulong userId);
+
+
+        /// <summary>
+        /// Reset seznamu postav.
+        /// </summary>
+        void Reset();
     }
 }

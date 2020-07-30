@@ -89,7 +89,7 @@ namespace VrLifeServer
             JObject mainConf = new JObject();
             mainConf["debug"] = false;
             mainConf["listen"] = "0.0.0.0";
-            mainConf["serverAddress"] = "192.168.50.101";
+            mainConf["serverAddress"] = "127.0.0.1";
             mainConf["udp-port"] = 8766;
             mainConf["appStoragePath"] = appDir;
             mainConf["main"] = true;
@@ -113,10 +113,10 @@ namespace VrLifeServer
             JObject compConf = new JObject();
             compConf["debug"] = false;
             compConf["listen"] = "0.0.0.0";
-            compConf["serverAddress"] = "192.168.50.101";
+            compConf["serverAddress"] = "127.0.0.1";
             compConf["udp-port"] = 8866;
             compConf["main"] = false;
-            compConf["mainServer"] = "192.168.50.101:8766";
+            compConf["mainServer"] = "127.0.0.1:8766";
             JArray compLogs = new JArray();
             JObject compLog = new JObject();
             compLog["type"] = "file";

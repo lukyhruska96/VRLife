@@ -13,11 +13,12 @@ using VrLifeAPI.Client.Core.Services;
 using VrLifeAPI.Common.Core.Utils;
 using VrLifeAPI.Networking.NetworkingModels;
 using VrLifeClient;
-using VrLifeClient.API;
 using System;
+using System.Threading;
 
 public class RoomState : MonoBehaviour
 {
+    private const int TIMEOUT_MS = 2000;
     private AppInfo _info = new AppInfo(ulong.MaxValue, "RoomState", null, 
         new AppVersion(new int[] { 1, 0, 0 }),  AppType.APP_GLOBAL);
     private Coroutine _roomStateCoroutine;
@@ -25,6 +26,7 @@ public class RoomState : MonoBehaviour
     private ControlHUD _hud;
     private bool _ready = false;
     private IClosedAPI _api;
+    private long _lastRoomUpdate = 0;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class RoomState : MonoBehaviour
         VrLifeCore.API.Room.RoomExited += OnRoomExit;
         _api = VrLifeCore.GetClosedAPI(_info);
         InitilizePlayer();
+        StopAllCoroutines();
         _roomStateCoroutine = StartCoroutine(RoomStateCoroutine());
         _ready = true;
     }
@@ -48,6 +51,7 @@ public class RoomState : MonoBehaviour
     {
         if(_roomStateCoroutine == null && _ready)
         {
+            StopAllCoroutines();
             _roomStateCoroutine = StartCoroutine(RoomStateCoroutine());
         }
     }
@@ -61,8 +65,24 @@ public class RoomState : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(_lastRoomUpdate == 0)
+        {
+            return;
+        }
+
+        if(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - _lastRoomUpdate > TIMEOUT_MS)
+        {
+            StopAllCoroutines();
+            _roomStateCoroutine = StartCoroutine(RoomStateCoroutine());
+            _lastRoomUpdate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+    }
+
     IEnumerator RoomStateCoroutine()
     {
+        _lastRoomUpdate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         ulong lastTick = 0;
         while(VrLifeCore.API == null)
         {
@@ -72,103 +92,90 @@ public class RoomState : MonoBehaviour
         {
             IServiceCallback<SnapshotData> callback = null;
             SnapshotData data;
-            try
-            {
-                callback = VrLifeCore.API.TickRate.GetSnapshot();
-            }
-            catch(Exception e)
-            {
-                UILogger.current?.Error(e);
-            }
+            callback = VrLifeCore.API.TickRate.GetSnapshot();
             yield return callback.WaitCoroutine();
             if (callback.HasException)
             {
-                UILogger.current?.Error(callback.Exception);
-                yield return null;
-                continue;
+                OnRoomExit();
+                yield break;
             }
             List<SkeletonState> skeletons;
             Dictionary<ulong, IAvatar> _avatarsCopy;
-            try
+            data = callback.Result;
+            if (data.TickNum == lastTick)
             {
-                data = callback.Result;
-                if (data.TickNum == lastTick)
+                continue;
+            }
+            skeletons = data.Skeletons
+                .Where(x => x.UserId != _api.Services.User.UserId)
+                .Select(x => new SkeletonState(x)).ToList();
+            _avatarsCopy = _api.GlobalAPI.Players.GetAvatars().ToDictionary(x => x.Key, x => x.Value);
+            yield return null;
+            foreach (SkeletonState state in skeletons)
+            {
+                if (state.UserId == _playerAvatar.GetUserId())
                 {
                     continue;
                 }
-                skeletons = data.Skeletons
-                    .Where(x => x.UserId != _api.Services.User.UserId)
-                    .Select(x => new SkeletonState(x)).ToList();
-                _avatarsCopy = _api.GlobalAPI.Players.GetAvatars().ToDictionary(x => x.Key, x => x.Value);
-            }
-            catch(Exception e)
-            {
-                UILogger.current.Error(e);
-                continue;
+                if (!_avatarsCopy.TryGetValue(state.UserId, out IAvatar avatar))
+                {
+                    IAvatar tmp = new DefaultAvatar(state.UserId, state.UserId.ToString(),
+                        state.BodyLocation.ToUnity(), Quaternion.identity);
+                    _api.GlobalAPI.Players.AddAvatar(state.UserId, tmp);
+                    avatar = tmp;
+                }
+                _avatarsCopy.Remove(state.UserId);
+                avatar.SetSkeleton(state);
             }
             yield return null;
-            try
+            foreach (IAvatar avatar in _avatarsCopy.Values)
             {
-                foreach (SkeletonState state in skeletons)
-                {
-                    if (state.UserId == _playerAvatar.GetUserId())
-                    {
-                        continue;
-                    }
-                    if (!_avatarsCopy.TryGetValue(state.UserId, out IAvatar avatar))
-                    {
-                        IAvatar tmp = new DefaultAvatar(state.UserId, state.UserId.ToString(),
-                            state.BodyLocation.ToUnity(), Quaternion.identity);
-                        _api.GlobalAPI.Players.AddAvatar(state.UserId, tmp);
-                        avatar = tmp;
-                    }
-                    _avatarsCopy.Remove(state.UserId);
-                    avatar.SetSkeleton(state);
-                }
-            }
-            catch(Exception e)
-            {
-                UILogger.current.Error(e);
-                continue;
+                _api.GlobalAPI.Players.DeleteAvatar(avatar.GetUserId());
             }
             yield return null;
-            try
+            foreach (var state in data.Objects)
             {
-                foreach (IAvatar avatar in _avatarsCopy.Values)
+                if (_api.Services.App.ObjectAppInstances.TryGetValue(state.AppId, out var list) &&
+                    list.Count > (int)state.AppInstanceId && list[(int)state.AppInstanceId] != null)
                 {
-                    _api.GlobalAPI.Players.DeleteAvatar(avatar.GetUserId());
+                    continue;
                 }
+                _api.Services.App.CreateObjectAppInstance(state.AppId, state.AppInstanceId, state.Center.ToVector());
             }
-            catch(Exception e)
-            {
-                UILogger.current.Error(e);
-                continue;
-            }
-            yield return null;
-            try
-            {
-                foreach (var state in data.Objects)
-                {
-                    if (_api.Services.App.ObjectAppInstances.TryGetValue(state.AppId, out var list) &&
-                        list.Count > (int)state.AppInstanceId && list[(int)state.AppInstanceId] != null)
-                    {
-                        continue;
-                    }
-                    _api.Services.App.CreateObjectAppInstance(state.AppId, state.AppInstanceId, state.Center.ToVector());
-                }
-                lastTick = data.TickNum;
-            }
-            catch(Exception e)
-            {
-                UILogger.current.Error(e);
-            }
+            lastTick = data.TickNum;
             yield return null;
         }
     }
 
     private void OnRoomExit()
     {
+        AutoResetEvent ev = new AutoResetEvent(false);
+        IEnumerator en = OnRoomExitCoroutine(ev);
+        if (VrLifeCore.IsMainThread)
+        {
+            while (en.MoveNext()) ;
+        }
+        else
+        {
+            VrLifeCore.AddCoroutine(OnRoomExitCoroutine(ev));
+            ev.WaitOne();
+        }
+    }
+
+    private IEnumerator OnRoomExitCoroutine(AutoResetEvent ev)
+    {
         SceneController.current.ToMainMenu();
+        ev.Set();
+        yield return null;
+    }
+
+    private void OnDestroy()
+    {
+        if (_roomStateCoroutine != null)
+        {
+            StopCoroutine(_roomStateCoroutine);
+            _roomStateCoroutine = null;
+        }
     }
 
     private void InitilizePlayer()

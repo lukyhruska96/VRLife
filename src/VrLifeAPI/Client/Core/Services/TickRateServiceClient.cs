@@ -25,5 +25,10 @@ namespace VrLifeAPI.Client.Core.Services
         /// </summary>
         /// <returns>ServiceCallback s návratovou hodnotou nového snapshotu.</returns>
         IServiceCallback<SnapshotData> GetSnapshot();
+
+        /// <summary>
+        /// Reset služby.
+        /// </summary>
+        void Reset();
     }
 }

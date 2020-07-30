@@ -47,6 +47,10 @@ namespace Assets.Scripts.Core.Services.EventService
                 if (!maskValues[i])
                 {
                     ulong eventId = (ulong)((long)response.HighestEventId - (maskValues.Length - i - 1));
+                    if((int)eventId >= eventData.Length)
+                    {
+                        continue;
+                    }
                     if ((long)(highestId - eventId) < eventData.Length)
                     {
                         ulong evIdx = (ulong)(eventData.Length - (int)(highestId - eventId) - 1);
