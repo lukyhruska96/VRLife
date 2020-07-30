@@ -35,8 +35,7 @@ public class Register : MonoBehaviour
 
     public void SignedUp()
     {
-        Debug.Log("Signed Up");
-        UILogger.current.Info("Signed Up.");
+        UILogger.current?.Info("Signed Up.");
     }
 
     private void SignUp()

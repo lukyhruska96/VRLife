@@ -66,7 +66,7 @@ public class Login : MonoBehaviour
 
     private void OnError(Exception ex)
     {
-        Debug.Log(ex);
+        //Debug.Log(ex);
         if(ex.GetType() == typeof(SocketException))
         {
             UILogger.current?.Error("Server is not available.");

@@ -247,7 +247,6 @@ namespace Assets.Scripts.Core.Applications.MenuApp.MenuItems
         {
             (int x, int y) = PositionToGridIdx(localPosition);
             if (_grid[y, x] != null) {
-                Debug.Log($"x:y {x}:{y}");
                 ItemClicked?.Invoke(_grid[y, x], x, y);
             }
         }

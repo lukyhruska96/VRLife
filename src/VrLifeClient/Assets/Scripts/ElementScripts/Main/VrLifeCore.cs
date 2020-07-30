@@ -51,7 +51,6 @@ namespace VrLifeClient
         {
             if(API.Room.CurrentRoom != null)
             {
-                Debug.Log("Room exiting");
                 IsExiting = true;
                 API.Room.RoomExit(API.Room.CurrentRoom.Id).Wait();
             }
